@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。Java(和几乎所有的编程语言)提供同步机制，帮助程序员实现临界区。当一个">
+<meta name="description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
 <meta name="keywords" content="并发编程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java并发编程-Synchronized">
+<meta property="og:title" content="Java并发编程（Synchronized）">
 <meta property="og:url" content="http://yoursite.com/2016/12/18/Java并发编程-Synchronized/index.html">
 <meta property="og:site_name" content="TXM">
-<meta property="og:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。Java(和几乎所有的编程语言)提供同步机制，帮助程序员实现临界区。当一个">
+<meta property="og:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-19T12:51:08.294Z">
+<meta property="og:updated_time" content="2018-01-19T12:55:27.060Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java并发编程-Synchronized">
-<meta name="twitter:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。Java(和几乎所有的编程语言)提供同步机制，帮助程序员实现临界区。当一个">
+<meta name="twitter:title" content="Java并发编程（Synchronized）">
+<meta name="twitter:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
 
 
 
@@ -130,7 +130,7 @@
 
 
 
-  <title>Java并发编程-Synchronized | TXM</title>
+  <title>Java并发编程（Synchronized） | TXM</title>
   
 
 
@@ -298,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java并发编程-Synchronized</h1>
+          <h1 class="post-title" itemprop="name headline">Java并发编程（Synchronized）</h1>
         
 
         <div class="post-meta">
@@ -370,7 +370,7 @@
       
 
       
-        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。<br>解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。<br>Java(和几乎所有的编程语言)提供同步机制，帮助程序员实现临界区。当一个线程想要访问一个临界区,它使用其中的一个同步机制来找出是否有任何其他线程执行临界区。如果没有，这个线程就进入临界区。否则，这个线程通过同步机制暂停直到另一个线程执行完临界区。当多个线程正在等待一个线程完成执行的一个临界区，JVM选择其中一个线程执行，其余的线程会等待直到轮到它们。<br>这个系列的文章将逐一介绍Java提供的几个同步机制：Synchronized、Lock、CAS和Volatile。本篇就从Synchronized开始吧。<br>Synchronized可以标记以下四种类型的代码区域：<br>1.Instance methods（普通方法）<br>2.Static methods（静态方法）<br>3.Code blocks inside instance methods（普通方法内的代码快）<br>4.Code blocks inside static methods（静态方法内的代码快）</p>
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。<br>解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。<br><a id="more"></a><br>Java(和几乎所有的编程语言)提供同步机制，帮助程序员实现临界区。当一个线程想要访问一个临界区,它使用其中的一个同步机制来找出是否有任何其他线程执行临界区。如果没有，这个线程就进入临界区。否则，这个线程通过同步机制暂停直到另一个线程执行完临界区。当多个线程正在等待一个线程完成执行的一个临界区，JVM选择其中一个线程执行，其余的线程会等待直到轮到它们。<br>这个系列的文章将逐一介绍Java提供的几个同步机制：Synchronized、Lock、CAS和Volatile。本篇就从Synchronized开始吧。<br>Synchronized可以标记以下四种类型的代码区域：<br>1.Instance methods（普通方法）<br>2.Static methods（静态方法）<br>3.Code blocks inside instance methods（普通方法内的代码快）<br>4.Code blocks inside static methods（静态方法内的代码快）</p>
 <h1 id="普通同步方法"><a href="#普通同步方法" class="headerlink" title="普通同步方法"></a>普通同步方法</h1><p>下面是一个普通的同步方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public synchronized void add(int value)&#123;</span><br><span class="line">this.count += value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>如果此时A线程和B线程同时对同一个对象的add方法访问，那么只能有一个线程（假设是A线程）能够进入方法体内获得锁资源，此时B线程只能等待A线程执行完方法体后（释放锁资源）才能执行add方法体中的代码。<br>总结一下就是，在同一时刻只能有一个线程能对同一个对象的synchronized方法进行访问。如果一个线程A正在执行一个synchronized方法，而线程B想要执行同个实例对象的非静态synchronized方法，它将阻塞，直到线程A执行完。但是如果线程B访问相同类的不同实例对象，它们都不会被阻塞。</p>
 <h1 id="静态同步方法"><a href="#静态同步方法" class="headerlink" title="静态同步方法"></a>静态同步方法</h1><p>下面是一个静态的同步方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static synchronized void add(int value)&#123;</span><br><span class="line">count += value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
