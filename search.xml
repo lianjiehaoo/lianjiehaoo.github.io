@@ -8,12 +8,12 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>View</tag>
         <tag>框架</tag>
+        <tag>View</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Java并发编程（Synchronized）]]></title>
+    <title><![CDATA[Java并发编程之Synchronized]]></title>
     <url>%2F2016%2F12%2F18%2FJava%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized%2F</url>
     <content type="text"><![CDATA[介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。Java(和几乎所有的编程语言)提供同步机制，帮助程序员实现临界区。当一个线程想要访问一个临界区,它使用其中的一个同步机制来找出是否有任何其他线程执行临界区。如果没有，这个线程就进入临界区。否则，这个线程通过同步机制暂停直到另一个线程执行完临界区。当多个线程正在等待一个线程完成执行的一个临界区，JVM选择其中一个线程执行，其余的线程会等待直到轮到它们。这个系列的文章将逐一介绍Java提供的几个同步机制：Synchronized、Lock、CAS和Volatile。本篇就从Synchronized开始吧。Synchronized可以标记以下四种类型的代码区域：1.Instance methods（普通方法）2.Static methods（静态方法）3.Code blocks inside instance methods（普通方法内的代码快）4.Code blocks inside static methods（静态方法内的代码快） 普通同步方法下面是一个普通的同步方法。123public synchronized void add(int value)&#123;this.count += value;&#125; 如果此时A线程和B线程同时对同一个对象的add方法访问，那么只能有一个线程（假设是A线程）能够进入方法体内获得锁资源，此时B线程只能等待A线程执行完方法体后（释放锁资源）才能执行add方法体中的代码。总结一下就是，在同一时刻只能有一个线程能对同一个对象的synchronized方法进行访问。如果一个线程A正在执行一个synchronized方法，而线程B想要执行同个实例对象的非静态synchronized方法，它将阻塞，直到线程A执行完。但是如果线程B访问相同类的不同实例对象，它们都不会被阻塞。 静态同步方法下面是一个静态的同步方法。123public static synchronized void add(int value)&#123;count += value;&#125; 与普通同步方法不同，静态同步方法修饰的对象是整个class对象。只有一个执行线程能访问被synchronized关键字声明的静态方法，但另一个线程可以访问该类的一个对象中的其他非静态的方法。你必须非常小心这一点，因为两个线程可以访问两个不同的同步方法，如果其中一个是静态的而另一个不是。如果这两种方法改变相同的数据,你将会有数据不一致的错误。 普通方法中的同步块下面是例子。123456public void log2(String msg1, String msg2)&#123;synchronized(this)&#123;log.writeln(msg1);log.writeln(msg2);&#125;&#125; 这样调用和普通同步方法实现的效果其实一样的。注意到“this”字段是一个Monitor对象，它和普通同步方法中锁定的对象是一个概念。 静态方法中的同步块123456public static void log2(String msg1, String msg2)&#123;synchronized(MyClass.class)&#123;log.writeln(msg1);log.writeln(msg2);&#125;&#125; 锁的分类以上内容就是对Synchronized关键字使用和触发场景的介绍，下面再从宏观上介绍一下关于锁的分类：偏向锁（主要）、轻量锁、重量锁。偏向锁(Biased Lock)主要解决无竞争下的锁性能问题。 首先我们看下无竞争下锁存在什么问题：现在几乎所有的锁都是可重入的，也即已经获得锁的线程可以多次锁住/解锁监视对象，按照之前的HotSpot设计，每次加锁/解锁都会涉及到一些CAS操作（比如对等待队列的CAS操作），CAS操作会延迟本地调用，因此偏向锁的想法是一旦线程第一次获得了监视对象，之后让监视对象“偏向”这个线程，之后的多次调用则可以避免CAS操作，说白了就是置个变量，如果发现为true则无需再走各种加锁/解锁流程。Java偏向锁(Biased Locking)是Java6引入的一项多线程优化。它通过消除资源无竞争情况下的重复加锁过程，进一步提高了程序的运行性能。 偏向锁，顾名思义，它会偏向于第一个访问锁的线程，如果在接下来的运行过程中，该锁没有被其他的线程访问，则持有偏向锁的线程将永远不需要触发同步。如果在运行过程中，遇到了其他线程抢占锁，JVM会尝试消除它身上的偏向锁，将锁恢复到标准的轻量级锁。(偏向锁只能在单线程下起作用)因此，流程是这样的 偏向锁-&gt;轻量级锁-&gt;重量级锁 参考资料1.并发编程网2.Java Synchronized Blocks]]></content>
       <categories>
@@ -42,8 +42,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>框架</tag>
         <tag>Cache</tag>
+        <tag>框架</tag>
       </tags>
   </entry>
   <entry>
