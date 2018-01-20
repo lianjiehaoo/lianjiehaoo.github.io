@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="并发编程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TXM" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="在上一篇Java并发编程之Synchronized中我们主要学习了Synchronized的几种使用场景以及它的分类，并且知道了Synchronized是Java官方提供一种解决同步问题的思路。那么除了它，其实还有可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。 使用Lock同步代码块Java提供另外的机制用来同步代码块。它比sync">
+<meta name="keywords" content="并发编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java并发编程之Lock">
+<meta property="og:url" content="http://yoursite.com/2017/01/14/Java并发编程之Lock/index.html">
+<meta property="og:site_name" content="TXM">
+<meta property="og:description" content="在上一篇Java并发编程之Synchronized中我们主要学习了Synchronized的几种使用场景以及它的分类，并且知道了Synchronized是Java官方提供一种解决同步问题的思路。那么除了它，其实还有可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。 使用Lock同步代码块Java提供另外的机制用来同步代码块。它比sync">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ifeve.com/wp-content/uploads/2013/07/4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://ifeve.com/wp-content/uploads/2013/07/5.jpg?imageMogr2">
+<meta property="og:updated_time" content="2018-01-20T05:20:20.148Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java并发编程之Lock">
+<meta name="twitter:description" content="在上一篇Java并发编程之Synchronized中我们主要学习了Synchronized的几种使用场景以及它的分类，并且知道了Synchronized是Java官方提供一种解决同步问题的思路。那么除了它，其实还有可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。 使用Lock同步代码块Java提供另外的机制用来同步代码块。它比sync">
+<meta name="twitter:image" content="http://ifeve.com/wp-content/uploads/2013/07/4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/14/Java并发编程之Lock/"/>
+
+
+
+
+
+  <title>Java并发编程之Lock | TXM</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TXM</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/14/Java并发编程之Lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TXM">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java并发编程之Lock</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-14T19:35:01+08:00">
+                2017-01-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在上一篇<a href="https://kimball325.github.io/2016/12/18/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Synchronized/" target="_blank" rel="noopener">Java并发编程之Synchronized</a>中我们主要学习了Synchronized的几种使用场景以及它的分类，并且知道了Synchronized是Java官方提供一种解决同步问题的思路。那么除了它，其实还有可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。</p>
+<h1 id="使用Lock同步代码块"><a href="#使用Lock同步代码块" class="headerlink" title="使用Lock同步代码块"></a>使用Lock同步代码块</h1><p>Java提供另外的机制用来同步代码块。它比synchronized关键字更加强大、灵活。它是基于Lock接口和实现它的类（如ReentrantLock）。这种机制有如下优势：<br>1.它允许以一种更灵活的方式来构建synchronized块。使用synchronized关键字，你必须以结构化方式得到释放synchronized代码块的控制权。Lock接口允许你获得更复杂的结构来实现你的临界区。<br>2.Lock 接口比synchronized关键字提供更多额外的功能。新功能之一是实现的tryLock()方法。这种方法试图获取锁的控制权并且如果它不能获取该锁，是因为其他线程在使用这个锁，它将返回这个锁。使用synchronized关键字，当线程A试图执行synchronized代码块，如果线程B正在执行它，那么线程A将阻塞直到线程B执行完synchronized代码块。使用锁，你可以执行tryLock()方法，这个方法返回一个 Boolean值表示，是否有其他线程正在运行这个锁所保护的代码。<br>3.当有多个读者和一个写者时，Lock接口允许读写操作分离。<br>4.Lock接口比synchronized关键字提供更好的性能。<br>在下面的案例中，你将学习如何通过锁来同步代码块和通过Lock接口及其实现者ReentrantLock类来创建临界区，实现一个程序来模拟打印队列。<br>1.创建PrintQueue类，来实现打印队列。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class PrintQueue &#123;</span><br></pre></td></tr></table></figure></p>
+<p>2.声明一个Lock对象，并且使用ReentrantLock类的一个新对象来初始化它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private final Lock queueLock=new ReentrantLock();</span><br></pre></td></tr></table></figure></p>
+<p>3.实现printJob()方法，它将接收Object对象作为参数，并且不会返回任何值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void printJob(Object document)&#123;</span><br></pre></td></tr></table></figure></p>
+<p>4.在printJob()方法内部，通过调用lock()方法来获取Lock对象的控制权。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">queueLock.lock();</span><br></pre></td></tr></table></figure></p>
+<p>5.然后，包含以下代码来模拟文档的打印:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">Long duration=(long)(Math.random()*10000);</span><br><span class="line">System.out.println(Thread.currentThread().getName()+ &quot;:</span><br><span class="line">PrintQueue: Printing a Job during &quot;+(duration/1000)+</span><br><span class="line">&quot; seconds&quot;);</span><br><span class="line">Thread.sleep(duration);</span><br><span class="line">&#125; catch (InterruptedException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6.最后，通过调用unlock()方法来释放Lock对象的控制。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">finally &#123;</span><br><span class="line">queueLock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>7.创建一个Job类，并指定它实现Runnable接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Job implements Runnable &#123;</span><br></pre></td></tr></table></figure></p>
+<p>8.声明一个PrintQueue类的对象，并通过实现类（Job类）的构造器来初始化这个对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private PrintQueue printQueue;</span><br><span class="line">public Job(PrintQueue printQueue)&#123;</span><br><span class="line">this.printQueue=printQueue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>9.实现run()方法，它使用PrintQueue对象来发送一个打印任务。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">System.out.printf(&quot;%s: Going to print a document\n&quot;, Thread.</span><br><span class="line">currentThread().getName());</span><br><span class="line">printQueue.printJob(new Object());</span><br><span class="line">System.out.printf(&quot;%s: The document has been printed\n&quot;,</span><br><span class="line">Thread.currentThread().getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>10.通过创建类名为Main，且包括main（）方法来实现这个示例的主类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br></pre></td></tr></table></figure></p>
+<p>11.创建一个共享的PrintQueue对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PrintQueue printQueue=new PrintQueue();</span><br></pre></td></tr></table></figure></p>
+<p>12.创建10个Job对象，并且使用10个线程来运行它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Thread thread[]=new Thread[10];</span><br><span class="line">for (int i=0; i&lt;10; i++)&#123;</span><br><span class="line">thread[i]=new Thread(new Job(printQueue),&quot;Thread &quot;+ i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>13.启动这10个线程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0; i&lt;10; i++)&#123;</span><br><span class="line">thread[i].start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从以下截图，你可以看到执行这个示例一部分的输出：<br><img src="http://ifeve.com/wp-content/uploads/2013/07/4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>在 printJob()中，PrintQueue类是这个示例的关键所在。当我们通过锁来实现一个临界区并且保证只有一个执行线程能运行一个代码块，我们必 须创建一个ReentrantLock对象。在临界区的起始部分，我们必须通过使用lock()方法来获得锁的控制权。当一个线程A调用这个方法时，如果 没有其他线程持有这个锁的控制权，那么这个方法就会给线程A分配这个锁的控制权并且立即返回允许线程A执行这个临界区。否则，如果其他线程B正在执行由这 个锁控制的临界区，lock()方法将会使线程A睡眠直到线程B完成这个临界区的执行。<br>在临界区的尾部，我们必须使用unlock()方法来释放锁的控制权，允许其他线程运行这个临界区。如果你在临界区的尾部没有调用unlock()方法，那么其他正在等待该代码块的线程将会永远等待，造成 死锁情况。如果你在临界区使用try-catch代码块，别忘了在finally部分的内部包含unlock()方法的代码。</p>
+<h5 id="tryLock"><a href="#tryLock" class="headerlink" title="tryLock()"></a>tryLock()</h5><p>Lock 接口（和ReentrantLock类，以及后面要讲的ReadWriteLock接口和ReentrantReadWriteLock类）包含其他方法来获取锁的控制权，那就是tryLock()方法。这个方法与lock()方法的最大区别是，如果一个线程调用这个方法不能获取Lock接口的控制权时，将会立即返回并且不会使这个线程进入睡眠。这个方法返回一个boolean值，true表示这个线程获取了锁的控制权，false则表示没有。<br>注释：考虑到这个方法的结果，并采取相应的措施，这是程序员的责任。如果这个方法返回false值，预计你的程序不会执行这个临界区。如果是这样，你可能会在你的应用程序中得到错误的结果。<br>ReentrantLock类也允许递归调用（锁的可重入性），当一个线程有锁的控制权并且使用递归调用，它延续了锁的控制权，所以调用lock()方法将会立即返回并且继续递归调用的执行。此外，我们也可以调用其他方法。</p>
+<h5 id="避免死锁"><a href="#避免死锁" class="headerlink" title="避免死锁"></a>避免死锁</h5><p>你必须要非常小心使用锁来避免死锁，这种情况发生在，当两个或两个以上的线程被阻塞等待将永远不会解开的锁。比如，线程A锁定Lock(X)而线程B锁定 Lock(Y)。如果现在，线程A试图锁住Lock(Y)而线程B同时也试图锁住Lock(X)，这两个线程将无限期地被阻塞，因为它们等待的锁将不会被解开。请注意，这个问题的发生是因为这两个线程尝试以相反的顺序获取锁（译者注：锁顺序死锁）。在附录中，提供了一些很好的并发编程设计的建议，适当的设计并发应用程序，来避免这些死锁问题。</p>
+<h1 id="使用读-写锁同步数据访问"><a href="#使用读-写锁同步数据访问" class="headerlink" title="使用读/写锁同步数据访问"></a>使用读/写锁同步数据访问</h1><p>锁所提供的最重要的改进之一就是ReadWriteLock接口和唯一一个实现它的ReentrantReadWriteLock类。这个类提供两把锁，一把用于读操作和一把用于写操作。同时可以有多个线程执行读操作，但只有一个线程可以执行写操作。当一个线程正在执行一个写操作，不可能有任何线程执行读操作。<br>在下面的例子中，你将会学习如何使用ReadWriteLock接口实现一个程序，使用它来控制访问一个存储两个产品价格的对象。<br>1.创建PricesInfo类，用它来存储两个产品价格的信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class PricesInfo &#123;</span><br></pre></td></tr></table></figure></p>
+<p>2.声明两个double类型的属性，分别命名为price1和price2。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private double price1;</span><br><span class="line">private double price2;</span><br></pre></td></tr></table></figure></p>
+<p>3.声明一个名为lock的ReadWriteLock对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private ReadWriteLock lock;</span><br></pre></td></tr></table></figure></p>
+<p>4.实现类的构造器，初始化这三个属性。其中，对于lock属性，我们创建一个新的ReentrantReadWriteLock对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public PricesInfo()&#123;</span><br><span class="line">price1=1.0;</span><br><span class="line">price2=2.0;</span><br><span class="line">lock=new ReentrantReadWriteLock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.实现getPrice1()方法，用它来返回price1属性的值。它使用读锁来控制这个属性值的访问。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public double getPrice1() &#123;</span><br><span class="line">lock.readLock().lock();</span><br><span class="line">double value=price1;</span><br><span class="line">lock.readLock().unlock();</span><br><span class="line">return value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6.实现getPrice2()方法，用它来返回price2属性的值。它使用读锁来控制这个属性值的访问。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public double getPrice2() &#123;</span><br><span class="line">lock.readLock().lock();</span><br><span class="line">double value=price2;</span><br><span class="line">lock.readLock().unlock();</span><br><span class="line">return value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>7.实现setPrices()方法，用来建立这两个属性的值。它使用写锁来控制对它们的访问。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public void setPrices(double price1, double price2) &#123;</span><br><span class="line">lock.writeLock().lock();</span><br><span class="line">this.price1=price1;</span><br><span class="line">this.price2=price2;</span><br><span class="line">lock.writeLock().unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>8.创建Reader类，并指定它实现Runnable接口。这个类实现了PricesInfo类属性值的读者。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Reader implements Runnable &#123;</span><br></pre></td></tr></table></figure></p>
+<p>9.声明一个PricesInfo对象，并且实现Reader类的构造器来初始化这个对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private PricesInfo pricesInfo;</span><br><span class="line">public Reader (PricesInfo pricesInfo)&#123;</span><br><span class="line">this.pricesInfo=pricesInfo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>10.实现Reader类的run()方法，它读取10次两个价格的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">for (int i=0; i&lt;10; i++)&#123;</span><br><span class="line">System.out.printf(&quot;%s: Price 1: %f\n&quot;, Thread.</span><br><span class="line">currentThread().getName(),pricesInfo.getPrice1());</span><br><span class="line">System.out.printf(&quot;%s: Price 2: %f\n&quot;, Thread.</span><br><span class="line">currentThread().getName(),pricesInfo.getPrice2());</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>11.创建Writer类，并指定它实现Runnable接口。这个类实现了PricesInfo类属性值的修改者。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class Writer implements Runnable &#123;</span><br></pre></td></tr></table></figure></p>
+<p>12.声明一个PricesInfo对象，并且实现Writer类的构造器来初始化这个对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private PricesInfo pricesInfo;</span><br><span class="line">public Writer(PricesInfo pricesInfo)&#123;</span><br><span class="line">this.pricesInfo=pricesInfo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>13.实现run()方法，它修改了三次两个价格的值，并且在每次修改之后睡眠2秒。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">for (int i=0; i&lt;3; i++) &#123;</span><br><span class="line">System.out.printf(&quot;Writer: Attempt to modify the</span><br><span class="line">prices.\n&quot;);</span><br><span class="line">pricesInfo.setPrices(Math.random()*10, Math.random()*8);</span><br><span class="line">System.out.printf(&quot;Writer: Prices have been modified.\n&quot;);</span><br><span class="line">try &#123;</span><br><span class="line">Thread.sleep(2);</span><br><span class="line">&#125; catch (InterruptedException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>14.通过创建类名为Main，且包括main（）方法来实现这个示例的主类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br></pre></td></tr></table></figure></p>
+<p>15.创建一个PricesInfo对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PricesInfo pricesInfo=new PricesInfo();</span><br></pre></td></tr></table></figure></p>
+<p>16.创建5个Reader对象，并且用5个线程来执行它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Reader readers[]=new Reader[5];</span><br><span class="line">Thread threadsReader[]=new Thread[5];</span><br><span class="line">for (int i=0; i&lt;5; i++)&#123;</span><br><span class="line">readers[i]=new Reader(pricesInfo);</span><br><span class="line">threadsReader[i]=new Thread(readers[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>17.创建一个Writer对象，并且用线程来执行它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Writer writer=new Writer(pricesInfo);</span><br><span class="line">Thread threadWriter=new Thread(writer);</span><br></pre></td></tr></table></figure></p>
+<p>18.启动这些线程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0; i&lt;5; i++)&#123;</span><br><span class="line">threadsReader[i].start();</span><br><span class="line">&#125;</span><br><span class="line">threadWriter.start();</span><br></pre></td></tr></table></figure></p>
+<p>在以下截图中，你可以看到执行这个例子的一个部分输出:<br><img src="http://ifeve.com/wp-content/uploads/2013/07/5.jpg?imageMogr2" alt=""></p>
+<h1 id="修改Lock的公平性"><a href="#修改Lock的公平性" class="headerlink" title="修改Lock的公平性"></a>修改Lock的公平性</h1><p>在ReentrantLock类和 ReentrantReadWriteLock类的构造器中，允许一个名为fair的boolean类型参数，它允许你来控制这些类的行为。默认值为 false，这将启用非公平模式。在这个模式中，当有多个线程正在等待一把锁（ReentrantLock或者 ReentrantReadWriteLock），这个锁必须选择它们中间的一个来获得进入临界区，选择任意一个是没有任何标准的。true值将开启公平模式。在这个模式中，当有多个线程正在等待一把锁（ReentrantLock或者ReentrantReadWriteLock），这个锁必须选择它们中间的一个来获得进入临界区，它将选择等待时间最长的线程。考虑到之前解释的行为只是使用lock()和unlock()方法。由于tryLock()方法并不会使线程进入睡眠，即使Lock接口正在被使用，这个公平属性并不会影响它的功能。</p>
+<hr>
+<p><strong>参考资料</strong><br><a href="http://ifeve.com/basic-thread-synchronization-5/" target="_blank" rel="noopener">并发编程网</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/并发编程/" rel="tag"># 并发编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/18/Java并发编程-Synchronized/" rel="next" title="Java并发编程之Synchronized">
+                <i class="fa fa-chevron-left"></i> Java并发编程之Synchronized
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/10/GlobalDialog框架使用教程/" rel="prev" title="GlobalDialog框架使用教程">
+                GlobalDialog框架使用教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Lock同步代码块"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;Lock&#x540C;&#x6B65;&#x4EE3;&#x7801;&#x5757;" class="headerlink" title="&#x4F7F;&#x7528;Lock&#x540C;&#x6B65;&#x4EE3;&#x7801;&#x5757;"></a>&#x4F7F;&#x7528;Lock&#x540C;&#x6B65;&#x4EE3;&#x7801;&#x5757;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#tryLock"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text"><a href="#tryLock" class="headerlink" title="tryLock()"></a>tryLock()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#避免死锁"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text"><a href="#&#x907F;&#x514D;&#x6B7B;&#x9501;" class="headerlink" title="&#x907F;&#x514D;&#x6B7B;&#x9501;"></a>&#x907F;&#x514D;&#x6B7B;&#x9501;</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用读-写锁同步数据访问"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x8BFB;-&#x5199;&#x9501;&#x540C;&#x6B65;&#x6570;&#x636E;&#x8BBF;&#x95EE;" class="headerlink" title="&#x4F7F;&#x7528;&#x8BFB;/&#x5199;&#x9501;&#x540C;&#x6B65;&#x6570;&#x636E;&#x8BBF;&#x95EE;"></a>&#x4F7F;&#x7528;&#x8BFB;/&#x5199;&#x9501;&#x540C;&#x6B65;&#x6570;&#x636E;&#x8BBF;&#x95EE;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改Lock的公平性"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4FEE;&#x6539;Lock&#x7684;&#x516C;&#x5E73;&#x6027;" class="headerlink" title="&#x4FEE;&#x6539;Lock&#x7684;&#x516C;&#x5E73;&#x6027;"></a>&#x4FEE;&#x6539;Lock&#x7684;&#x516C;&#x5E73;&#x6027;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
