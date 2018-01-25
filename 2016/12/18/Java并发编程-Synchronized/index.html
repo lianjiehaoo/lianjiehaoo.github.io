@@ -92,7 +92,7 @@
 <meta property="og:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://chuantu.biz/t6/211/1516520176x-1404817814.jpg">
-<meta property="og:updated_time" content="2018-01-21T13:17:24.061Z">
+<meta property="og:updated_time" content="2018-01-22T01:53:46.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之Synchronized">
 <meta name="twitter:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
@@ -391,8 +391,7 @@
 </blockquote>
 <h1 id="静态方法中的同步块"><a href="#静态方法中的同步块" class="headerlink" title="静态方法中的同步块"></a>静态方法中的同步块</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void log2(String msg1, String msg2)&#123;</span><br><span class="line">synchronized(MyClass.class)&#123;</span><br><span class="line">log.writeln(msg1);</span><br><span class="line">log.writeln(msg2);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="锁的分类"><a href="#锁的分类" class="headerlink" title="锁的分类"></a>锁的分类</h1><p>以上内容就是对Synchronized关键字使用和触发场景的介绍，下面再从宏观上介绍一下关于锁的分类：（*）偏向锁、轻量锁、重量锁。<br>偏向锁，顾名思义，它会偏向于第一个访问锁的线程，如果在接下来的运行过程中，该锁没有被其他的线程访问，则持有偏向锁的线程将永远不需要触发同步。<br>如果在运行过程中，遇到了其他线程抢占锁，JVM会尝试消除它身上的偏向锁，将锁恢复到标准的轻量级锁。偏向锁只能在单线程下起作用,主要解决无竞争下的锁性能问题。</p>
-<h5 id="我们看下无竞争下锁存在什么问题"><a href="#我们看下无竞争下锁存在什么问题" class="headerlink" title="我们看下无竞争下锁存在什么问题:"></a>我们看下无竞争下锁存在什么问题:</h5><p>按照之前的HotSpot设计，每次加锁/解锁都会涉及到一些<a href="http://ifeve.com/compare-and-swap/" target="_blank" rel="noopener">CAS操作</a>（比如对等待队列的CAS操作），CAS操作会延迟本地调用，因此偏向锁的想法是一旦线程第一次获得了监视对象，之后让监视对象“偏向”这个线程，之后的多次调用则可以避免CAS操作，说白了就是置个变量，如果发现为true则无需再走各种加锁/解锁流程。</p>
-<p>锁演变的流程是这样的：<a href="http://ifeve.com/java-synchronized/" target="_blank" rel="noopener">偏向锁-&gt;轻量级锁-&gt;重量级锁</a>。</p>
+<h5 id="我们看下无竞争下锁存在什么问题"><a href="#我们看下无竞争下锁存在什么问题" class="headerlink" title="我们看下无竞争下锁存在什么问题:"></a>我们看下无竞争下锁存在什么问题:</h5><p>按照之前的HotSpot设计，每次加锁/解锁都会涉及到一些<a href="http://ifeve.com/compare-and-swap/" target="_blank" rel="noopener">CAS操作</a>（比如对等待队列的CAS操作），CAS操作会延迟本地调用，因此偏向锁的想法是一旦线程第一次获得了监视对象，之后让监视对象“偏向”这个线程，之后的多次调用则可以避免CAS操作，说白了就是置个变量，如果发现为true则无需再走各种加锁/解锁流程。<br>锁演变的流程是这样的：<a href="http://ifeve.com/java-synchronized/" target="_blank" rel="noopener">偏向锁-&gt;轻量级锁-&gt;重量级锁</a>。</p>
 <hr>
 <p><strong>参考资料</strong><br>1.<a href="http://ifeve.com/basic-thread-synchronization-1/" target="_blank" rel="noopener">并发编程网</a><br>2.<a href="http://blog.csdn.net/qq_23835497/article/details/76462403" target="_blank" rel="noopener">Java Synchronized Blocks</a></p>
 
@@ -518,7 +517,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -529,7 +528,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -540,7 +539,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
