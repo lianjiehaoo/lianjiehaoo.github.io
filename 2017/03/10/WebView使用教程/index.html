@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。WebView经常被使用的场景是，当你的APP需要向用户展示一个随时可更新的内容，比如用户条款、使用向导。那么这样的话，我们可以在一个Activit">
+<meta name="description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。">
 <meta name="keywords" content="WebView">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WebView使用教程">
 <meta property="og:url" content="http://yoursite.com/2017/03/10/WebView使用教程/index.html">
 <meta property="og:site_name" content="TXM">
-<meta property="og:description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。WebView经常被使用的场景是，当你的APP需要向用户展示一个随时可更新的内容，比如用户条款、使用向导。那么这样的话，我们可以在一个Activit">
+<meta property="og:description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-25T01:33:48.904Z">
+<meta property="og:updated_time" content="2018-01-27T03:07:22.213Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WebView使用教程">
-<meta name="twitter:description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。WebView经常被使用的场景是，当你的APP需要向用户展示一个随时可更新的内容，比如用户条款、使用向导。那么这样的话，我们可以在一个Activit">
+<meta name="twitter:description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。">
 
 
 
@@ -370,7 +370,7 @@
       
 
       
-        <p>如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。<br>WebView经常被使用的场景是，当你的APP需要向用户展示一个随时可更新的内容，比如用户条款、使用向导。那么这样的话，我们可以在一个Activity中包含一个WebView控件用来展示服务器维护的内容，这些内容可以在服务器随时更改。<br>WeblView另一个使用场景是，当我们需要在一个页面中请求所有用户的数据，一般的做法是写一个layout，然后利用网络请求所有所需数据，最后将这些数据填充到layout中。但最简洁的方式是，我们其实可以直接加载一个网页，这个网页包含了需要的数据。<br>这个教程将帮助你学会使用WebView，以及关于它高级一点的用法，比如页面跳转、js交互等。</p>
+        <p>如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。<a id="more"></a><br>WebView经常被使用的场景是，当你的APP需要向用户展示一个随时可更新的内容，比如用户条款、使用向导。那么这样的话，我们可以在一个Activity中包含一个WebView控件用来展示服务器维护的内容，这些内容可以在服务器随时更改。<br>WeblView另一个使用场景是，当我们需要在一个页面中请求所有用户的数据，一般的做法是写一个layout，然后利用网络请求所有所需数据，最后将这些数据填充到layout中。但最简洁的方式是，我们其实可以直接加载一个网页，这个网页包含了需要的数据。<br>这个教程将帮助你学会使用WebView，以及关于它高级一点的用法，比如页面跳转、js交互等。</p>
 <h1 id="添加WebView到你的应用"><a href="#添加WebView到你的应用" class="headerlink" title="添加WebView到你的应用"></a>添加WebView到你的应用</h1><p>添加WebView到你的应用最简单的方式是在Layout中添加&lt; WebView &gt;标签，例如下面的例子表示一个全屏的WebView。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;WebView  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:id=&quot;@+id/webview&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure></p>
 <p>加载网页，调用loadUrl()方法即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">myWebView.loadUrl(&quot;http://www.example.com&quot;);</span><br></pre></td></tr></table></figure></p>
 <p>请求服务器网页时，别忘了要加网络请求权限。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest ... &gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</span><br><span class="line">...</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure></p>
