@@ -93,7 +93,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://chuantu.biz/t6/211/1516533234x-1404817814.jpg">
 <meta property="og:image" content="http://chuantu.biz/t6/212/1516582907x-1404817814.jpg">
-<meta property="og:updated_time" content="2018-01-22T01:51:38.599Z">
+<meta property="og:updated_time" content="2018-01-28T07:08:06.792Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之Lock">
 <meta name="twitter:description" content="相对于Synchronized,我们还可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。">
@@ -379,7 +379,7 @@
 <li>它允许以一种更灵活的方式来构建synchronized块。使用synchronized关键字，你必须以结构化方式得到释放synchronized代码块的控制权。Lock接口允许你获得更复杂的结构来实现你的临界区。</li>
 <li>Lock接口比synchronized关键字提供更多额外的功能，新功能之一是它提供的tryLock()方法。这种方法试图获取锁的控制权并且如果它不能获取该锁是由于其他线程在使用这个锁，它将返回false。使用synchronized关键字，当线程A试图执行synchronized代码块，如果线程B正在执行它，那么线程A将阻塞直到线程B执行完synchronized代码块。使用Lock，你可以执行tryLock()方法，这个方法返回一个Boolean值表示是否有其他线程正在运行这个锁所保护的代码。</li>
 <li>当有多个读者和一个写者时，Lock接口允许读写操作分离。</li>
-<li>Lock接口比synchronized关键字提供更好的性能。</li>
+<li>Lock接口提供了相比于wait更加灵活的<a href="http://ifeve.com/basic-thread-synchronization-8/" target="_blank" rel="noopener">await</a>关键字用于线程通信。</li>
 </ol>
 <p>在下面的案例中，你将学习如何通过锁来同步代码块和通过Lock接口及其实现者ReentrantLock类来创建临界区，实现一个程序来模拟打印队列。<br>1.创建PrintQueue类，来实现打印队列。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class PrintQueue &#123;</span><br></pre></td></tr></table></figure></p>
 <p>2.声明一个Lock对象，并且使用ReentrantLock类的一个新对象来初始化它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private final Lock queueLock=new ReentrantLock();</span><br></pre></td></tr></table></figure></p>
