@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Retrofit," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TXM" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Retrofit是Square团队旗下一个知名的Android网络请求库，准确的说，它是由Square对okhttp再次封装所成。本章在详细的介绍Retrofit用法的同时，还会分析它的前世今生，包括okhttp介绍、源码分析、java注解的掌握以及Retrofit的二次封装知识。">
+<meta name="keywords" content="Retrofit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit使用详解及源码分析">
+<meta property="og:url" content="http://yoursite.com/2017/09/06/Retrofit使用详解及源码分析/index.html">
+<meta property="og:site_name" content="TXM">
+<meta property="og:description" content="Retrofit是Square团队旗下一个知名的Android网络请求库，准确的说，它是由Square对okhttp再次封装所成。本章在详细的介绍Retrofit用法的同时，还会分析它的前世今生，包括okhttp介绍、源码分析、java注解的掌握以及Retrofit的二次封装知识。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-06T14:06:32.669Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Retrofit使用详解及源码分析">
+<meta name="twitter:description" content="Retrofit是Square团队旗下一个知名的Android网络请求库，准确的说，它是由Square对okhttp再次封装所成。本章在详细的介绍Retrofit用法的同时，还会分析它的前世今生，包括okhttp介绍、源码分析、java注解的掌握以及Retrofit的二次封装知识。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/06/Retrofit使用详解及源码分析/"/>
+
+
+
+
+
+  <title>Retrofit使用详解及源码分析 | TXM</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TXM</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/06/Retrofit使用详解及源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TXM">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Retrofit使用详解及源码分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-06T20:24:20+08:00">
+                2017-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android框架/" itemprop="url" rel="index">
+                    <span itemprop="name">Android框架</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Retrofit是Square团队旗下一个知名的Android网络请求库，准确的说，它是由Square对okhttp再次封装所成。本章在详细的介绍Retrofit用法的同时，还会分析它的前世今生，包括okhttp介绍、源码分析、java注解的掌握以及Retrofit的二次封装知识。<a id="more"></a></p>
+<h1 id="从okhttp的使用讲起"><a href="#从okhttp的使用讲起" class="headerlink" title="从okhttp的使用讲起"></a>从okhttp的使用讲起</h1><p>前面说了Retrofit是在Okhttp的基础之上发展起来，那么要想全面的理解之，还是要把okhttp这块的用法搞懂的（不涉及源码），下面就从okhttp开始吧～</p>
+<h2 id="okHttp主要类"><a href="#okHttp主要类" class="headerlink" title="okHttp主要类"></a>okHttp主要类</h2><p>下面是okhttp的几大主要类，这一部分的内容就围绕它们进行。<br>OkHttpClient.java<br>Request.java<br>Call.java<br>RequestBody.java<br>Response.java</p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h4 id="HTTP-GET"><a href="#HTTP-GET" class="headerlink" title="HTTP GET"></a>HTTP GET</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package okhttp3.guide;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import okhttp3.OkHttpClient;</span><br><span class="line">import okhttp3.Request;</span><br><span class="line">import okhttp3.Response;</span><br><span class="line"></span><br><span class="line">public class GetExample &#123;</span><br><span class="line">OkHttpClient client = new OkHttpClient();</span><br><span class="line"></span><br><span class="line">String run(String url) throws IOException &#123;</span><br><span class="line">Request request = new Request.Builder()</span><br><span class="line">.url(url)</span><br><span class="line">.build();</span><br><span class="line"></span><br><span class="line">Response response = client.newCall(request).execute();</span><br><span class="line">return response.body().string();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws IOException &#123;</span><br><span class="line">GetExample example = new GetExample();</span><br><span class="line">String response = example.run(&quot;https://raw.github.com/square/okhttp/master/README.md&quot;);</span><br><span class="line">System.out.println(response);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>上面执行的流程是这样的：</strong><br>第一步，在程序第9行处获取了okhttpclient的实例；<br>第二步，在程序第12行处，通过<code>Request.Builder()</code>构建一个request请求对象，这里可以配置许多网络请求所需的参数：url、header、post对象等。<br>第三步，在程序第16行处，通过Call类的<code>execute()</code>同步方法返回一个response响应对象，对象中包含了服务端返回的字符串信息。<br>至此，一个简单的Http Get流程算是完成了。这里要注意的是:<br>1、在第二步中，我们说通过<code>Request.Builder()</code>可以配置许多网络请求相关的信息，其实我们还可以通过<code>okHttpClient.newBuilder()</code>方法配置一些更加全局的网络参数，比如：拦截器、超时时间等。<br>2、在第二步中提到配置的参数可以是post对象，它对应的方法是<code>post(RequestBody body)</code>，那么有没有提供类似get(T params)的方法供请求参数的配置呢？答案是没有。所以如果需要在url中配置请求参数，还需要以拼接字符串的方式完成。<br>3、在第三步中除了能用Call类的execute()同步方法返回响应之外，还可以使用它的<code>enqueue()</code>方法异步返回响应信息，这里要看具体的使用场景了。</p>
+<h4 id="HTTP-POST"><a href="#HTTP-POST" class="headerlink" title="HTTP POST"></a>HTTP POST</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public class PostExample &#123;</span><br><span class="line">public static final MediaType JSON</span><br><span class="line">= MediaType.parse(&quot;application/json; charset=utf-8&quot;);</span><br><span class="line"></span><br><span class="line">OkHttpClient client = new OkHttpClient();</span><br><span class="line"></span><br><span class="line">String post(String url, String json) throws IOException &#123;</span><br><span class="line">RequestBody body = RequestBody.create(JSON, json);</span><br><span class="line">Request request = new Request.Builder()</span><br><span class="line">.url(url)</span><br><span class="line">.post(body)</span><br><span class="line">.build();</span><br><span class="line">try (Response response = client.newCall(request).execute()) &#123;</span><br><span class="line">return response.body().string();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">String bowlingJson(String player1, String player2) &#123;</span><br><span class="line">return &quot;&#123;&apos;winCondition&apos;:&apos;HIGH_SCORE&apos;,&quot;</span><br><span class="line">+ &quot;&apos;name&apos;:&apos;Bowling&apos;,&quot;</span><br><span class="line">+ &quot;&apos;round&apos;:4,&quot;</span><br><span class="line">+ &quot;&apos;lastSaved&apos;:1367702411696,&quot;</span><br><span class="line">+ &quot;&apos;dateStarted&apos;:1367702378785,&quot;</span><br><span class="line">+ &quot;&apos;players&apos;:[&quot;</span><br><span class="line">+ &quot;&#123;&apos;name&apos;:&apos;&quot; + player1 + &quot;&apos;,&apos;history&apos;:[10,8,6,7,8],&apos;color&apos;:-13388315,&apos;total&apos;:39&#125;,&quot;</span><br><span class="line">+ &quot;&#123;&apos;name&apos;:&apos;&quot; + player2 + &quot;&apos;,&apos;history&apos;:[6,10,5,10,10],&apos;color&apos;:-48060,&apos;total&apos;:41&#125;&quot;</span><br><span class="line">+ &quot;]&#125;&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws IOException &#123;</span><br><span class="line">PostExample example = new PostExample();</span><br><span class="line">String json = example.bowlingJson(&quot;Jesse&quot;, &quot;Jake&quot;);</span><br><span class="line">String response = example.post(&quot;http://www.roundsapp.com/post&quot;, json);</span><br><span class="line">System.out.println(response);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面是一个向服务端发送Post请求的例子，仔细观察发现它和Get部分的不同之处主要在于第11行的<code>post(body)</code>配置方法。参数body是我们需要上传到服务器的数据，他是RequestBody类型的对象，该对象由<code>RequestBody.create(MediaType contentType, T t)</code>方法生成。MediaType代表消息内容的类型，具体可翻阅<a href="https://www.iana.org/assignments/media-types/media-types.xhtml" target="_blank" rel="noopener">Media Types</a>、<a href="http://www.w3school.com.cn/media/media_mimeref.asp" target="_blank" rel="noopener">MIME 参考手册</a>这两篇文章。后面的T对象由MediaType的类型决定，可以看出RequestBody.create是一个重载方法。<br>对于RequestBody，api还提供了它的两个实现类：FormBody、MultipartBody，分别对应表单和文件的上传。<br>当然，OkHttp在实际应用中可能还会涉及到需要重复验证的问题，具体请看<a href="https://howtoprogram.xyz/2016/11/03/basic-authentication-okhttp-example/" target="_blank" rel="noopener">这篇文章</a>。</p>
+<h1 id="Retrofit的使用"><a href="#Retrofit的使用" class="headerlink" title="Retrofit的使用"></a>Retrofit的使用</h1><p>有了前面okhttp的使用经验，再来说Retrofit的使用就简单了。Retrofit其实质就是对okHttp的封装，使用面向接口的方式进行网络请求，利用动态生成的代理类封装了网络接口。Retrofit非常适合于 RESTful 风格的请求，使用<a href="https://www.cnblogs.com/whoislcj/p/5671622.html" target="_blank" rel="noopener">注解的方式</a>提供功能，对于<strong>注解</strong>不了解的同学，还可以结合<a href="http://blog.csdn.net/yubotianxiao/article/details/51861663" target="_blank" rel="noopener">这篇文章</a>看看。</p>
+<blockquote>
+<p><strong>RESTful特征：</strong><br>URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作。</p>
+</blockquote>
+<h2 id="用法介绍"><a href="#用法介绍" class="headerlink" title="用法介绍"></a>用法介绍</h2><h4 id="创建API接口"><a href="#创建API接口" class="headerlink" title="创建API接口"></a>创建API接口</h4><p>在retrofit中通过一个Java接口作为http请求的api接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//定以接口</span><br><span class="line">public interface GitHubService &#123;</span><br><span class="line">@GET(&quot;users/&#123;user&#125;/repos&quot;)</span><br><span class="line">Call&lt;List&lt;Repo&gt;&gt; listRepos(@Path(&quot;user&quot;) String user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建Retrofit实例"><a href="#创建Retrofit实例" class="headerlink" title="创建Retrofit实例"></a>创建Retrofit实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**获取实例*/</span><br><span class="line">Retrofit retrofit = new Retrofit.Builder()</span><br><span class="line">//设置OKHttpClient,如果不设置会提供一个默认的</span><br><span class="line">.client(new OkHttpClient())</span><br><span class="line">//设置baseUrl</span><br><span class="line">.baseUrl(&quot;https://api.github.com/&quot;)</span><br><span class="line">//添加Gson转换器</span><br><span class="line">.addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">.build();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意：</strong><br>1.retrofit2.0后：BaseUrl要以/结尾；@GET 等请求不要以/开头；@Url: 可以定义完整url，不要以 / 开头。<br>2.addConverterFactory提供Gson支持，可以添加多种序列化Factory，但是GsonConverterFactory必须放在最后,否则会抛出异常。</p>
+</blockquote>
+<h4 id="调用API接口"><a href="#调用API接口" class="headerlink" title="调用API接口"></a>调用API接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">GitHubService service = retrofit.create(GitHubService.class);</span><br><span class="line"></span><br><span class="line">//同步请求</span><br><span class="line">//https://api.github.com/users/octocat/repos</span><br><span class="line">Call&lt;List&lt;Repo&gt;&gt; call = service.listRepos(&quot;octocat&quot;);</span><br><span class="line">try &#123;</span><br><span class="line">Response&lt;List&lt;Repo&gt;&gt; repos  = call.execute();</span><br><span class="line">&#125; catch (IOException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//不管同步还是异步，call只能执行一次。否则会抛 IllegalStateException</span><br><span class="line">Call&lt;List&lt;Repo&gt;&gt; clone = call.clone();</span><br><span class="line"></span><br><span class="line">//异步请求</span><br><span class="line">clone.enqueue(new Callback&lt;List&lt;Repo&gt;&gt;() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void onResponse(Response&lt;List&lt;Repo&gt;&gt; response, Retrofit retrofit) &#123;</span><br><span class="line">// Get result bean from response.body()</span><br><span class="line">List&lt;Repo&gt; repos = response.body();</span><br><span class="line">// Get header item from response</span><br><span class="line">String links = response.headers().get(&quot;Link&quot;);</span><br><span class="line">/**</span><br><span class="line">* 不同于retrofit1 可以同时操作序列化数据javabean和header</span><br><span class="line">*/</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onFailure(Throwable throwable) &#123;</span><br><span class="line">showlog(throwable.getCause().toString());   </span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="取消请求"><a href="#取消请求" class="headerlink" title="取消请求"></a>取消请求</h4><p>我们可以终止一个请求。终止操作是对底层的httpclient执行cancel操作。即使是正在执行的请求，也能够立即终止。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call.cancel();</span><br></pre></td></tr></table></figure></p>
+<h4 id="retrofit注解"><a href="#retrofit注解" class="headerlink" title="retrofit注解"></a>retrofit注解</h4><ul>
+<li>方法注解，包含@GET、@POST、@PUT、@DELETE、@PATH、@HEAD、@OPTIONS、@HTTP。</li>
+<li>标记注解，包含@FormUrlEncoded、@Multipart、@Streaming。</li>
+<li>参数注解，包含@Query、@QueryMap、@Body、@Field，@FieldMap、@Part，@PartMap。</li>
+<li>其他注解，包含@Path、@Header、@Headers、@Url。</li>
+</ul>
+<h5 id="1-一般的get请求"><a href="#1-一般的get请求" class="headerlink" title="(1)一般的get请求"></a>(1)一般的get请求</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface IWeatherGet &#123;</span><br><span class="line">@GET(&quot;GetMoreWeather?cityCode=101020100&amp;weatherType=0&quot;)</span><br><span class="line">Call&lt;Weather&gt; getWeather();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到有一个getWeather(）方法，通过@GET注解标识为get请求，@GET中所填写的value和baseUrl组成完整的路径，baseUrl在构造retrofit对象时给出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Retrofit retrofit = new Retrofit.Builder()</span><br><span class="line">/**http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=101020100&amp;weatherType=0*/</span><br><span class="line">//注意baseurl要以/结尾</span><br><span class="line">.baseUrl(&quot;http://weather.51wnl.com/weatherinfo/&quot;)</span><br><span class="line">.addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">.build();</span><br><span class="line">IWeatherGet weather = retrofit.create(IWeatherGet.class);</span><br><span class="line">Call&lt;Weather&gt; call = weather.getWeather();</span><br><span class="line">call.enqueue(new Callback&lt;Weather&gt;() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void onResponse(Response&lt;Weather&gt; response, Retrofit retrofit) &#123;</span><br><span class="line">Weather weather = response.body();</span><br><span class="line">WeatherInfo weatherinfo = weather.weatherinfo;</span><br><span class="line">showlog(&quot;weather=&quot;+weatherinfo.toString());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onFailure(Throwable throwable) &#123;</span><br><span class="line">showlog(throwable.getCause().toString());       </span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h5 id="（2）动态url访问-PATH"><a href="#（2）动态url访问-PATH" class="headerlink" title="（2）动态url访问@PATH"></a>（2）动态url访问@PATH</h5><p>上面说的@GET注解是将baseUrl和@GET中的value组成完整的路径。有时候我们可以将路径中某个字符串设置为不同的值来请求不同的数据，这时候怎么办呢？<br>譬如：<br>可以通过retrofit提供的@PATH注解非常方便的完成上述需求。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface IWeatherPath &#123;</span><br><span class="line">@GET(&quot;&#123;info&#125;?cityCode=101020100&amp;weatherType=0&quot;)</span><br><span class="line">Call&lt;Weather&gt; getWeather(@Path(&quot;info&quot;) String info);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到我们定义了一个getWeather方法，方法接收一个info参数，并且我们的@GET注解中使用{info}?cityCode=101020100&amp;weatherType=0声明了访问路径，这里你可以把{info}当做占位符，而实际运行中会通过@PATH(“info”)所标注的参数进行替换。</p>
+<h5 id="（3）查询参数的设置-Query-QueryMap"><a href="#（3）查询参数的设置-Query-QueryMap" class="headerlink" title="（3）查询参数的设置@Query@QueryMap"></a>（3）查询参数的设置@Query@QueryMap</h5><p>文章开头提过，retrofit非常适用于restful url的格式，那么例如下面这样的url：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//用于访问上海天气</span><br><span class="line">http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=101020100&amp;weatherType=0</span><br><span class="line"></span><br><span class="line">//用于访问北京天气</span><br><span class="line">http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=101010100&amp;weatherType=0</span><br></pre></td></tr></table></figure></p>
+<p>即通过传参方式使用不同的citycode访问不同城市的天气，返回数据为json字符串。我们可以通过@Query注解方便的完成，我们再次在接口中添加一个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public interface IWeatherQuery &#123;</span><br><span class="line">@GET(&quot;GetMoreWeather&quot;)</span><br><span class="line">Call&lt;Weather&gt; getWeather(@Query(&quot;cityCode&quot;) String cityCode, @Query(&quot;weatherType&quot;) String weatherType);</span><br><span class="line">&#125;</span><br><span class="line">/**省略retrofit的构建代码*/</span><br><span class="line">Call&lt;Weather&gt; call = weather.getWeather(&quot;101020100&quot;, &quot;0&quot;);</span><br><span class="line">//Call&lt;Weather&gt; call = weather.getWeather(&quot;101010100&quot;, &quot;0&quot;);</span><br><span class="line">/**省略call执行相关代码*/</span><br></pre></td></tr></table></figure></p>
+<p>当我们的参数过多的时候我们可以通过@QueryMap注解和map对象参数来指定每个表单项的Key，value的值，同样是上面的例子，还可以这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public interface IWeatherQueryMap &#123;</span><br><span class="line">@GET(&quot;GetMoreWeather&quot;)</span><br><span class="line">Call&lt;Weather&gt; getWeather(@QueryMap Map&lt;String,String&gt; map);</span><br><span class="line">&#125;</span><br><span class="line">//省略retrofit的构建代码</span><br><span class="line">Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();</span><br><span class="line">map.put(&quot;cityCode&quot;, &quot;101020100&quot;);</span><br><span class="line">map.put(&quot;weatherType&quot;, &quot;0&quot;);</span><br><span class="line">Call&lt;Weather&gt; call = weather.getWeather(map);</span><br><span class="line">//省略call执行相关代码</span><br></pre></td></tr></table></figure></p>
+<h5 id="（4）POST请求体方式向服务器传入json字符串-Body"><a href="#（4）POST请求体方式向服务器传入json字符串-Body" class="headerlink" title="（4）POST请求体方式向服务器传入json字符串@Body"></a>（4）POST请求体方式向服务器传入json字符串@Body</h5><p>我们app很多时候跟服务器通信，会选择直接使用POST方式将json字符串作为请求体发送到服务器，那么我们看看这个需求使用retrofit该如何实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public interface IUser &#123;</span><br><span class="line">@POST(&quot;add&quot;)</span><br><span class="line">Call&lt;List&lt;User&gt;&gt; addUser(@Body User user);</span><br><span class="line">&#125;</span><br><span class="line">/省略retrofit的构建代码</span><br><span class="line">Call&lt;List&lt;User&gt;&gt; call = user.addUser(new User(&quot;watson&quot;, &quot;male&quot;, &quot;28&quot;));</span><br><span class="line">//省略call执行相关代码</span><br></pre></td></tr></table></figure></p>
+<p>可以看到其实就是使用@Body这个注解标识我们的参数对象即可，那么这里需要考虑一个问题，retrofit是如何将user对象转化为字符串呢？将实例对象根据转换方式转换为对应的json字符串参数，这个转化方式是GsonConverterFactory定义的。<br>对应okhttp，还有两种requestBody，一个是FormBody，一个是MultipartBody，前者以表单的方式传递简单的键值对，后者以表单的方式上传文件可以携带参数，retrofit也二者也有对应的注解，下面继续~</p>
+<h5 id="（5）表单的方式传递键值对-FormUrlEncoded-Field-FieldMap"><a href="#（5）表单的方式传递键值对-FormUrlEncoded-Field-FieldMap" class="headerlink" title="（5）表单的方式传递键值对@FormUrlEncoded + @Field@FieldMap"></a>（5）表单的方式传递键值对@FormUrlEncoded + @Field@FieldMap</h5><p>这里我们模拟一个登录的方法，添加一个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public interface IUser &#123;</span><br><span class="line">@FormUrlEncoded</span><br><span class="line">@POST(&quot;login&quot;)   </span><br><span class="line">Call&lt;User&gt; login(@Field(&quot;username&quot;) String username, @Field(&quot;password&quot;) String password);</span><br><span class="line">&#125;</span><br><span class="line">//省略retrofit的构建代码</span><br><span class="line">Call&lt;User&gt; call = user.login(&quot;watson&quot;, &quot;123&quot;);</span><br><span class="line">//省略call执行相关代码</span><br></pre></td></tr></table></figure></p>
+<p>看起来也很简单，通过@POST指明url，添加FormUrlEncoded，然后通过@Field添加参数即可。<br>当我们有很多个表单参数时也可以通过@FieldMap注解和Map对象参数来指定每个表单项的Key，value的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public interface IUser &#123;</span><br><span class="line">@FormUrlEncoded</span><br><span class="line">@POST(&quot;login&quot;)   </span><br><span class="line">Call&lt;User&gt; login(@FieldMap Map&lt;String,String&gt; fieldMap);</span><br><span class="line">&#125;</span><br><span class="line">//省略retrofit的构建代码</span><br><span class="line">Map&lt;String, String&gt; propertity = new HashMap&lt;String, String&gt;();</span><br><span class="line">positories.put(&quot;name&quot;, &quot;watson&quot;);</span><br><span class="line">positories.put(&quot;password&quot;, &quot;123&quot;);</span><br><span class="line">Call&lt;User&gt; call = user.login(propertity);</span><br><span class="line">//省略call执行相关代码</span><br></pre></td></tr></table></figure></p>
+<h5 id="（6）文件上传-Multipart-Part-PartMap"><a href="#（6）文件上传-Multipart-Part-PartMap" class="headerlink" title="（6）文件上传@Multipart + @Part@PartMap"></a>（6）文件上传@Multipart + @Part@PartMap</h5><p>1.下面先看一下单文件上传，依然是再次添加个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface IUser &#123;</span><br><span class="line">@Multipart</span><br><span class="line">@POST(&quot;register&quot;)</span><br><span class="line">Call&lt;User&gt; registerUser(@Part MultipartBody.Part photo, @Part(&quot;username&quot;) RequestBody username, @Part(&quot;password&quot;) RequestBody password);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里@MultiPart的意思就是允许多个@Part了，我们这里使用了3个@Part，第一个我们准备上传个文件，使用了MultipartBody.Part类型，其余两个均为简单的键值对。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File file = new File(Environment.getExternalStorageDirectory(), &quot;icon.png&quot;);</span><br><span class="line">RequestBody photoRequestBody = RequestBody.create(MediaType.parse(&quot;image/png&quot;), file);</span><br><span class="line">MultipartBody.Part photo = MultipartBody.Part.createFormData(&quot;photos&quot;, &quot;icon.png&quot;, photoRequestBody);</span><br><span class="line"></span><br><span class="line">Call&lt;User&gt; call = user.registerUser(photo, RequestBody.create(null, &quot;abc&quot;), RequestBody.create(null, &quot;123&quot;));</span><br></pre></td></tr></table></figure></p>
+<p>这里感觉略为麻烦。不过还是蛮好理解~~多个@Part，每个Part对应一个RequestBody。<br>注：这里还有另外一个方案也是可行的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface ApiInterface &#123;</span><br><span class="line">@Multipart</span><br><span class="line">@POST (&quot;/api/Accounts/editaccount&quot;)</span><br><span class="line">Call&lt;User&gt; editUser (@Header(&quot;Authorization&quot;) String authorization, @Part(&quot;photos\&quot;; filename=\&quot;icon.png&quot;) RequestBody file , @Part(&quot;FirstName&quot;) RequestBody fname, @Part(&quot;Id&quot;) RequestBody id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个value设置的值不用看就会觉得特别奇怪，然而却可以正常执行，原因是什么呢？<br>当上传key-value的时候，实际上对应这样的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.addPart(Headers.of(&quot;Content-Disposition&quot;, &quot;form-data; name=\&quot;&quot; + key + &quot;\&quot;&quot;), RequestBody.create(null, params.get(key)));</span><br></pre></td></tr></table></figure></p>
+<p>也就是说，我们的@Part转化为了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Headers.of(&quot;Content-Disposition&quot;, &quot;form-data; name=\&quot;&quot; + key + &quot;\&quot;&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>这么一看，很随意，只要把key放进去就可以了。但是，retrofit2并没有对文件做特殊处理，文件的对应的字符串应该是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Headers.of(&quot;Content-Disposition&quot;, &quot;form-data; name=&quot;photos&quot;;filename=&quot;icon.png&quot;&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>与键值对对应的字符串相比，多了个\”; filename=\”icon.png，就因为retrofit没有做特殊处理，所以你现在看这些hack的做法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Part(&quot;photos\&quot;; filename=\&quot;icon.png&quot;)</span><br><span class="line">==&gt; key = photos\&quot;; filename=\&quot;icon.png</span><br><span class="line"></span><br><span class="line">form-data; name=\&quot;&quot; + key + &quot;\&quot;</span><br><span class="line">拼接结果：==&gt;</span><br><span class="line">form-data; name=&quot;photos&quot;; filename=&quot;icon.png&quot;</span><br></pre></td></tr></table></figure></p>
+<p>因为这种方式文件名写死了，我们上文使用的的是@Part MultipartBody.Part file,可以满足文件名动态设置。</p>
+<p>2.如果是多文件上传呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface IUser &#123;</span><br><span class="line">@Multipart</span><br><span class="line">@POST(&quot;register&quot;)</span><br><span class="line">Call&lt;User&gt; registerUser(@PartMap Map&lt;String, RequestBody&gt; params, @Part(&quot;password&quot;) RequestBody password);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里使用了一个新的注解@PartMap，这个注解用于标识一个Map，Map的key为String类型，代表上传的键值对的key(与服务器接受的key对应),value即为RequestBody，有点类似@Part的封装版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File file = new File(Environment.getExternalStorageDirectory(), &quot;local.png&quot;);</span><br><span class="line">RequestBody photo = RequestBody.create(MediaType.parse(&quot;image/png&quot;, file);</span><br><span class="line">Map&lt;String, RequestBody&gt; map = new HashMap&lt;&gt;(String, RequestBody);</span><br><span class="line">map.put(&quot;photos\&quot;; filename=\&quot;icon.png&quot;, photo);</span><br><span class="line">map.put(&quot;username&quot;,  RequestBody.create(null, &quot;abc&quot;));</span><br><span class="line"></span><br><span class="line">Call&lt;User&gt; call = user.registerUser(map, RequestBody.create(null, &quot;123&quot;));</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，可以在Map中put进一个或多个文件，键值对等，当然你也可以分开，单独的键值对也可以使用@Part，这里又看到设置文件的时候，相对应的key很奇怪，例如上例”photos\”; filename=\”icon.png”,前面的photos就是与服务器对应的key，后面filename是服务器得到的文件名，ok，参数虽然奇怪，但是也可以动态的设置文件名，不影响使用。</p>
+<h5 id="（7）下载文件"><a href="#（7）下载文件" class="headerlink" title="（7）下载文件"></a>（7）下载文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@GET(&quot;download&quot;)</span><br><span class="line">Call&lt;ResponseBody&gt; downloadTest();</span><br><span class="line"></span><br><span class="line">Call&lt;ResponseBody&gt; call = user.downloadTest();</span><br><span class="line">call.enqueue(new Callback&lt;ResponseBody&gt;() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void onResponse(Call&lt;ResponseBody&gt; call, Response&lt;ResponseBody&gt; response) &#123;</span><br><span class="line">InputStream is = response.body().byteStream();</span><br><span class="line">//save file</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onFailure(Call&lt;ResponseBody&gt; call, Throwable t)&#123;&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="（8）添加请求头-Header-Headers"><a href="#（8）添加请求头-Header-Headers" class="headerlink" title="（8）添加请求头@Header@Headers"></a>（8）添加请求头@Header@Headers</h5><p>@Header：header处理，不能被互相覆盖，所有具有相同名字的header将会被包含到请求中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//静态设置Header值</span><br><span class="line">@Headers(&quot;Authorization: authorization&quot;)</span><br><span class="line">@GET(&quot;widget/list&quot;)</span><br><span class="line">Call&lt;User&gt; getUser()</span><br></pre></td></tr></table></figure></p>
+<p>@Headers 用于修饰方法,用于设置多个Header值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Headers(&#123;</span><br><span class="line">&quot;Accept: application/vnd.github.v3.full+json&quot;,</span><br><span class="line">&quot;User-Agent: Retrofit-Sample-App&quot;</span><br><span class="line">&#125;)</span><br><span class="line">@GET(&quot;users/&#123;username&#125;&quot;)</span><br><span class="line">Call&lt;User&gt; getUser(@Path(&quot;username&quot;) String username);</span><br></pre></td></tr></table></figure></p>
+<p>还可以使用@Header注解动态的更新一个请求的<a href="https://kb.cnblogs.com/page/119118/" target="_blank" rel="noopener">header</a>。必须给@Header提供相应的参数，如果参数的值为空header将会被忽略，否则就调用参数值的toString()方法并使用返回结果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//动态设置Header值</span><br><span class="line">@GET(&quot;user&quot;)</span><br><span class="line">Call&lt;User&gt; getUser(@Header(&quot;Authorization&quot;) String authorization)</span><br></pre></td></tr></table></figure></p>
+<h5 id="配置OkHttpClient"><a href="#配置OkHttpClient" class="headerlink" title="配置OkHttpClient"></a>配置OkHttpClient</h5><p>很多时候，比如你使用retrofit需要统一的log管理，缓存管理，给每个请求添加统一的header等，这些都应该通过okhttpclient去操作。Retrofit 2.0 底层依赖于okHttp，所以需要使用okHttp的<a href="https://www.jianshu.com/p/2710ed1e6b48" target="_blank" rel="noopener">Interceptors</a>来对所有请求进行拦截。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient client = new OkHttpClient();</span><br><span class="line">client.networkInterceptors().add(new Interceptor() &#123;</span><br><span class="line">@Override</span><br><span class="line">public com.squareup.okhttp.Response intercept(Chain chain) throws IOException &#123;</span><br><span class="line">com.squareup.okhttp.Response response = chain.proceed(chain.request());</span><br><span class="line"></span><br><span class="line">// Do anything with response here</span><br><span class="line"></span><br><span class="line">return response;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">Retrofit retrofit = new Retrofit.Builder()</span><br><span class="line">.baseUrl(BASE_URL)</span><br><span class="line">...</span><br><span class="line">.client(client) //传入自己定义的client</span><br><span class="line">.build();</span><br></pre></td></tr></table></figure></p>
+<p>或许你需要更多的配置，你可以单独写一个OkhttpClient的单例生成类，在这个里面完成你所需的所有的配置，然后将OkhttpClient实例通过方法公布出来，设置给retrofit。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Retrofit retrofit = new Retrofit.Builder()</span><br><span class="line">.callFactory(OkHttpUtils.getClient())</span><br><span class="line">.build();</span><br></pre></td></tr></table></figure></p>
+<p>callFactory方法接受一个okhttp3.Call.Factory对象，OkHttpClient即为一个实现类。</p>
+<h1 id="Retrofit2-0源码分析"><a href="#Retrofit2-0源码分析" class="headerlink" title="Retrofit2.0源码分析"></a>Retrofit2.0源码分析</h1><p>接下来我们对retrofit的源码做简单的分析，首先我们看retrofit如何为我们的接口实现实例；然后看整体的执行流程；最后再看详细的细节；</p>
+<h4 id="（1）retrofit如何为我们的接口实现实例"><a href="#（1）retrofit如何为我们的接口实现实例" class="headerlink" title="（1）retrofit如何为我们的接口实现实例"></a>（1）retrofit如何为我们的接口实现实例</h4><p>使用retrofit需要去定义一个接口，然后可以通过调用retrofit.create(IUser.class)方法，得到一个接口的实例，最后通过该实例执行我们的操作，那么retrofit如何实现我们指定接口的实例呢？<br>其实原理是：动态代理。但是不要被动态代理这几个词吓唬到，Java中已经提供了非常简单的API帮助我们来实现动态代理。<br>看源码前先看一个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public interface ITest</span><br><span class="line">&#123;</span><br><span class="line">@GET(&quot;/heiheihei&quot;)</span><br><span class="line">public void add(int a, int b);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">public static void main(String[] args)</span><br><span class="line">&#123;</span><br><span class="line">ITest iTest = (ITest) Proxy.newProxyInstance(ITest.class.getClassLoader(), new Class&lt;?&gt;[]&#123;ITest.class&#125;, new InvocationHandler()</span><br><span class="line">&#123;</span><br><span class="line">@Override</span><br><span class="line">public Object invoke(Object proxy, Method method, Object[] args) throws Throwable</span><br><span class="line">&#123;</span><br><span class="line">Integer a = (Integer) args[0];</span><br><span class="line">Integer b = (Integer) args[1];</span><br><span class="line">System.out.println(&quot;方法名：&quot; + method.getName());</span><br><span class="line">System.out.println(&quot;参数：&quot; + a + &quot; , &quot; + b);</span><br><span class="line"></span><br><span class="line">GET get = method.getAnnotation(GET.class);</span><br><span class="line">System.out.println(&quot;注解：&quot; + get.value());</span><br><span class="line">return null;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">iTest.add(3, 5);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输出结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">方法名：add</span><br><span class="line">参数：3 , 5</span><br><span class="line">注解：/heiheihei</span><br></pre></td></tr></table></figure></p>
+<p>可以看到我们通过Proxy.newProxyInstance产生的代理类，当调用接口的任何方法时，都会调用InvocationHandler#invoke方法，在这个方法中可以拿到传入的参数，注解等。<br>其实retrofit也可以通过同样的方式，在invoke方法里面，拿到所有的参数，注解信息然后就可以去构造RequestBody，再去构建Request，得到Call对象封装后返回。<br>下面看retrofit#create的源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public &lt;T&gt; T create(final Class&lt;T&gt; service) &#123;</span><br><span class="line">return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class&lt;?&gt;[] &#123; service &#125;,</span><br><span class="line">new InvocationHandler() &#123;</span><br><span class="line">@Override </span><br><span class="line">public Object invoke(Object proxy, Method method, Object... args) throws Throwable &#123;</span><br><span class="line">&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>和上面对应。到这里，你应该明白retrofit为我们接口生成实例对象并不神奇，仅仅是使用了Proxy这个类的API而已，然后在invoke方法里面拿到足够的信息去构建最终返回的Call而已。</p>
+<h4 id="（2）retrofit整体实现流程"><a href="#（2）retrofit整体实现流程" class="headerlink" title="（2）retrofit整体实现流程"></a>（2）retrofit整体实现流程</h4><p>Retrofit的构建：这里依然是通过构造者模式进行构建retrofit对象，好在其内部的成员变量比较少，我们直接看build()方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public Builder() &#123;</span><br><span class="line">this(Platform.get());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Retrofit build() &#123;</span><br><span class="line">if (baseUrl == null) &#123;</span><br><span class="line">throw new IllegalStateException(&quot;Base URL required.&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">okhttp3.Call.Factory callFactory = this.callFactory;</span><br><span class="line">if (callFactory == null) &#123;</span><br><span class="line">callFactory = new OkHttpClient();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Executor callbackExecutor = this.callbackExecutor;</span><br><span class="line">if (callbackExecutor == null) &#123;</span><br><span class="line">callbackExecutor = platform.defaultCallbackExecutor();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Make a defensive copy of the adapters and add the default Call adapter.</span><br><span class="line">List&lt;CallAdapter.Factory&gt; adapterFactories = new ArrayList&lt;&gt;(this.adapterFactories);</span><br><span class="line">adapterFactories.add(platform.defaultCallAdapterFactory(callbackExecutor));</span><br><span class="line"></span><br><span class="line">// Make a defensive copy of the converters.</span><br><span class="line">List&lt;Converter.Factory&gt; converterFactories = new ArrayList&lt;&gt;(this.converterFactories);</span><br><span class="line"></span><br><span class="line">return new Retrofit(callFactory, baseUrl, converterFactories, adapterFactories,</span><br><span class="line">callbackExecutor, validateEagerly);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>baseUrl必须指定，这个是理所当然的；</p>
+<p>然后可以看到如果不着急设置callFactory，则默认直接new OkHttpClient()，可见如果你需要对okhttpclient进行详细的设置，需要构建OkHttpClient对象，然后传入；<br>接下来是callbackExecutor，这个想一想大概是用来将回调传递到UI线程了，当然这里设计的比较巧妙，利用platform对象，对平台进行判断，判断主要是利用Class.forName(“”)进行查找，如果是Android平台，会自定义一个Executor对象，并且利用Looper.getMainLooper()实例化一个handler对象，在Executor内部通过handler.post(runnable)，ok，整理凭大脑应该能构思出来，暂不贴代码了。<br>接下来是adapterFactories，这个对象主要用于对Call进行转化，基本上不需要我们自己去自定义。<br>最后是converterFactories，该对象用于转化数据，例如将返回的responseBody转化为对象等；当然不仅仅是针对返回的数据，还能用于一般注解的参数的转化，例如@Body标识的对象做一些操作，后面遇到源码详细再描述。<br>具体Call构建流程：我们构造完成retrofit，就可以利用retrofit.create方法去构建接口的实例了，上面我们已经分析了这个环节利用了动态代理，而且我们也分析了具体的Call的构建流程在invoke方法中，下面看代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public &lt;T&gt; T create(final Class&lt;T&gt; service) &#123;</span><br><span class="line">Utils.validateServiceInterface(service);</span><br><span class="line">//...</span><br><span class="line">return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class&lt;?&gt;[] &#123; service &#125;,</span><br><span class="line">new InvocationHandler() &#123;</span><br><span class="line">@Override </span><br><span class="line">public Object invoke(Object proxy, Method method, Object... args)&#123;</span><br><span class="line">//...</span><br><span class="line">ServiceMethod serviceMethod = loadServiceMethod(method);</span><br><span class="line">OkHttpCall okHttpCall = new OkHttpCall&lt;&gt;(serviceMethod, args);</span><br><span class="line">return serviceMethod.callAdapter.adapt(okHttpCall);</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>主要也就三行代码，第一行是根据我们的method将其包装成ServiceMethod，第二行是通过ServiceMethod和方法的参数构造retrofit2.OkHttpCall对象，第三行是通过serviceMethod.callAdapter.adapt()方法，将OkHttpCall进行代理包装。<br>总结一下：</p>
+<ul>
+<li>首先构造retrofit，几个核心的参数呢，主要就是baseurl,callFactory(默认okhttpclient),converterFactories,adapterFactories,excallbackExecutor。</li>
+<li>然后通过create方法拿到接口的实现类，这里利用Java的Proxy类完成动态代理的相关代理。</li>
+<li>在invoke方法内部，拿到我们所声明的注解以及实参等，构造ServiceMethod，ServiceMethod中解析了大量的信息，最终可以通过toRequest构造出okhttp3.Request对象。有了okhttp3.Request对象就可以很自然的构建出okhttp3.call，最后calladapter对Call进行装饰返回。</li>
+<li>拿到Call就可以执行enqueue或者execute方法了。</li>
+</ul>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>最后在推荐一个非常火的网络调试工具：<a href="https://github.com/facebook/stetho" target="_blank" rel="noopener">stetho</a>。利用它你可以非常方便地查看应用的本地数据库、SharePerence、网络请求等数据。这里有一篇关于它的<a href="https://www.jianshu.com/p/c03a8959d1a5" target="_blank" rel="noopener">使用指南</a>。</p>
+<hr>
+<p><strong>参考资料</strong><br><a href="http://square.github.io/okhttp/" target="_blank" rel="noopener">OkHttp</a><br><a href="http://www.androidchina.net/5758.html" target="_blank" rel="noopener">Android Retrofit框架解析</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Retrofit/" rel="tag"># Retrofit</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/03/Android屏幕适配/" rel="next" title="Android屏幕适配方案">
+                <i class="fa fa-chevron-left"></i> Android屏幕适配方案
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从okhttp的使用讲起"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4ECE;okhttp&#x7684;&#x4F7F;&#x7528;&#x8BB2;&#x8D77;" class="headerlink" title="&#x4ECE;okhttp&#x7684;&#x4F7F;&#x7528;&#x8BB2;&#x8D77;"></a>&#x4ECE;okhttp&#x7684;&#x4F7F;&#x7528;&#x8BB2;&#x8D77;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#okHttp主要类"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#okHttp&#x4E3B;&#x8981;&#x7C7B;" class="headerlink" title="okHttp&#x4E3B;&#x8981;&#x7C7B;"></a>okHttp&#x4E3B;&#x8981;&#x7C7B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x7528;&#x6CD5;" class="headerlink" title="&#x7528;&#x6CD5;"></a>&#x7528;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-GET"><span class="nav-number">1.2.0.1.</span> <span class="nav-text"><a href="#HTTP-GET" class="headerlink" title="HTTP GET"></a>HTTP GET</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-POST"><span class="nav-number">1.2.0.2.</span> <span class="nav-text"><a href="#HTTP-POST" class="headerlink" title="HTTP POST"></a>HTTP POST</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Retrofit的使用"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Retrofit&#x7684;&#x4F7F;&#x7528;" class="headerlink" title="Retrofit&#x7684;&#x4F7F;&#x7528;"></a>Retrofit&#x7684;&#x4F7F;&#x7528;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用法介绍"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x7528;&#x6CD5;&#x4ECB;&#x7ECD;" class="headerlink" title="&#x7528;&#x6CD5;&#x4ECB;&#x7ECD;"></a>&#x7528;&#x6CD5;&#x4ECB;&#x7ECD;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建API接口"><span class="nav-number">2.1.0.1.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;API&#x63A5;&#x53E3;" class="headerlink" title="&#x521B;&#x5EFA;API&#x63A5;&#x53E3;"></a>&#x521B;&#x5EFA;API&#x63A5;&#x53E3;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Retrofit实例"><span class="nav-number">2.1.0.2.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;Retrofit&#x5B9E;&#x4F8B;" class="headerlink" title="&#x521B;&#x5EFA;Retrofit&#x5B9E;&#x4F8B;"></a>&#x521B;&#x5EFA;Retrofit&#x5B9E;&#x4F8B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调用API接口"><span class="nav-number">2.1.0.3.</span> <span class="nav-text"><a href="#&#x8C03;&#x7528;API&#x63A5;&#x53E3;" class="headerlink" title="&#x8C03;&#x7528;API&#x63A5;&#x53E3;"></a>&#x8C03;&#x7528;API&#x63A5;&#x53E3;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取消请求"><span class="nav-number">2.1.0.4.</span> <span class="nav-text"><a href="#&#x53D6;&#x6D88;&#x8BF7;&#x6C42;" class="headerlink" title="&#x53D6;&#x6D88;&#x8BF7;&#x6C42;"></a>&#x53D6;&#x6D88;&#x8BF7;&#x6C42;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#retrofit注解"><span class="nav-number">2.1.0.5.</span> <span class="nav-text"><a href="#retrofit&#x6CE8;&#x89E3;" class="headerlink" title="retrofit&#x6CE8;&#x89E3;"></a>retrofit&#x6CE8;&#x89E3;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-一般的get请求"><span class="nav-number">2.1.0.5.1.</span> <span class="nav-text"><a href="#1-&#x4E00;&#x822C;&#x7684;get&#x8BF7;&#x6C42;" class="headerlink" title="(1)&#x4E00;&#x822C;&#x7684;get&#x8BF7;&#x6C42;"></a>(1)&#x4E00;&#x822C;&#x7684;get&#x8BF7;&#x6C42;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）动态url访问-PATH"><span class="nav-number">2.1.0.5.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x52A8;&#x6001;url&#x8BBF;&#x95EE;-PATH" class="headerlink" title="&#xFF08;2&#xFF09;&#x52A8;&#x6001;url&#x8BBF;&#x95EE;@PATH"></a>&#xFF08;2&#xFF09;&#x52A8;&#x6001;url&#x8BBF;&#x95EE;@PATH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）查询参数的设置-Query-QueryMap"><span class="nav-number">2.1.0.5.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x67E5;&#x8BE2;&#x53C2;&#x6570;&#x7684;&#x8BBE;&#x7F6E;-Query-QueryMap" class="headerlink" title="&#xFF08;3&#xFF09;&#x67E5;&#x8BE2;&#x53C2;&#x6570;&#x7684;&#x8BBE;&#x7F6E;@Query@QueryMap"></a>&#xFF08;3&#xFF09;&#x67E5;&#x8BE2;&#x53C2;&#x6570;&#x7684;&#x8BBE;&#x7F6E;@Query@QueryMap</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（4）POST请求体方式向服务器传入json字符串-Body"><span class="nav-number">2.1.0.5.4.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;POST&#x8BF7;&#x6C42;&#x4F53;&#x65B9;&#x5F0F;&#x5411;&#x670D;&#x52A1;&#x5668;&#x4F20;&#x5165;json&#x5B57;&#x7B26;&#x4E32;-Body" class="headerlink" title="&#xFF08;4&#xFF09;POST&#x8BF7;&#x6C42;&#x4F53;&#x65B9;&#x5F0F;&#x5411;&#x670D;&#x52A1;&#x5668;&#x4F20;&#x5165;json&#x5B57;&#x7B26;&#x4E32;@Body"></a>&#xFF08;4&#xFF09;POST&#x8BF7;&#x6C42;&#x4F53;&#x65B9;&#x5F0F;&#x5411;&#x670D;&#x52A1;&#x5668;&#x4F20;&#x5165;json&#x5B57;&#x7B26;&#x4E32;@Body</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（5）表单的方式传递键值对-FormUrlEncoded-Field-FieldMap"><span class="nav-number">2.1.0.5.5.</span> <span class="nav-text"><a href="#&#xFF08;5&#xFF09;&#x8868;&#x5355;&#x7684;&#x65B9;&#x5F0F;&#x4F20;&#x9012;&#x952E;&#x503C;&#x5BF9;-FormUrlEncoded-Field-FieldMap" class="headerlink" title="&#xFF08;5&#xFF09;&#x8868;&#x5355;&#x7684;&#x65B9;&#x5F0F;&#x4F20;&#x9012;&#x952E;&#x503C;&#x5BF9;@FormUrlEncoded + @Field@FieldMap"></a>&#xFF08;5&#xFF09;&#x8868;&#x5355;&#x7684;&#x65B9;&#x5F0F;&#x4F20;&#x9012;&#x952E;&#x503C;&#x5BF9;@FormUrlEncoded + @Field@FieldMap</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（6）文件上传-Multipart-Part-PartMap"><span class="nav-number">2.1.0.5.6.</span> <span class="nav-text"><a href="#&#xFF08;6&#xFF09;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;-Multipart-Part-PartMap" class="headerlink" title="&#xFF08;6&#xFF09;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;@Multipart + @Part@PartMap"></a>&#xFF08;6&#xFF09;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;@Multipart + @Part@PartMap</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（7）下载文件"><span class="nav-number">2.1.0.5.7.</span> <span class="nav-text"><a href="#&#xFF08;7&#xFF09;&#x4E0B;&#x8F7D;&#x6587;&#x4EF6;" class="headerlink" title="&#xFF08;7&#xFF09;&#x4E0B;&#x8F7D;&#x6587;&#x4EF6;"></a>&#xFF08;7&#xFF09;&#x4E0B;&#x8F7D;&#x6587;&#x4EF6;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（8）添加请求头-Header-Headers"><span class="nav-number">2.1.0.5.8.</span> <span class="nav-text"><a href="#&#xFF08;8&#xFF09;&#x6DFB;&#x52A0;&#x8BF7;&#x6C42;&#x5934;-Header-Headers" class="headerlink" title="&#xFF08;8&#xFF09;&#x6DFB;&#x52A0;&#x8BF7;&#x6C42;&#x5934;@Header@Headers"></a>&#xFF08;8&#xFF09;&#x6DFB;&#x52A0;&#x8BF7;&#x6C42;&#x5934;@Header@Headers</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置OkHttpClient"><span class="nav-number">2.1.0.5.9.</span> <span class="nav-text"><a href="#&#x914D;&#x7F6E;OkHttpClient" class="headerlink" title="&#x914D;&#x7F6E;OkHttpClient"></a>&#x914D;&#x7F6E;OkHttpClient</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Retrofit2-0源码分析"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Retrofit2-0&#x6E90;&#x7801;&#x5206;&#x6790;" class="headerlink" title="Retrofit2.0&#x6E90;&#x7801;&#x5206;&#x6790;"></a>Retrofit2.0&#x6E90;&#x7801;&#x5206;&#x6790;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）retrofit如何为我们的接口实现实例"><span class="nav-number">3.0.0.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;retrofit&#x5982;&#x4F55;&#x4E3A;&#x6211;&#x4EEC;&#x7684;&#x63A5;&#x53E3;&#x5B9E;&#x73B0;&#x5B9E;&#x4F8B;" class="headerlink" title="&#xFF08;1&#xFF09;retrofit&#x5982;&#x4F55;&#x4E3A;&#x6211;&#x4EEC;&#x7684;&#x63A5;&#x53E3;&#x5B9E;&#x73B0;&#x5B9E;&#x4F8B;"></a>&#xFF08;1&#xFF09;retrofit&#x5982;&#x4F55;&#x4E3A;&#x6211;&#x4EEC;&#x7684;&#x63A5;&#x53E3;&#x5B9E;&#x73B0;&#x5B9E;&#x4F8B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）retrofit整体实现流程"><span class="nav-number">3.0.0.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;retrofit&#x6574;&#x4F53;&#x5B9E;&#x73B0;&#x6D41;&#x7A0B;" class="headerlink" title="&#xFF08;2&#xFF09;retrofit&#x6574;&#x4F53;&#x5B9E;&#x73B0;&#x6D41;&#x7A0B;"></a>&#xFF08;2&#xFF09;retrofit&#x6574;&#x4F53;&#x5B9E;&#x73B0;&#x6D41;&#x7A0B;</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束语"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x7ED3;&#x675F;&#x8BED;" class="headerlink" title="&#x7ED3;&#x675F;&#x8BED;"></a>&#x7ED3;&#x675F;&#x8BED;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
