@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Coordinatorlayout," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TXM" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1.自定义Behavior基础概念其实Behavior就是一个应用于View的观察者模式，一个View跟随者另一个View的变化而变化，或者说一个View监听另一个View。在Behavior中，被观察View也就是事件源被称为denpendcy，而观察View，则被称为child。">
+<meta name="keywords" content="Coordinatorlayout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coordinatorlayout使用全攻略">
+<meta property="og:url" content="http://yoursite.com/2018/02/20/Coordinatorlayout使用全攻略/index.html">
+<meta property="og:site_name" content="TXM">
+<meta property="og:description" content="1.自定义Behavior基础概念其实Behavior就是一个应用于View的观察者模式，一个View跟随者另一个View的变化而变化，或者说一个View监听另一个View。在Behavior中，被观察View也就是事件源被称为denpendcy，而观察View，则被称为child。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-ea875a964b073026.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-1943353a6ab8ecf2.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-1f74e12c45660d4f.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-29bb8533530ae46b.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-21aae12b551fbe4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-c63cc9b50294775f.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-debe700c67d49cb1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-7488ad178c09cffc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-02-20T15:30:39.166Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Coordinatorlayout使用全攻略">
+<meta name="twitter:description" content="1.自定义Behavior基础概念其实Behavior就是一个应用于View的观察者模式，一个View跟随者另一个View的变化而变化，或者说一个View监听另一个View。在Behavior中，被观察View也就是事件源被称为denpendcy，而观察View，则被称为child。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2109293-ea875a964b073026.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/20/Coordinatorlayout使用全攻略/"/>
+
+
+
+
+
+  <title>Coordinatorlayout使用全攻略 | TXM</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TXM</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/20/Coordinatorlayout使用全攻略/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TXM">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Coordinatorlayout使用全攻略</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-20T23:21:56+08:00">
+                2018-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-View/" itemprop="url" rel="index">
+                    <span itemprop="name">Android View</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-自定义Behavior"><a href="#1-自定义Behavior" class="headerlink" title="1.自定义Behavior"></a>1.自定义Behavior</h2><h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><p>其实Behavior就是一个应用于View的观察者模式，一个View跟随者另一个View的变化而变化，或者说一个View监听另一个View。<br>在Behavior中，被观察View也就是事件源被称为denpendcy，而观察View，则被称为child。<a id="more"></a><br><strong>Button与TextView的爱恨情仇</strong><br>首先在布局文件中跟布局设置为CoordinatorLayout，里面放一个Button和一个TextView。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;android.support.design.widget.CoordinatorLayout    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">&gt;</span><br><span class="line">&lt;TextView        app:layout_behavior=&quot;.EasyBehavior&quot;</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:text=&quot;观察者View child&quot;</span><br><span class="line">/&gt;</span><br><span class="line">&lt;Button        android:id=&quot;@+id/btn&quot;</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:layout_gravity=&quot;center&quot;</span><br><span class="line">android:text=&quot;被观察View dependency&quot;</span><br><span class="line">/&gt;</span><br><span class="line">&lt;/android.support.design.widget.CoordinatorLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里我们在Activity中做一些手脚，让Button动起来(不要在意坐标这些细节)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">super.onCreate(savedInstanceState);</span><br><span class="line">setContentView(R.layout.activity_easy_behavior);</span><br><span class="line">findViewById(R.id.btn).setOnTouchListener(new View.OnTouchListener() &#123;</span><br><span class="line">@Override public boolean onTouch(View v, MotionEvent event) &#123;        switch (event.getAction())&#123;          case MotionEvent.ACTION_MOVE:</span><br><span class="line">v.setX(event.getRawX()-v.getWidth()/2);</span><br><span class="line">v.setY(event.getRawY()-v.getHeight()/2);            break;</span><br><span class="line">&#125;        return false;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>此时，Button已经可以跟随手指移动了。<br>现在去自定义一个Behavior让TextView跟随Button一起动！<br>创建一个EasyBehavior类，继承于Behavior<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class EasyBehavior extends CoordinatorLayout.Behavior&lt;TextView&gt; &#123;//这里的泛型是child的类型，也就是观察者View</span><br><span class="line">public EasyBehavior(Context context, AttributeSet attrs) &#123;</span><br><span class="line">super(context, attrs);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override  public boolean layoutDependsOn(CoordinatorLayout parent, TextView child, View dependency) &#123;    //告知监听的dependency是Button</span><br><span class="line">return dependency instanceof Button;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override  //当 dependency(Button)变化的时候，可以对child(TextView)进行操作</span><br><span class="line">public boolean onDependentViewChanged(CoordinatorLayout parent, TextView child, View dependency) &#123;</span><br><span class="line">child.setX(dependency.getX()+200);</span><br><span class="line">child.setY(dependency.getY()+200);</span><br><span class="line">child.setText(dependency.getX()+&quot;,&quot;+dependency.getY());    return true;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意两个方法<br>layoutDependsOn() 代表寻找被观察View<br>onDependentViewChanged() 被观察View变化的时候回调用的方法<br>在onDependentViewChanged中，我们让TextView跟随Button的移动而移动。代码比较简单，一看就懂。<br><strong>Tip</strong><br>必须重写带双参的构造器，因为从xml反射需要调用。<br>接下来，在xml中，给TextView设置我们的Behavior。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView        app:layout_behavior=&quot;.EasyBehavior&quot;</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:text=&quot;观察者View child&quot;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>运行效果如下：<br><img src="http://upload-images.jianshu.io/upload_images/2109293-ea875a964b073026.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h2 id="2-CoordinatorLayout使用"><a href="#2-CoordinatorLayout使用" class="headerlink" title="2.CoordinatorLayout使用"></a>2.CoordinatorLayout使用</h2><p>CoordinatorLayout是谷歌提供的Material Design许多功能的基础，使用它你可以轻松地实现许多动画效果。这些效果包括：<br>1.滑动Floating Action Button为SnackBar的弹起提供空间。<br><img src="http://upload-images.jianshu.io/upload_images/2109293-1943353a6ab8ecf2.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>2.展开或者收起Toolbar为屏幕的主内容提供空间。<br><img src="http://upload-images.jianshu.io/upload_images/2109293-1f74e12c45660d4f.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>3.控制某个应该被收起或展开的View以一定地视差效果完成动作，包括parallax scrolling effects 动画。<br><img src="http://upload-images.jianshu.io/upload_images/2109293-29bb8533530ae46b.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="Floating-Action-Buttons-和-Snackbars"><a href="#Floating-Action-Buttons-和-Snackbars" class="headerlink" title="Floating Action Buttons 和 Snackbars"></a>Floating Action Buttons 和 Snackbars</h4><p><code>FloatingActionButton</code>可以通过layout_anchor和layout_anchorGravity来控制显示的位置。当我们将其显示到屏幕的底端时，它会自动响应SnackBar的弹起或收起：SnackBar弹起后FloatingActionButton也弹起SnackBar的高度，收起后FloatingActionButton也收起。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.CoordinatorLayout</span><br><span class="line">android:id=&quot;@+id/main_content&quot;</span><br><span class="line">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.RecyclerView</span><br><span class="line">android:id=&quot;@+id/rvToDoList&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.design.widget.FloatingActionButton</span><br><span class="line">android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:layout_gravity=&quot;bottom|right&quot;</span><br><span class="line">android:layout_margin=&quot;16dp&quot;</span><br><span class="line">android:src=&quot;@mipmap/ic_launcher&quot;</span><br><span class="line">app:layout_anchor=&quot;@id/rvToDoList&quot;</span><br><span class="line">app:layout_anchorGravity=&quot;bottom|right|end&quot;/&gt;</span><br><span class="line">&lt;/android.support.design.widget.CoordinatorLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Expanding-和-Collapsing-Toolbars"><a href="#Expanding-和-Collapsing-Toolbars" class="headerlink" title="Expanding 和 Collapsing Toolbars"></a>Expanding 和 Collapsing Toolbars</h4><p>1.确保CoordinatorLayout是主容器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.CoordinatorLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">android:id=&quot;@+id/main_content&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.Toolbar</span><br><span class="line">android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android.support.design.widget.CoordinatorLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>2.为了响应滑动事件，我们必须使用AppBarLayout:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.AppBarLayout</span><br><span class="line">android:id=&quot;@+id/appbar&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;@dimen/detail_backdrop_height&quot;</span><br><span class="line">android:theme=&quot;@style/ThemeOverlay.AppCompat.Dark.ActionBar&quot;</span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.Toolbar</span><br><span class="line">android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android.support.design.widget.AppBarLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>为了让滑动的View始终在AppBarLayout的下面，需要为滑动的View定义<code>layout_behavior</code>为@string/appbar_scrolling_view_behavior。我们还可以通过<code>app:layout_scrollFlags</code>控制AppBarLayout中的子View响应RecycleView的滑动。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.AppBarLayout</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;</span><br><span class="line">android:theme=&quot;@style/ThemeOverlay.AppCompat.Dark.ActionBar&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.Toolbar</span><br><span class="line">android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;?attr/actionBarSize&quot;</span><br><span class="line">app:layout_scrollFlags=&quot;scroll|enterAlways&quot;/&gt;</span><br><span class="line">&lt;android.support.v7.widget.RecyclerView</span><br><span class="line">android:id=&quot;@+id/rvToDoList&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;/&gt;</span><br><span class="line">&lt;/android.support.design.widget.AppBarLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>关于layout_scrollFlags的值这里解释一下：</p>
+<ol>
+<li>scroll - 想滚动就必须设置这个。</li>
+<li>enterAlways - 实现quick return效果, 当向下移动时，立即显示View（比如Toolbar)。</li>
+<li>exitUntilCollapsed - 向上滚动时收缩View，但可以固定Toolbar一直在上面(可通过minHeight设置)。</li>
+<li>enterAlwaysCollapsed - 当你的View已经设置minHeight属性又使用此标志时，你的View只能以最小高度进入，只有当滚动视图到达顶部时才扩大到完整高度。</li>
+<li>snap - 如果头部滑动操作超过50%的距离，则自动关闭。如果头部滑动操作不超过50%的距离，则不关闭。</li>
+</ol>
+<h4 id="创建折叠效果"><a href="#创建折叠效果" class="headerlink" title="创建折叠效果"></a>创建折叠效果</h4><p>CollapsingToolbarLayout作用是提供了一个可以折叠的Toolbar，它继承至FrameLayout，给它设置layout_scrollFlags，它可以控制包含在CollapsingToolbarLayout中的控件(如：ImageView、Toolbar)在响应layout_behavior事件时作出相应的scrollFlags滚动事件(移除屏幕或固定在屏幕顶端)。<br>使用CollapsingToolbarLayout：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.AppBarLayout  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;256dp&quot;  </span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;&gt;  </span><br><span class="line">&lt;android.support.design.widget.CollapsingToolbarLayout  </span><br><span class="line">android:id=&quot;@+id/collapsing_toolbar_layout&quot;  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;match_parent&quot;  </span><br><span class="line">app:contentScrim=&quot;#30469b&quot;  </span><br><span class="line">app:expandedTitleMarginStart=&quot;48dp&quot;  </span><br><span class="line">app:layout_scrollFlags=&quot;scroll|exitUntilCollapsed&quot;&gt;  </span><br><span class="line"></span><br><span class="line">&lt;ImageView  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;match_parent&quot;  </span><br><span class="line">android:scaleType=&quot;centerCrop&quot;  </span><br><span class="line">android:src=&quot;@mipmap/bg&quot;  </span><br><span class="line">app:layout_collapseMode=&quot;parallax&quot;  </span><br><span class="line">app:layout_collapseParallaxMultiplier=&quot;0.7&quot;  /&gt;  </span><br><span class="line"></span><br><span class="line">&lt;android.support.v7.widget.Toolbar  </span><br><span class="line">android:id=&quot;@+id/toolbar&quot;  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;?attr/actionBarSize&quot;  </span><br><span class="line">app:layout_collapseMode=&quot;pin&quot; /&gt;  </span><br><span class="line">&lt;/android.support.design.widget.CollapsingToolbarLayout&gt;  </span><br><span class="line">&lt;android.support.v7.widget.RecyclerView  </span><br><span class="line">android:id=&quot;@+id/recyclerView&quot;  </span><br><span class="line">android:layout_width=&quot;match_parent&quot;  </span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;</span><br><span class="line">android:scrollbars=&quot;none&quot; /&gt;  </span><br><span class="line">&lt;/android.support.design.widget.AppBarLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>1、在CollapsingToolbarLayout中设置了一个ImageView和一个Toolbar。并把这个CollapsingToolbarLayout放到AppBarLayout中作为一个整体。<br>在CollapsingToolbarLayout中，我们除了设置layout_scrollFlags，还可以设置一些其它的属性，简要说明一下：</p>
+<ul>
+<li>contentScrim - 设置当完全CollapsingToolbarLayout折叠(收缩)后的背景颜色。</li>
+<li>expandedTitleMarginStart - 设置扩张时候(还没有收缩时)title向左填充的距离。</li>
+</ul>
+<p>没扩张时候如图：<br><img src="http://upload-images.jianshu.io/upload_images/2109293-21aae12b551fbe4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>2、在ImageView控件中：<br>我们设置了layout_collapseMode (折叠模式) - 有两个值:</p>
+<ul>
+<li>pin -  设置为这个模式时，当CollapsingToolbarLayout完全收缩后，Toolbar还可以保留在屏幕上。</li>
+<li>parallax - 设置为这个模式时，在内容滚动时，CollapsingToolbarLayout中的View（比如ImageView)也可以同时滚动，实现视差滚动效果，通常和layout_collapseParallaxMultiplier(设置视差因子)搭配使用。</li>
+<li>layout_collapseParallaxMultiplier(视差因子) - 设置视差滚动因子，值为：0~1。</li>
+</ul>
+<p>3、在Toolbar控件中，我们设置了layout_collapseMode(折叠模式)为pin。<br>综上分析：当设置了layout_behavior的控件响应起了CollapsingToolbarLayout中的layout_scrollFlags事件时，ImageView会有视差效果的向上滚动移除屏幕，当开始折叠时CollapsingToolbarLayout的背景色(也就是Toolbar的背景色)就会变为我们设置好的背景色，Toolbar也一直会固定在最顶端。<br>效果如图:<br><img src="http://upload-images.jianshu.io/upload_images/2109293-c63cc9b50294775f.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<blockquote>
+<p><strong>注意：</strong><br>使用CollapsingToolbarLayout时必须把title设置到CollapsingToolbarLayout上，设置到Toolbar上不会显示。即：mCollapsingToolbarLayout.setTitle(“ “);</p>
+</blockquote>
+<h4 id="Bottom-Sheet"><a href="#Bottom-Sheet" class="headerlink" title="Bottom Sheet"></a>Bottom Sheet</h4><p>有两种类型的<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/0327/7729.html" target="_blank" rel="noopener">Bottom Sheet</a>：<br>1.<strong>Persistent bottom sheet :</strong>通常用于显示主界面之外的额外信息，它是主界面的一部分，只不过默认被隐藏了，其深度（elevation）跟主界面处于同一级别；还有一个重要特点是在Persistent bottom sheet打开的时候，主界面仍然是可以操作的。ps：Persistent bottom sheet该如何翻译呢？我觉得翻译为普通bottom sheet就好了，还看到有人翻译为“常驻bottom sheet”，可能更接近于英语的字面意思，可是反而不易理解。<br><img src="http://upload-images.jianshu.io/upload_images/2109293-debe700c67d49cb1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>2.<strong>模态bottom sheet :</strong>顾名思义，模态的bottom sheet在打开的时候会阻止和主界面的交互，并且在视觉上会在bottom sheet背后加一层半透明的阴影，使得看上去深度（elevation）更深。<br>总结起来这两种Bottom Sheet的区别主要在于视觉和交互上，当然使用方法也是不一样的。<br><img src="http://upload-images.jianshu.io/upload_images/2109293-7488ad178c09cffc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<hr>
+<p><strong>参考资料</strong><br><a href="https://guides.codepath.com/android/Handling-Scrolls-with-CoordinatorLayout#troubleshooting-coordinated-layouts" target="_blank" rel="noopener">CoordinatorLayout介绍</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Coordinatorlayout/" rel="tag"># Coordinatorlayout</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/16/Git使用规则补充/" rel="next" title="Git使用规则补充">
+                <i class="fa fa-chevron-left"></i> Git使用规则补充
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-自定义Behavior"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1-&#x81EA;&#x5B9A;&#x4E49;Behavior" class="headerlink" title="1.&#x81EA;&#x5B9A;&#x4E49;Behavior"></a>1.&#x81EA;&#x5B9A;&#x4E49;Behavior</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础概念"><span class="nav-number">1.0.1.</span> <span class="nav-text"><a href="#&#x57FA;&#x7840;&#x6982;&#x5FF5;" class="headerlink" title="&#x57FA;&#x7840;&#x6982;&#x5FF5;"></a>&#x57FA;&#x7840;&#x6982;&#x5FF5;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-CoordinatorLayout使用"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2-CoordinatorLayout&#x4F7F;&#x7528;" class="headerlink" title="2.CoordinatorLayout&#x4F7F;&#x7528;"></a>2.CoordinatorLayout&#x4F7F;&#x7528;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Floating-Action-Buttons-和-Snackbars"><span class="nav-number">2.0.1.</span> <span class="nav-text"><a href="#Floating-Action-Buttons-&#x548C;-Snackbars" class="headerlink" title="Floating Action Buttons &#x548C; Snackbars"></a>Floating Action Buttons &#x548C; Snackbars</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Expanding-和-Collapsing-Toolbars"><span class="nav-number">2.0.2.</span> <span class="nav-text"><a href="#Expanding-&#x548C;-Collapsing-Toolbars" class="headerlink" title="Expanding &#x548C; Collapsing Toolbars"></a>Expanding &#x548C; Collapsing Toolbars</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建折叠效果"><span class="nav-number">2.0.3.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;&#x6298;&#x53E0;&#x6548;&#x679C;" class="headerlink" title="&#x521B;&#x5EFA;&#x6298;&#x53E0;&#x6548;&#x679C;"></a>&#x521B;&#x5EFA;&#x6298;&#x53E0;&#x6548;&#x679C;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bottom-Sheet"><span class="nav-number">2.0.4.</span> <span class="nav-text"><a href="#Bottom-Sheet" class="headerlink" title="Bottom Sheet"></a>Bottom Sheet</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
