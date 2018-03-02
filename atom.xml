@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>唐先明的博客</title>
+  <title>唐先明de博客</title>
   
   
   <link href="/atom.xml" rel="self"/>
@@ -210,9 +210,9 @@
       <category term="我的Android框架" scheme="http://yoursite.com/categories/%E6%88%91%E7%9A%84Android%E6%A1%86%E6%9E%B6/"/>
     
     
-      <category term="框架" scheme="http://yoursite.com/tags/%E6%A1%86%E6%9E%B6/"/>
-    
       <category term="View" scheme="http://yoursite.com/tags/View/"/>
+    
+      <category term="框架" scheme="http://yoursite.com/tags/%E6%A1%86%E6%9E%B6/"/>
     
   </entry>
   
@@ -421,9 +421,9 @@
       <category term="我的Android框架" scheme="http://yoursite.com/categories/%E6%88%91%E7%9A%84Android%E6%A1%86%E6%9E%B6/"/>
     
     
-      <category term="Cache" scheme="http://yoursite.com/tags/Cache/"/>
-    
       <category term="框架" scheme="http://yoursite.com/tags/%E6%A1%86%E6%9E%B6/"/>
+    
+      <category term="Cache" scheme="http://yoursite.com/tags/Cache/"/>
     
   </entry>
   
