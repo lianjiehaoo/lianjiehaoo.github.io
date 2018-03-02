@@ -100,7 +100,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-216c5583d760f537.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-c5b1fcba143015f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-9974de0ded907081.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-12-29T12:15:16.462Z">
+<meta property="og:updated_time" content="2018-02-28T04:32:13.112Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Studio NDK开发全攻略">
 <meta name="twitter:description" content="读完本章，你可以：  在Android Studio上轻松搭建NDK开发环境。 掌握最快捷的JNI开发方式。 掌握使用.so文件开发Android程序的技巧。">
@@ -439,7 +439,7 @@
 <li>讲道理，我们在正式开发时，不会像这样子去开发。因为这样的话就会把我们的c代码也暴露了出来。这明显与JNI的安全保密机制相违背，所以，正式开发的时候，我们会使用.so文件进行全保密式的开发。</li>
 </ul>
 </blockquote>
-<h3 id="三、-使用-so文件开发Android程序"><a href="#三、-使用-so文件开发Android程序" class="headerlink" title="三、 使用.so文件开发Android程序"></a>三、 使用.so文件开发Android程序</h3><p>不知道大家有没有记得<a href="http://www.jianshu.com/p/cd8893549238" target="_blank" rel="noopener">上一章</a>说过，使用JNI有个好处就是安全性高，JNI部分的代码很难被反编译。这其实是要归功于.so文件。下图为.so文件的生成位置。<br><img src="http://upload-images.jianshu.io/upload_images/2109293-bb1e5e5126c27518.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Android Studio中生成的.so文件位置"><br>具体的使用步骤是怎样的呢？</p>
+<h3 id="三、-使用-so文件开发Android程序"><a href="#三、-使用-so文件开发Android程序" class="headerlink" title="三、 使用.so文件开发Android程序"></a>三、 使用.so文件开发Android程序</h3><p>不知道大家有没有记得<a href="https://kimball325.github.io/2016/08/06/%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/" target="_blank" rel="noopener">上一章</a>说过，使用JNI有个好处就是安全性高，JNI部分的代码很难被反编译。这其实是要归功于.so文件。下图为.so文件的生成位置。<br><img src="http://upload-images.jianshu.io/upload_images/2109293-bb1e5e5126c27518.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Android Studio中生成的.so文件位置"><br>具体的使用步骤是怎样的呢？</p>
 <ol>
 <li>新建一个Android工程，命名为：AndroidApplication。（工程名、包名、组织名任意）<br><img src="http://upload-images.jianshu.io/upload_images/2109293-216c5583d760f537.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一个随意的Android工程"></li>
 <li>导入.so文件至app/libs中。<br><img src="http://upload-images.jianshu.io/upload_images/2109293-c5b1fcba143015f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="导入.so文件至Android工程"></li>

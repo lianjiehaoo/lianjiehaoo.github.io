@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="TXM">
 <meta property="og:description" content="为什么要使用正则表达式？节省代码，爱护队友。  在正式介绍之前，先贴一段使用了正则表达式的代码吧。12345String phoneNum = &amp;quot;16510758936&amp;quot;;String patternString = &amp;quot;\\d&amp;#123;11&amp;#125;&amp;quot;;Pattern pattern = Pattern.compile(patternString);M">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-23T16:36:16.602Z">
+<meta property="og:updated_time" content="2018-02-28T06:47:22.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java正则表达式详解">
 <meta name="twitter:description" content="为什么要使用正则表达式？节省代码，爱护队友。  在正式介绍之前，先贴一段使用了正则表达式的代码吧。12345String phoneNum = &amp;quot;16510758936&amp;quot;;String patternString = &amp;quot;\\d&amp;#123;11&amp;#125;&amp;quot;;Pattern pattern = Pattern.compile(patternString);M">
@@ -414,7 +414,7 @@
 <h5 id="边界匹配"><a href="#边界匹配" class="headerlink" title="边界匹配"></a>边界匹配</h5><p>正则表达式支持匹配边界，例如单词边界，文本的开头或末尾。例如，\w 匹配一个单词，^匹配行首,$ 匹配行尾。<br>^This is a single line$<br>上面的表达式匹配一行文本，只有文本 This is a single line。注意其中的行首和行尾标志，表示不能有任何文本在文本的前面后后面，只能是行首和行尾。<br>完整的匹配边界列表，在本文最后列出。</p>
 <h5 id="量词匹配"><a href="#量词匹配" class="headerlink" title="量词匹配"></a>量词匹配</h5><p>量词可以匹配一个表达式多次出现。例如下列表达式匹配字母A 出现0次或多次。<br>A*<br>量词 * 表示0次或多次。+ 表示1次或多次。? 表示0次或1次。还有些其他量词，参见本文后面的列表。<br>量词匹配分为：饥饿模式,贪婪模式,独占模式。饥饿模式 匹配尽可能少的文本。贪婪模式匹配尽可能多的文本。独占模式匹配尽可能多的文本，甚至导致剩余表达式匹配失败。<br>以下演示饥饿模式,贪婪模式,独占模式区别。假设以下文本：<br>John went for a walk, and John fell down, and John hurt his knee.<br>饥饿模式下 表达式：<br>John.*?<br>这个表达式匹配John 后跟0个或多个字符。 . 表示任意字符。* 表示0或多次。? 跟在 * 后面，表示 * 采用饥饿模式。<br>饥饿模式下，量词只会匹配尽可能少的字符，即0个字符。上例中的表达式将会匹配单词John,在输入文本中出现3次。<br>如果改为贪婪模式，表达式如下：<br>John.*<br>贪婪模式下，量词会匹配尽可能多的字符。现在表达式会匹配第一个出现的John，以及在贪婪模式下 匹配剩余的所有字符。这样，只有一个匹配项。<br>最后，我们改为独占模式：<br>John.*+hurt<br>*后跟+ 表示独占模式量词。<br>这个表达式在输入文本中没有匹配项，尽管文本中包括 John 和 hurt. 为什么会这样? 因为 .*+ 是独占模式。与贪婪模式下，尽可能多的匹配文本，以使整个表达式匹配不同。独占模式会尽可能的多的匹配，但不考虑表达式剩余部分是否能匹配上。<br>.*+ 将会匹配第一个John之后的所有字符，这会导致表达式中剩余的 hurt 没有匹配项。如果改为贪婪模式，会有一个匹配项。表达式如下：<br>John.*hurt</p>
 <h5 id="逻辑操作符"><a href="#逻辑操作符" class="headerlink" title="逻辑操作符"></a>逻辑操作符</h5><p>正则表达式支持少量的逻辑运算(与，或，非)。<br>与操作是默认的，表达式 John ,意味着J 与 o与h与n。<br>或操作需要显示指定，用 | 表示。例如表达式 John|hurt 意味着John 或 hurt 。</p>
-<h5 id="特殊操作"><a href="#特殊操作" class="headerlink" title="?!特殊操作"></a>?!特殊操作</h5><p> ?!帮我们解决了字符串“不包含”匹配的问题，例如表达式 ^(?!.<em>went).</em>$ 意味着匹配的字符串中不能包含“went”字符串。</p>
+<h5 id="特殊操作"><a href="#特殊操作" class="headerlink" title="?!特殊操作"></a>?!特殊操作</h5><p> ?!帮我们解决了字符串“不包含”匹配的问题，例如表达式 ^(?!.*went).*$ 意味着匹配的字符串中不能包含“went”字符串。</p>
 <h3 id="字符-1"><a href="#字符-1" class="headerlink" title="字符"></a>字符</h3><table>
 <thead>
 <tr>

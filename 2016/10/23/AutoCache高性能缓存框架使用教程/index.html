@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-d934024b5cb541e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-8b44b4cfd957789e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-7880687895d6e259.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-01-29T12:49:20.976Z">
+<meta property="og:updated_time" content="2018-02-28T04:39:49.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AutoCache高性能缓存框架使用教程">
 <meta name="twitter:description" content="读者可能会问在下：  为什么要使用AutoCache？简洁、高性能。 现在市面上有那么多缓存的框架，像piccso等都很优秀，那笔者是不是在重复造车？AutoCache是为那些追求轻量级缓存的APP而生的。目的是让开发者既能快速完成APP缓存功能的开发，又能保证上线后性能的稳定。">
@@ -384,16 +384,16 @@
 </blockquote>
 <a id="more"></a> 
 <p><a href="https://github.com/tangxianming/auto-cache" target="_blank" rel="noopener">AutoCache</a> 能够让你高效地编写app缓存代码 ，保证你的数据流被安全、准确地存储到SDcard私有目录。参考下列核心调用代码来开始你的 AutoCache 之旅：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.MediaCache.getInstance(context).asyncCache(&quot;url&quot;, new CallBack() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void onStart() &#123;</span><br><span class="line">//Run in UI thread.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void save2DataBase(String cachePath) &#123;</span><br><span class="line">//Run in io thread,</span><br><span class="line">//You can sava the  cachPath to database or sharepreference.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onSuccess(byte[] bytes) &#123;</span><br><span class="line">//Run in UI thread.</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onErro(Throwable e) &#123;</span><br><span class="line">//Run in UI thread.</span><br><span class="line">&#125;</span><br><span class="line">&#125;, FILE_TYPE, &quot;filename&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>#集成方法<br>在Module的build.gradle文件中添加如下依赖即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.txm.topcodes.autocache:autocache:0.1.2&apos;</span><br></pre></td></tr></table></figure></p>
-<p>#调用方式<br>为方便开发者，AutoCache提供统一调用入口，调用方式十分简洁。下面先给大家看一张思维导图，该图罗列了框架的主体功能及其构成。</p>
+<h1 id="集成方法"><a href="#集成方法" class="headerlink" title="集成方法"></a>集成方法</h1><p>在Module的build.gradle文件中添加如下依赖即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.txm.topcodes.autocache:autocache:0.1.2&apos;</span><br></pre></td></tr></table></figure></p>
+<h1 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h1><p>为方便开发者，AutoCache提供统一调用入口，调用方式十分简洁。下面先给大家看一张思维导图，该图罗列了框架的主体功能及其构成。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2109293-8b44b4cfd957789e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AutoCache功能结构图"></p>
 <p>从结构图不难看出，<strong>AutoCache类</strong>就是调用框架的入口类。当我们需要从本地获取流文件时，调用方式是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.Media.get…();</span><br></pre></td></tr></table></figure></p>
 <p>缓存网络文件时，调用方式是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.MediaCache.getInstance(context).asyncCache();</span><br></pre></td></tr></table></figure></p>
 <p>缓存内存文件时，调用方式是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.MediaCache.getInstance(context).cache();</span><br></pre></td></tr></table></figure></p>
 <p>当需要指定文件文件类型时，使用方式是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.DIRECTORY_PICTURES</span><br></pre></td></tr></table></figure></p>
 <p>「如需获取详细信息，请在 <a href="https://github.com/tangxianming/auto-cache" target="_blank" rel="noopener">GitHub 的 auto-cache页面</a>查看源代码.」</p>
-<p>#文件类型<br>AutoCache支持缓存以下泛媒体类型：Podcasts,Pictures,Movies,Music,Documents,Download。<em>其中Download比较特殊，用它可以指定未知的文件类型。</em></p>
-<p>#使用场景<br>当我们的APP从网络获取文件流时，往往会有这样的需求「也可能是其中之一」：</p>
+<h1 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h1><p>AutoCache支持缓存以下泛媒体类型：Podcasts,Pictures,Movies,Music,Documents,Download。<em>其中Download比较特殊，用它可以指定未知的文件类型。</em></p>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>当我们的APP从网络获取文件流时，往往会有这样的需求「也可能是其中之一」：</p>
 <ol>
 <li>网络请求时，要可以自动将文件保存到APP本地。</li>
 <li>网络请求时，将网络图片的本地路径存储到SQLite或其它数据持久化中，以方便逻辑处理。</li>
@@ -412,12 +412,10 @@
 <p><strong>对于需求4。</strong>AutoCache提供了onstart()回调方法作为调用开始的标志，onSuccess(byte[] bytes)或onErro(Throwable e)作为调用结束点。</p>
 <p><strong>对于需求5。</strong>全局捕获异常指的是：onErro(Throwable e)不仅可以捕获网络异常、本地缓存媒体时发生的异常，而且还可以捕获发生在onStart、save2DataBase、onSuccess中的异常。</p>
 <p><strong>对于需求6。</strong>AutoCache.Media类提供了4种同步方式来获取本地的媒体流。</p>
-<p>#最佳实践</p>
-<hr>
+<h1 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h1><hr>
 <p>####防止OOM<br>AutoCache.Media类中提供了getSoftBmp(~)，getWeakBmp(~)，getBmp(~)，getFile(~)四种方式来获取流。如果是图片文件，笔者建议使用前两种方式，具体可参考<a href="http://www.cnblogs.com/dolphin0520/p/3784171.html" target="_blank" rel="noopener">善于利用软引用和弱引用。</a></p>
 <p>####定制回调方法<br>AutoCache框架提供了CallBackAdapter接口用于替换CallBack接口。可以通过它实现自由定制自己需要的回调方法。「这样是为了代码看上去简洁。」<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.MediaCache.getInstance(context).asyncCache(&quot;url&quot;, new CallBackAdapter() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void save2DataBase(String cachePath) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public void onSuccess(byte[] bytes) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">//you can add other callback function here.</span><br><span class="line">&#125;,FILE_TYPE,&quot;filename&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>#FAQ</p>
-<hr>
+<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><hr>
 <p><strong>我发现AutoCache还存在BUG？</strong><br>AutoCache是一个完全开源的框架，如果您在使用过程中发现问题，请在<a href="https://github.com/tangxianming/auto-cache/issues" target="_blank" rel="noopener">GitHub</a>创建一个问题。</p>
 <p><strong>我是Eclipse用户，可以使用AutoCache么？</strong><br>不可以。</p>
 <p><strong>AutoCache用到了哪些第三方框架？</strong><br>是的。AutoCache是在RXjava+Okhttp基础之上封装的一个轻量级缓存框架。</p>
@@ -519,8 +517,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -593,6 +600,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集成方法"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x96C6;&#x6210;&#x65B9;&#x6CD5;" class="headerlink" title="&#x96C6;&#x6210;&#x65B9;&#x6CD5;"></a>&#x96C6;&#x6210;&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调用方式"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8C03;&#x7528;&#x65B9;&#x5F0F;" class="headerlink" title="&#x8C03;&#x7528;&#x65B9;&#x5F0F;"></a>&#x8C03;&#x7528;&#x65B9;&#x5F0F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件类型"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x6587;&#x4EF6;&#x7C7B;&#x578B;" class="headerlink" title="&#x6587;&#x4EF6;&#x7C7B;&#x578B;"></a>&#x6587;&#x4EF6;&#x7C7B;&#x578B;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用场景"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x573A;&#x666F;" class="headerlink" title="&#x4F7F;&#x7528;&#x573A;&#x666F;"></a>&#x4F7F;&#x7528;&#x573A;&#x666F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最佳实践"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x6700;&#x4F73;&#x5B9E;&#x8DF5;" class="headerlink" title="&#x6700;&#x4F73;&#x5B9E;&#x8DF5;"></a>&#x6700;&#x4F73;&#x5B9E;&#x8DF5;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FAQ"><span class="nav-number">6.</span> <span class="nav-text"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
