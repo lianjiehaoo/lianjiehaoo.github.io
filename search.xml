@@ -89,6 +89,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Android中退出APP的解决方案]]></title>
+    <url>%2F2017%2F06%2F20%2FAndroid%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%2F</url>
+    <content type="text"><![CDATA[对于单一Activity的应用来说，退出很简单，直接调用finish（）方法即可。但是对于多个activity的应用来说，当打开多个activity后，想再最后一个activity中直接退出app，这就需要每个activity都关掉，然后退出。下面介绍四种安全退出已调用多个activity的application的方法。 抛出异常退出该方法通过抛出异常，使程序强制关闭。但是，这种方法会让程序弹出Force close的弹窗，用户体验很差。 记录打开的activity并逐一关闭这种方法的操作需要抽取到Activity的父类中进行，在父类的onCreate()中将每个打开的Activity加载到一个activity的集合中。当退出时，需要在父类定义一个killAll()方法，在该方法复制一个Activity的集合，然后遍历复制后的集合关闭所有打开的Activity。 发送特定广播实现安全退出（推荐）在需要结束应用时，发送一个特定广播，每个Activity收到广播后，关闭即可。在这个过程中，注册广播接受者的逻辑可以抽取到父类中实现，需要安全退出时，发送的action为注册时指定的action即可，所有开启的activity都注册有能够响应改action的广播接受者，广播接受者接受到此类广播后，将直接调用finish（）方法，关闭当前Activity。 递归退出每个Activity当需要打开新的activity时，使用startActivityForResult()方法打开Activity,需要退出整个应用时，自定义一个标志退出的Flag，在各个activity的onActivityResult方法中处理该Flay，来实现递归关闭。]]></content>
+      <categories>
+        <category>四大组件</category>
+      </categories>
+      <tags>
+        <tag>退出APP</tag>
+        <tag>广播</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[GlobalDialog框架使用教程]]></title>
     <url>%2F2017%2F06%2F10%2FGlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%2F</url>
     <content type="text"><![CDATA[GlobalDialog是由ITalk应用开源的一款全局对话框库。相比于Android原生对话框的繁琐配置，GlobalDialog的优势在于能够快速实现全局对话框的功能（通知账号下线、通知账号异常等）。进一步了解，请访问笔者的Github。 #集成方法在Module的build.gradle文件中添加如下依赖即可。1compile &apos;com.txm.topcodes.globaldialog:globaldialog:0.1.6&apos; #调用方式常规方式：1234567891011new GlobalDialog.Builder().setContext(context) .setDescription(&quot;hello world&quot;) //弹出框的提示信息。.setStyle(GlobalDialog.Style.SingleAlert) //弹窗的样式。有DoubleAlert、SingleAlert两种，默认为后者。.setForce(ture) //设置弹框销毁的策略。默认为true。.setDialogClickListener(new OnDialogClickListener() &#123; //设置回调，也可以不设置。@Overridepublic void onSure() &#123;super.onSure();&#125;&#125;).build().show(); 精简方式：1234new GlobalDialog.Builder().setContext(context) .setDescription(&quot;hello world&quot;) .build().show(); #FAQ 我发现GlobalDialog还存在BUG？GlobalDialog是一个完全开源的框架，如果您在使用过程中发现问题，欢迎在笔者的GitHub创建一个Issue。 我是Eclipse用户，可以使用GlobalDialog么？不可以。 我在Android studio中链接GlobalDialog库失败了？确保您的工程使用的远程仓库为jcenter。12345allprojects &#123;repositories &#123;jcenter()&#125;&#125;]]></content>
@@ -96,8 +108,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>View</tag>
         <tag>框架</tag>
+        <tag>View</tag>
       </tags>
   </entry>
   <entry>
@@ -191,8 +203,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>框架</tag>
         <tag>Cache</tag>
+        <tag>框架</tag>
       </tags>
   </entry>
   <entry>

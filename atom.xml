@@ -193,6 +193,30 @@
   </entry>
   
   <entry>
+    <title>Android中退出APP的解决方案</title>
+    <link href="http://yoursite.com/2017/06/20/Android%E4%B8%AD%E9%80%80%E5%87%BAAPP%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>http://yoursite.com/2017/06/20/Android中退出APP的解决方案/</id>
+    <published>2017-06-20T03:23:06.000Z</published>
+    <updated>2018-03-06T03:28:59.662Z</updated>
+    
+    <content type="html"><![CDATA[<p>对于单一Activity的应用来说，退出很简单，直接调用<code>finish（）</code>方法即可。但是对于多个activity的应用来说，当打开多个activity后，想再最后一个activity中直接退出app，这就需要每个activity都关掉，然后退出。下面介绍四种安全退出已调用多个activity的application的方法。<a id="more"></a></p><h1 id="抛出异常退出"><a href="#抛出异常退出" class="headerlink" title="抛出异常退出"></a>抛出异常退出</h1><p>该方法通过抛出异常，使程序强制关闭。但是，这种方法会让程序弹出Force close的弹窗，用户体验很差。</p><h1 id="记录打开的activity并逐一关闭"><a href="#记录打开的activity并逐一关闭" class="headerlink" title="记录打开的activity并逐一关闭"></a>记录打开的activity并逐一关闭</h1><p>这种方法的操作需要抽取到Activity的父类中进行，在父类的<code>onCreate()</code>中将每个打开的Activity加载到一个activity的集合中。当退出时，需要在父类定义一个killAll()方法，在该方法复制一个Activity的集合，然后遍历复制后的集合关闭所有打开的Activity。</p><h1 id="发送特定广播实现安全退出（推荐）"><a href="#发送特定广播实现安全退出（推荐）" class="headerlink" title="发送特定广播实现安全退出（推荐）"></a>发送特定广播实现安全退出（推荐）</h1><p>在需要结束应用时，发送一个特定广播，每个Activity收到广播后，关闭即可。在这个过程中，注册广播接受者的逻辑可以抽取到父类中实现，需要安全退出时，发送的action为注册时指定的action即可，所有开启的activity都注册有能够响应改action的广播接受者，广播接受者接受到此类广播后，将直接调用<code>finish（）</code>方法，关闭当前Activity。</p><h1 id="递归退出每个Activity"><a href="#递归退出每个Activity" class="headerlink" title="递归退出每个Activity"></a>递归退出每个Activity</h1><p>当需要打开新的activity时，使用<code>startActivityForResult()</code>方法打开Activity,需要退出整个应用时，自定义一个标志退出的Flag，在各个activity的<code>onActivityResult</code>方法中处理该Flay，来实现递归关闭。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;对于单一Activity的应用来说，退出很简单，直接调用&lt;code&gt;finish（）&lt;/code&gt;方法即可。但是对于多个activity的应用来说，当打开多个activity后，想再最后一个activity中直接退出app，这就需要每个activity都关掉，然后退出。下面介绍四种安全退出已调用多个activity的application的方法。
+    
+    </summary>
+    
+      <category term="四大组件" scheme="http://yoursite.com/categories/%E5%9B%9B%E5%A4%A7%E7%BB%84%E4%BB%B6/"/>
+    
+    
+      <category term="退出APP" scheme="http://yoursite.com/tags/%E9%80%80%E5%87%BAAPP/"/>
+    
+      <category term="广播" scheme="http://yoursite.com/tags/%E5%B9%BF%E6%92%AD/"/>
+    
+  </entry>
+  
+  <entry>
     <title>GlobalDialog框架使用教程</title>
     <link href="http://yoursite.com/2017/06/10/GlobalDialog%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/06/10/GlobalDialog框架使用教程/</id>
@@ -210,9 +234,9 @@
       <category term="我的Android框架" scheme="http://yoursite.com/categories/%E6%88%91%E7%9A%84Android%E6%A1%86%E6%9E%B6/"/>
     
     
-      <category term="View" scheme="http://yoursite.com/tags/View/"/>
-    
       <category term="框架" scheme="http://yoursite.com/tags/%E6%A1%86%E6%9E%B6/"/>
+    
+      <category term="View" scheme="http://yoursite.com/tags/View/"/>
     
   </entry>
   
@@ -333,16 +357,14 @@
     <link href="http://yoursite.com/2016/12/28/%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/"/>
     <id>http://yoursite.com/2016/12/28/优秀资料收集/</id>
     <published>2016-12-28T00:34:56.000Z</published>
-    <updated>2018-02-28T00:42:34.502Z</updated>
+    <updated>2018-03-06T03:31:13.627Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="手势检测"><a href="#手势检测" class="headerlink" title="手势检测"></a>手势检测</h1><p>GestureDetector:<a href="http://www.gcssloop.com/customview/gestruedector" target="_blank" rel="noopener">http://www.gcssloop.com/customview/gestruedector</a><br>ScaleGestureDetector:<a href="http://www.27house.cn/archives/526" target="_blank" rel="noopener">http://www.27house.cn/archives/526</a></p><h1 id="Android事件分发机制"><a href="#Android事件分发机制" class="headerlink" title="Android事件分发机制"></a>Android事件分发机制</h1><p>Part01:<a href="http://www.gcssloop.com/customview/dispatch-touchevent-theory" target="_blank" rel="noopener">http://www.gcssloop.com/customview/dispatch-touchevent-theory</a><br>Part02:<a href="http://www.gcssloop.com/customview/dispatch-touchevent-source" target="_blank" rel="noopener">http://www.gcssloop.com/customview/dispatch-touchevent-source</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="手势检测"><a href="#手势检测" class="headerlink" title="手势检测"></a>手势检测</h3><p>GestureDetector:<a href="http://www.gcssloop.com/customview/gestruedector" target="_blank" rel="noopener">http://www.gcssloop.com/customview/gestruedector</a><br>ScaleGestureDetector:<a href="http://www.27house.cn/archives/526" target="_blank" rel="noopener">http://www.27house.cn/archives/526</a></p><h3 id="Android事件分发机制"><a href="#Android事件分发机制" class="headerlink" title="Android事件分发机制"></a>Android事件分发机制</h3><p>Part01:<a href="http://www.gcssloop.com/customview/dispatch-touchevent-theory" target="_blank" rel="noopener">http://www.gcssloop.com/customview/dispatch-touchevent-theory</a><br>Part02:<a href="http://www.gcssloop.com/customview/dispatch-touchevent-source" target="_blank" rel="noopener">http://www.gcssloop.com/customview/dispatch-touchevent-source</a><a id="more"></a></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h1 id=&quot;手势检测&quot;&gt;&lt;a href=&quot;#手势检测&quot; class=&quot;headerlink&quot; title=&quot;手势检测&quot;&gt;&lt;/a&gt;手势检测&lt;/h1&gt;&lt;p&gt;GestureDetector:&lt;a href=&quot;http://www.gcssloop.com/customview/ge
-      
+      &lt;h3 id=&quot;手势检测&quot;&gt;&lt;a href=&quot;#手势检测&quot; class=&quot;headerlink&quot; title=&quot;手势检测&quot;&gt;&lt;/a&gt;手势检测&lt;/h3&gt;&lt;p&gt;GestureDetector:&lt;a href=&quot;http://www.gcssloop.com/customview/gestruedector&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.gcssloop.com/customview/gestruedector&lt;/a&gt;&lt;br&gt;ScaleGestureDetector:&lt;a href=&quot;http://www.27house.cn/archives/526&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.27house.cn/archives/526&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Android事件分发机制&quot;&gt;&lt;a href=&quot;#Android事件分发机制&quot; class=&quot;headerlink&quot; title=&quot;Android事件分发机制&quot;&gt;&lt;/a&gt;Android事件分发机制&lt;/h3&gt;&lt;p&gt;Part01:&lt;a href=&quot;http://www.gcssloop.com/customview/dispatch-touchevent-theory&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.gcssloop.com/customview/dispatch-touchevent-theory&lt;/a&gt;&lt;br&gt;Part02:&lt;a href=&quot;http://www.gcssloop.com/customview/dispatch-touchevent-source&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.gcssloop.com/customview/dispatch-touchevent-source&lt;/a&gt;
     
     </summary>
     
@@ -421,9 +443,9 @@
       <category term="我的Android框架" scheme="http://yoursite.com/categories/%E6%88%91%E7%9A%84Android%E6%A1%86%E6%9E%B6/"/>
     
     
-      <category term="框架" scheme="http://yoursite.com/tags/%E6%A1%86%E6%9E%B6/"/>
-    
       <category term="Cache" scheme="http://yoursite.com/tags/Cache/"/>
+    
+      <category term="框架" scheme="http://yoursite.com/tags/%E6%A1%86%E6%9E%B6/"/>
     
   </entry>
   
@@ -445,37 +467,6 @@
 &lt;li&gt;&lt;em&gt;在Android Studio上轻松搭建NDK开发环境。&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;掌握最快捷的JNI开发方式。&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;掌握使用.so文件开发Android程序的技巧。&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="NDK" scheme="http://yoursite.com/categories/NDK/"/>
-    
-    
-      <category term="NDK" scheme="http://yoursite.com/tags/NDK/"/>
-    
-      <category term="C/C++" scheme="http://yoursite.com/tags/C-C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>七夕前，我认识了NDK</title>
-    <link href="http://yoursite.com/2016/08/06/%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/"/>
-    <id>http://yoursite.com/2016/08/06/七夕前，我认识了NDK/</id>
-    <published>2016-08-06T10:57:00.000Z</published>
-    <updated>2017-12-29T12:19:39.103Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://upload-images.jianshu.io/upload_images/2109293-3952aad8fb71012c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NDK妹子生活照"></p><blockquote><p><strong>看前必读</strong></p><ul><li><em>读完本章，你可以掌握NDK、JNI的概念及其开发流程。</em></li><li><em>阅读时，不必纠结于读不懂的代码结构，后面的教程 都会讲到的。</em></li></ul></blockquote><a id="more"></a> <h3 id="一、为何要学习NDK？"><a href="#一、为何要学习NDK？" class="headerlink" title="一、为何要学习NDK？"></a>一、为何要学习NDK？</h3><ol><li>代码的保护。Android APK的Java层代码很容易被反编译，但C/C++库反编译难度较大。</li><li>可以方便地使用现存的开源库。大部分现存的开源库都是用C/C++代码编写的。</li><li>提高程序的执行效率。将要求高性能的应用逻辑使用C开发，从而提高应用程序的执行效率。</li><li>便于移植。用C/C++写的库可以方便在其他的嵌入式平台上再次使用。</li></ol><h3 id="二、先知道什么是JNI"><a href="#二、先知道什么是JNI" class="headerlink" title="二、先知道什么是JNI"></a>二、先知道什么是JNI</h3><p>JNI（Java Native Interface）是Java语言提供的Java和C/C++互相沟通的机制，可以实现：</p><ol><li>java调用本地的C/C++代码</li><li>本地的C/C++代码也可以调用java代码</li></ol><h3 id="三、开发JNI程序的简化流程"><a href="#三、开发JNI程序的简化流程" class="headerlink" title="三、开发JNI程序的简化流程"></a>三、开发JNI程序的简化流程</h3><ol><li><p>编写Java Code，如下例子：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* 加载lavor本地共享库到内存中</span><br><span class="line">*/</span><br><span class="line">static &#123;</span><br><span class="line">System.loadLibrary(&quot;lavor&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* 定义本地方法对应的Java方法</span><br><span class="line">*</span><br><span class="line">* @return</span><br><span class="line">*/</span><br><span class="line">public native String getString();</span><br></pre></td></tr></table></figure></li><li><p>编写C/C++，如下例子：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;jni.h&gt;</span><br><span class="line">JNIEXPORT jstring JNICALL</span><br><span class="line">Java_com_lavor_ndklearning_MainActivity_getString(JNIEnv *env, jobject instance) &#123;</span><br><span class="line"></span><br><span class="line">return (*env)-&gt;NewStringUTF(env, &quot;这是我的c程序代码&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译 C/C++ Code，成功并得到本地共享库。</p><blockquote><p><strong>小知识</strong> </p><ul><li>本地共享库是Linux下的叫法，文件扩展名是.so，windows下叫动态链接库，文件扩展名是.dll。</li><li><a name="001" id="001">C /C++的跨平台性是以牺牲编译时间以及编译难度为代价的。（<em>这里的编译难度是指为适应不同平台而做的编译过程的调整）</em></a></li><li>Java的一次编译到处运行，是以牺牲运行效率为代价的。</li></ul></blockquote></li><li><p>编译并打包Java。<br>把本地共享库<em>（.so文件）</em>放置到Java项目的指定目录，一般是libs文件夹。然后编译Java代码即可打包运行。</p><blockquote><p><strong>小知识</strong></p><ul><li>Android项目中，.so文件存放地址为libs/armeabi。<em>(armeabi是对应的平台，下一章将会详细介绍)</em></li></ul></blockquote></li></ol><h3 id="四、NDK概述"><a href="#四、NDK概述" class="headerlink" title="四、NDK概述"></a>四、NDK概述</h3><p>NDK<em>(Native  Development Kit)</em>是Google为Android进行本地开发而放出的一个本地开发工具， 包括Android的Native API、公共库以及编译工具。其实说白就是Google为方便Android程序猿开发JNI程序，而提供的便捷工具。</p><blockquote><p><strong>补充两点</strong></p><ul><li>NDK处在JNI开发流程中的编译环节<em>（第三、四步）</em>。针对不同的平台，NDK可以全自动编译出对应可运行的本地共享库，并可将对应的.so文件和应用程序一起打包成apk发布。<em>（这时，跨平台编译C/C++的难度指数降为0。<a href="#001">不明白请猛击</a>）</em></li><li>NDK需要Android 1.5版本以上的支持。</li></ul></blockquote><h3 id="五、开发NDK程序的流程"><a href="#五、开发NDK程序的流程" class="headerlink" title="五、开发NDK程序的流程"></a>五、开发NDK程序的流程</h3><p>这个开发流程大致与JNI的开发流程差不多：</p><ol><li>SDK开发。编写Java代码，调用各种Android的API实现功能，编写含有native关键字的代码开始JNI。</li><li>JNI开发。按照 JNI编码规范，编写与Java交互的本地代码<em>（一般就是数据类型的转换，把 C/C++的数据类转换成Java能识别的，或反过来）</em>。</li><li>C/C++开发。编码实现业务逻辑，或调用NDK提供的本地API或库，完成Android平台上特定功能的开发、封装。</li><li>NDK编译，编写.mk文件，编译调试，最后修改.mk文件，针对特定的平台（ARM/x86）做编译结果的优化。</li><li>最后就是SDK编译、打包，上真机调试了…</li></ol><blockquote><p> 注意啦！<em>此文并非原创，算是对一波优秀文章的总结吧。笔者希望通过这种方式激励自己学习，也期待可以帮到正在学习NDK的你。欢迎指出本文的BUG，共勉！！！！！</em></p></blockquote><hr><p><strong>参考资料</strong><br><a href="http://www.cnblogs.com/devinzhang/archive/2012/02/29/2373729.html" target="_blank" rel="noopener">Android之NDK开发</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://upload-images.jianshu.io/upload_images/2109293-3952aad8fb71012c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;NDK妹子生活照&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;看前必读&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;读完本章，你可以掌握NDK、JNI的概念及其开发流程。&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;阅读时，不必纠结于读不懂的代码结构，后面的教程 都会讲到的。&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
     
