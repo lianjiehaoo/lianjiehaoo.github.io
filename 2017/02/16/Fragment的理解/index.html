@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。 概念Fragment（碎片）是在Android 3.0出现的。可以把Fragment理解成Activity的一个模块化区域，他拥有自己的生命周期，接收属于自己的输入事件，并且可以在Activity运行期间被添加和删除。Fragment必须被">
+<meta name="description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。">
 <meta name="keywords" content="Fragment">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fragment的理解">
 <meta property="og:url" content="http://yoursite.com/2017/02/16/Fragment的理解/index.html">
 <meta property="og:site_name" content="唐先明de博客">
-<meta property="og:description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。 概念Fragment（碎片）是在Android 3.0出现的。可以把Fragment理解成Activity的一个模块化区域，他拥有自己的生命周期，接收属于自己的输入事件，并且可以在Activity运行期间被添加和删除。Fragment必须被">
+<meta property="og:description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T13:01:27.324Z">
+<meta property="og:updated_time" content="2018-03-06T13:02:44.841Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fragment的理解">
-<meta name="twitter:description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。 概念Fragment（碎片）是在Android 3.0出现的。可以把Fragment理解成Activity的一个模块化区域，他拥有自己的生命周期，接收属于自己的输入事件，并且可以在Activity运行期间被添加和删除。Fragment必须被">
+<meta name="twitter:description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。">
 
 
 
@@ -370,7 +370,7 @@
       
 
       
-        <p>碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。</p>
+        <p>碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。<a id="more"></a></p>
 <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>Fragment（碎片）是在Android 3.0出现的。可以把Fragment理解成Activity的一个模块化区域，他拥有自己的生命周期，接收属于自己的输入事件，并且可以在Activity运行期间被添加和删除。Fragment必须被嵌入一个Activity中，它们的生命周期直接受宿主Activity的影响。当一个Activity正在运行时，可以独立的操作其中的每一个Fragment，如添加和删除。<br>Fragment的加载方式有两种：静态加载和动态加载。静态加载很简单，只需把Fragment当成普通UI放在界面Layout中。动态加载需要先了解Fragment事务，事务指的就是原子性，不可分割的操作。所谓的Fragment事务。所谓Fragment事务，就是对Fragment的进行添加、删除、替换或者其它操作，提交给Activity的每一个变化，这就是事务。动态加载的流程如下：</p>
 <ol>
 <li>开启一个新事务；</li>
