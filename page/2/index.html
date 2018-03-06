@@ -861,6 +861,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/Fragment的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/16/Fragment的理解/" itemprop="url">Fragment的理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T20:55:41+08:00">
+                2017-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/四大组件/" itemprop="url" rel="index">
+                    <span itemprop="name">四大组件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。</p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>Fragment（碎片）是在Android 3.0出现的。可以把Fragment理解成Activity的一个模块化区域，他拥有自己的生命周期，接收属于自己的输入事件，并且可以在Activity运行期间被添加和删除。Fragment必须被嵌入一个Activity中，它们的生命周期直接受宿主Activity的影响。当一个Activity正在运行时，可以独立的操作其中的每一个Fragment，如添加和删除。<br>Fragment的加载方式有两种：静态加载和动态加载。静态加载很简单，只需把Fragment当成普通UI放在界面Layout中。动态加载需要先了解Fragment事务，事务指的就是原子性，不可分割的操作。所谓的Fragment事务。所谓Fragment事务，就是对Fragment的进行添加、删除、替换或者其它操作，提交给Activity的每一个变化，这就是事务。动态加载的流程如下：</p>
+<ol>
+<li>开启一个新事务；</li>
+<li>通过事务添加Fragment；</li>
+<li>提交事务，否则添加不成功。<h1 id="Fragment的生命周期"><a href="#Fragment的生命周期" class="headerlink" title="Fragment的生命周期"></a>Fragment的生命周期</h1>Fragment的生命周期与Activity类似，用到的方法如下表所示。<br>| 方法名称| 方法说明 |<br>|————- |————-|<br>| onAttach()         | 绑定Fragment到Activity |<br>|onCreate()   | 创建Fragment |<br>| onCreateView()    | 创建Fragment的布局       |<br>| onActivityCreated()      | Activity创建完成后回调该方法|<br>| onStart()| 可见，不可交互状态|<br>|onResume()   | 可见，可交互状态|<br>| onPause()    |部分可见，不可交互状态|<br>| onStop()   |不可见|<br>| onDestroyView()   |销毁Fragment的View对象|<br>| onDestroy()   |Fragment被销毁|<br>| onDetach()   |Fragment从Activity解绑|<h1 id="Fragment与Activity如何进行交互"><a href="#Fragment与Activity如何进行交互" class="headerlink" title="Fragment与Activity如何进行交互"></a>Fragment与Activity如何进行交互</h1>由于所有的Fragment都依赖与Activity，因此它们之间实现通信并不复杂，大概可以分为两种：一种是在Activity中访问Fragment，一种是在Frament中访问Activity，具体如下：<h4 id="在Activity中访问Frament"><a href="#在Activity中访问Frament" class="headerlink" title="在Activity中访问Frament"></a>在Activity中访问Frament</h4>因为可以在Activity中获取Fragment实例（特殊除外），所以可以直接访问Frament中声明的公有方法。<blockquote>
+<p>小提示：<br>除了直接通过Fragment的公有方法访问外，我们还可以通过接口回调的方式访问Fragment中相关参数。</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="在Fragment中访问Activity"><a href="#在Fragment中访问Activity" class="headerlink" title="在Fragment中访问Activity"></a>在Fragment中访问Activity</h4><p>在Fragment中可以通过<code>getActivity()</code>方法得到当前绑定的Activity的实例，然后进行操作。</p>
+<h1 id="如何切换Fragment"><a href="#如何切换Fragment" class="headerlink" title="如何切换Fragment"></a>如何切换Fragment</h1><p>首先分别获取FragmentMangager与FragmentTransaction的实例，然后创建一个Fragment对象，接下来调用FragmentTransaction对象的replace（）方法和commit方法来完成Fragment的切换。具体代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//获取FragmentManager的实例</span><br><span class="line">FragmentManager fragmentManager=getFragmentManager();</span><br><span class="line">FragmentTransaction transaction=fragmentManager.beginTransaction();</span><br><span class="line">ExampleFragment fragment=new ExampleFragment();//创建一个Fragment</span><br><span class="line">fragmentTransaction.replace(R.id.content,fragment);</span><br><span class="line">fragmentTransaction.commit();</span><br></pre></td></tr></table></figure></p>
+<h1 id="理解addToBackStack"><a href="#理解addToBackStack" class="headerlink" title="理解addToBackStack()"></a>理解addToBackStack()</h1><p>官方的解释：Add this transaction to the back stack.  This means that the transaction will be remembered after it is committed, and will reverse its operation when later popped off the stack.<br>大白话：在commit之前保存此时的状态，之后如果按返回键，可以再次回到此时的状态。<br>一般我们需要使用addToBackStack的话，直接调用addToBackStack(null)即可。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/14/Java并发编程之Lock/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1567,160 +1721,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/14/NDK开发全攻略/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="TXM">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="唐先明de博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/08/14/NDK开发全攻略/" itemprop="url">Android Studio NDK开发全攻略</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-14T15:56:00+08:00">
-                2016-08-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NDK/" itemprop="url" rel="index">
-                    <span itemprop="name">NDK</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://upload-images.jianshu.io/upload_images/2109293-2f486474306a0eb3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<blockquote>
-<p><strong>读完本章，你可以：</strong></p>
-<ul>
-<li><em>在Android Studio上轻松搭建NDK开发环境。</em></li>
-<li><em>掌握最快捷的JNI开发方式。</em></li>
-<li><em>掌握使用.so文件开发Android程序的技巧。</em></li>
-</ul>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/08/14/NDK开发全攻略/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1775,7 +1775,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -1797,7 +1797,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
