@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T13:04:39.984Z">
+<meta property="og:updated_time" content="2018-03-06T13:06:38.593Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fragment的理解">
 <meta name="twitter:description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。">
@@ -439,7 +439,7 @@
 </blockquote>
 <h4 id="在Fragment中访问Activity"><a href="#在Fragment中访问Activity" class="headerlink" title="在Fragment中访问Activity"></a>在Fragment中访问Activity</h4><p>在Fragment中可以通过<code>getActivity()</code>方法得到当前绑定的Activity的实例，然后进行操作。</p>
 <h1 id="如何切换Fragment"><a href="#如何切换Fragment" class="headerlink" title="如何切换Fragment"></a>如何切换Fragment</h1><p>首先分别获取FragmentMangager与FragmentTransaction的实例，然后创建一个Fragment对象，接下来调用FragmentTransaction对象的replace（）方法和commit方法来完成Fragment的切换。具体代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//获取FragmentManager的实例</span><br><span class="line">FragmentManager fragmentManager=getFragmentManager();</span><br><span class="line">FragmentTransaction transaction=fragmentManager.beginTransaction();</span><br><span class="line">ExampleFragment fragment=new ExampleFragment();//创建一个Fragment</span><br><span class="line">fragmentTransaction.replace(R.id.content,fragment);</span><br><span class="line">fragmentTransaction.commit();</span><br></pre></td></tr></table></figure></p>
-<h1 id="理解addToBackStack"><a href="#理解addToBackStack" class="headerlink" title="理解addToBackStack()"></a>理解addToBackStack()</h1><p>官方的解释：Add this transaction to the back stack.  This means that the transaction will be remembered after it is committed, and will reverse its operation when later popped off the stack.<br>大白话：在commit之前保存此时的状态，之后如果按返回键，可以再次回到此时的状态。<br>一般我们需要使用addToBackStack的话，直接调用addToBackStack(null)即可,而且要在commit之前调用噢～</p>
+<h1 id="理解addToBackStack"><a href="#理解addToBackStack" class="headerlink" title="理解addToBackStack()"></a>理解addToBackStack()</h1><p>官方的解释：Add this transaction to the back stack.  This means that the transaction will be remembered after it is committed, and will reverse its operation when later popped off the stack.<br>大白话：在commit之前保存此时的状态，之后如果按返回键，可以再次回到此时的状态。一般我们需要使用addToBackStack的话，直接调用addToBackStack(null)即可。</p>
 
       
     </div>
