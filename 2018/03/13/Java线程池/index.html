@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="并发编程,线程池," />
 
 
 
@@ -83,13 +83,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="唐先明de博客">
-<meta property="og:url" content="http://yoursite.com/archives/2017/page/2/index.html">
+<meta name="description" content="在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。">
+<meta name="keywords" content="并发编程,线程池">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java线程池">
+<meta property="og:url" content="http://yoursite.com/2018/03/13/Java线程池/index.html">
 <meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://i2.bvimg.com/632703/a550ba4ac375acda.png">
+<meta property="og:updated_time" content="2018-03-13T14:48:51.687Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="唐先明de博客">
+<meta name="twitter:title" content="Java线程池">
+<meta name="twitter:description" content="在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。">
+<meta name="twitter:image" content="http://i2.bvimg.com/632703/a550ba4ac375acda.png">
 
 
 
@@ -119,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2017/page/2/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/13/Java线程池/"/>
 
 
 
 
 
-  <title>归档 | 唐先明de博客</title>
+  <title>Java线程池 | 唐先明de博客</title>
   
 
 
@@ -144,7 +151,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -262,226 +269,194 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/13/Java线程池/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">Java线程池</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-13T22:44:03+08:00">
+                2018-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        啊哈..! 目前共计 24 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2017">2017</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/04/26/SurfaceView使用教程/" itemprop="url">
-              
-                <span itemprop="name">SurfaceView使用教程</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-04-26T22:53:28+08:00"
-              content="2017-04-26" >
-          04-26
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/10/WebView使用教程/" itemprop="url">
-              
-                <span itemprop="name">WebView使用教程</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-10T21:03:15+08:00"
-              content="2017-03-10" >
-          03-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/02/21/Java并发编程之Volatile和Automic/" itemprop="url">
-              
-                <span itemprop="name">Java并发编程之Volatile和Automic</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-21T13:20:00+08:00"
-              content="2017-02-21" >
-          02-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。<a id="more"></a><br>学习线程池，需要用到以下几个关键类。<br>1、Executor<br>2、Executors<br>3、ExecutorSevice<br>4、ThreadPoolExecutor<br>在分别介绍它们之前，让我们先捋清一下它们之间的关系。<br><img src="http://i2.bvimg.com/632703/a550ba4ac375acda.png" alt=""><br>图中的AbstractExecutorService类可以不用理会，我们不讲它。另外，Excutors类不好在UML类图中将其涵盖进去，等会我们再介绍。</p>
+<h1 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h1><p>查看Executor的API，有这么一段话：</p>
+<blockquote>
+<p>The Executor implementations provided in this package implement ExecutorService, which is a more extensive interface. The ThreadPoolExecutor class provides an extensible thread pool implementation. The Executors class provides convenient factory methods for these Executors.</p>
+</blockquote>
+<p>大概意思是，ExecutorService接口在Executor接口的基础上又拓展了一些功能；而ThreadPoolExecutor类提供了一个可拓展的线程池实现；Executors类是一个工厂类，它Executor类的实现提供了便捷的通道。<br>这里我们注意到了之前提到的<code>Executors</code>类，它是一个工厂方法，用来产生Executor对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Executor excutor = Executors.newFixedThreadPool(10);  </span><br><span class="line">excutor.execute(new Runnable() &#123;  </span><br><span class="line">public void run() &#123;  </span><br><span class="line">System.out.println(&quot;Asynchronous task&quot;);  </span><br><span class="line">&#125;  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>注意以上是一个异步任务。同时，除了可以使用<code>newFixedThreadPool</code>创建Executor对象之外还可以使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Executors.newSingleThreadExecutor();  </span><br><span class="line">Executors.newScheduledThreadPool(size);</span><br></pre></td></tr></table></figure></p>
+<p>生产Executor对象，具体用法之后会介绍。</p>
+<h1 id="ExecutorSevice"><a href="#ExecutorSevice" class="headerlink" title="ExecutorSevice"></a>ExecutorSevice</h1><p>如上所提，ExecutorSevice实际上只是比Executor多了一些方法而已，它同样可以通过<code>Executors</code>提供的工厂方法创造出来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecutorSevice executorService = Executors.newFixedThreadPool(10);</span><br></pre></td></tr></table></figure></p>
+<p>除了<code>execute()</code>，ExecutorSevice提供了允许返回任务执行结果的<code>submit()</code>，返回结果的方式有两种：<br>1、传入Runnable对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;String&gt; future=executor.submit(new Runnable() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">System.out.println(&quot;Asynchronous task&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>2、传入Callable对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;String&gt; future = executor.submit(new Callable&lt;String&gt;() &#123;</span><br><span class="line">@Override</span><br><span class="line">public String call() throws Exception &#123;</span><br><span class="line">System.out.println(&quot;Asynchronous task&quot;);</span><br><span class="line">return &quot;result&quot;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>这个两种方式都可以通过<code>future.get（）</code>获得返回的结果，并且<code>future.get（）</code>是一个阻塞方法。不同的是，Runnable方式的返回值始终为null，Callable方式的返回值将取决于用户的设定。<br>特别地，除了上面两种方式之外，ExecutorSevice还提供了可以处理Callable集合的方法invokeAny和invokeAll,具体用法可以参考<a href="http://blog.csdn.net/mack415858775/article/details/51507660" target="_blank" rel="noopener">这一篇文章</a>。<br><code>invokeAll</code>运用在需要并行运行的场景，可以减少比较多的方法执行时间。比如：方法A和方法B分别都执行了一些耗时操作，而我们最后的值依赖于这两个方法的执行结果。那么第一种方法是让A、B串行执行，第二种方法是将A、B逻辑分别设置为callable对象，之后通过invokeAll并行执行它俩，实验结果是第二种方法优于第一种方法的实现。</p>
+<h1 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h1><p>ThreadPoolExecutor支持通过调整构造参数来配置不同的处理策略，下面主要介绍一下常用的策略配置方法以及应用场景。</p>
+<h4 id="ThreadPoolExecutor-的处理逻辑"><a href="#ThreadPoolExecutor-的处理逻辑" class="headerlink" title="ThreadPoolExecutor 的处理逻辑"></a>ThreadPoolExecutor 的处理逻辑</h4><p>首先看一下 ThreadPoolExecutor 构造函数的定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public ThreadPoolExecutor(int corePoolSize,  //线程池核心线程数量</span><br><span class="line">int maximumPoolSize,   //线程池最大线程数量</span><br><span class="line">long keepAliveTime,      //线程KeepAlive时间，当线程池数量超过核心线程数量以后，idle时间超过这个值的线程会被终止</span><br><span class="line">TimeUnit unit,              //线程KeepAlive时间单位</span><br><span class="line">BlockingQueue&lt;Runnable&gt; workQueue,    //任务队列</span><br><span class="line">ThreadFactory threadFactory,                  //创建线程的工厂对象</span><br><span class="line">RejectedExecutionHandler handler)          //任务被拒绝后调用的handler</span><br></pre></td></tr></table></figure></p>
+<p>ThreadPoolExecutor 对线程池和队列的使用方式如下：<br>1、从线程池中获取可用线程执行任务，如果没有可用线程则使用ThreadFactory创建新的线程，直到线程数达到corePoolSize限制；<br>2、线程池线程数达到corePoolSize以后，新的任务将被放入队列，直到队列不能再容纳更多的任务；<br>3、当队列不能再容纳更多的任务以后，会创建新的线程，直到线程数达到maxinumPoolSize限制；<br>4、线程数达到maxinumPoolSize限制以后新任务会被拒绝执行，调用 RejectedExecutionHandler 进行处理。</p>
+<h4 id="三种常用的-ThreadPoolExecutor"><a href="#三种常用的-ThreadPoolExecutor" class="headerlink" title="三种常用的 ThreadPoolExecutor"></a>三种常用的 ThreadPoolExecutor</h4><p>Executors 是提供了一组工厂方法用于创建常用的 ExecutorService ，分别是 FixedThreadPool，CachedThreadPool 以及 SingleThreadExecutor。这三种ThreadPoolExecutor都是调用 ThreadPoolExecutor 构造函数进行创建，区别在于参数不同。<br><strong>1、FixedThreadPool - 线程池大小固定，任务队列无界。</strong><br>下面是 Executors 类 newFixedThreadPool 方法的源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static ExecutorService newFixedThreadPool(int nThreads) &#123;</span><br><span class="line">return new ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">0L, TimeUnit.MILLISECONDS,</span><br><span class="line">new LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到 corePoolSize 和 maximumPoolSize 设置成了相同的值，此时不存在线程数量大于核心线程数量的情况，所以KeepAlive时间设置不会生效。任务队列使用的是不限制大小的 LinkedBlockingQueue ，由于是无界队列所以容纳的任务数量没有上限。<br>因此，FixedThreadPool的行为如下：<br>1、从线程池中获取可用线程执行任务，如果没有可用线程则使用ThreadFactory创建新的线程，直到线程数达到nThreads；<br>2、线程池线程数达到nThreads以后，新的任务将被放入队列。<br>FixedThreadPool的优点是能够保证所有的任务都被执行，永远不会拒绝新的任务；同时缺点是队列数量没有限制，在任务执行时间无限延长的这种极端情况下会造成内存问题。<br><strong>2、SingleThreadExecutor - 线程池大小固定为1，任务队列无界</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static ExecutorService newSingleThreadExecutor() &#123;</span><br><span class="line">return new FinalizableDelegatedExecutorService</span><br><span class="line">(new ThreadPoolExecutor(1, 1,</span><br><span class="line">0L, TimeUnit.MILLISECONDS,</span><br><span class="line">new LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个工厂方法中使用无界LinkedBlockingQueue，并的将线程数设置成1。虽然是单线程处理，一旦线程因为处理异常等原因终止的时候，ThreadPoolExecutor会自动创建一个新的线程继续进行工作。<br>SingleThreadExecutor 适用于在逻辑上需要单线程处理任务的场景，同时无界的LinkedBlockingQueue保证新任务都能够放入队列，不会被拒绝；缺点和FixedThreadPool相同，当处理任务无限等待的时候会造成内存问题。<br><strong>3、CachedThreadPool - 线程池无限大（MAX INT），等待队列长度为1</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static ExecutorService newCachedThreadPool() &#123;</span><br><span class="line">return new ThreadPoolExecutor(0, Integer.MAX_VALUE,</span><br><span class="line">60L, TimeUnit.SECONDS,</span><br><span class="line">new SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>SynchronousQueue是一个只有1个元素的队列，入队的任务需要一直等待直到队列中的元素被移出。核心线程数是0，意味着所有任务会先入队列；最大线程数是Integer.MAX_VALUE，可以认为线程数量是没有限制的。KeepAlive时间被设置成60秒，意味着在没有任务的时候超过核心线程数的线程等待60秒以后退出。CachedThreadPool对任务的处理策略是提交的任务会立即分配一个线程进行执行，线程池中线程数量会随着任务数的变化自动扩张和缩减，在任务执行时间无限延长的极端情况下会创建过多的线程。</p>
+<blockquote>
+<p><strong>说明：</strong><br>实验证明，当超过核心线程数后，线程池的机制是尽量重用还在KeepAlive时间内的线程。</p>
+</blockquote>
+<hr>
+<p><strong>参考资料</strong><br><a href="https://segmentfault.com/a/1190000008394155" target="_blank" rel="noopener">ThreadPoolExecutor策略配置以及应用场景</a></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/02/16/Fragment的理解/" itemprop="url">
-              
-                <span itemprop="name">Fragment的理解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-16T20:55:41+08:00"
-              content="2017-02-16" >
-          02-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/01/14/Java并发编程之Lock/" itemprop="url">
-              
-                <span itemprop="name">Java并发编程之Lock</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-01-14T19:35:01+08:00"
-              content="2017-01-14" >
-          01-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/并发编程/" rel="tag"># 并发编程</a>
+          
+            <a href="/tags/线程池/" rel="tag"># 线程池</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/22/Android图片压缩方略/" rel="next" title="Android图片压缩方略">
+                <i class="fa fa-chevron-left"></i> Android图片压缩方略
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2017/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2017/">1</a><span class="page-number current">2</span>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -489,6 +464,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -509,8 +488,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -583,6 +571,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Executor"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ExecutorSevice"><span class="nav-number">2.</span> <span class="nav-text"><a href="#ExecutorSevice" class="headerlink" title="ExecutorSevice"></a>ExecutorSevice</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ThreadPoolExecutor"><span class="nav-number">3.</span> <span class="nav-text"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ThreadPoolExecutor-的处理逻辑"><span class="nav-number">3.0.0.1.</span> <span class="nav-text"><a href="#ThreadPoolExecutor-&#x7684;&#x5904;&#x7406;&#x903B;&#x8F91;" class="headerlink" title="ThreadPoolExecutor &#x7684;&#x5904;&#x7406;&#x903B;&#x8F91;"></a>ThreadPoolExecutor &#x7684;&#x5904;&#x7406;&#x903B;&#x8F91;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三种常用的-ThreadPoolExecutor"><span class="nav-number">3.0.0.2.</span> <span class="nav-text"><a href="#&#x4E09;&#x79CD;&#x5E38;&#x7528;&#x7684;-ThreadPoolExecutor" class="headerlink" title="&#x4E09;&#x79CD;&#x5E38;&#x7528;&#x7684; ThreadPoolExecutor"></a>&#x4E09;&#x79CD;&#x5E38;&#x7528;&#x7684; ThreadPoolExecutor</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -716,6 +720,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
