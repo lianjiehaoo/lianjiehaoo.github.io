@@ -131,8 +131,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>View</tag>
         <tag>框架</tag>
+        <tag>View</tag>
       </tags>
   </entry>
   <entry>
@@ -183,7 +183,7 @@
   <entry>
     <title><![CDATA[Fragment的理解]]></title>
     <url>%2F2017%2F02%2F16%2FFragment%E7%9A%84%E7%90%86%E8%A7%A3%2F</url>
-    <content type="text"><![CDATA[碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。 概念Fragment（碎片）是在Android 3.0出现的。可以把Fragment理解成Activity的一个模块化区域，他拥有自己的生命周期，接收属于自己的输入事件，并且可以在Activity运行期间被添加和删除。Fragment必须被嵌入一个Activity中，它们的生命周期直接受宿主Activity的影响。当一个Activity正在运行时，可以独立的操作其中的每一个Fragment，如添加和删除。Fragment的加载方式有两种：静态加载和动态加载。静态加载很简单，只需把Fragment当成普通UI放在界面Layout中。动态加载需要先了解Fragment事务，事务指的就是原子性，不可分割的操作。所谓的Fragment事务。所谓Fragment事务，就是对Fragment的进行添加、删除、替换或者其它操作，提交给Activity的每一个变化，这就是事务。动态加载的流程如下： 开启一个新事务； 通过事务添加Fragment； 提交事务，否则添加不成功。 Fragment的生命周期Fragment的生命周期与Activity类似，用到的方法如下表所示。 方法名称 方法说明 onAttach() 绑定Fragment到Activity onCreate() 创建Fragment onCreateView() 创建Fragment的布局 onActivityCreated() Activity创建完成后回调该方法 onStart() 可见，不可交互状态 onResume() 可见，可交互状态 onPause() 部分可见，不可交互状态 onStop() 不可见 onDestroyView() 销毁Fragment的View对象 onDestroy() Fragment被销毁 onDetach() Fragment从Activity解绑 Fragment与Activity如何进行交互由于所有的Fragment都依赖与Activity，因此它们之间实现通信并不复杂，大概可以分为两种：一种是在Activity中访问Fragment，一种是在Frament中访问Activity，具体如下： 在Activity中访问Frament因为可以在Activity中获取Fragment实例（特殊除外），所以可以直接访问Frament中声明的公有方法。 小提示：除了直接通过Fragment的公有方法访问外，我们还可以通过接口回调的方式访问Fragment中相关参数。 在Fragment中访问Activity在Fragment中可以通过getActivity()方法得到当前绑定的Activity的实例，然后进行操作。 如何切换Fragment首先分别获取FragmentMangager与FragmentTransaction的实例，然后创建一个Fragment对象，接下来调用FragmentTransaction对象的replace（）方法和commit方法来完成Fragment的切换。具体代码如下：123456//获取FragmentManager的实例FragmentManager fragmentManager=getFragmentManager();FragmentTransaction transaction=fragmentManager.beginTransaction();ExampleFragment fragment=new ExampleFragment();//创建一个FragmentfragmentTransaction.replace(R.id.content,fragment);fragmentTransaction.commit(); 理解addToBackStack()官方的解释：Add this transaction to the back stack. This means that the transaction will be remembered after it is committed, and will reverse its operation when later popped off the stack.大白话：在commit之前保存此时的状态，之后如果按返回键，可以再次回到此时的状态。一般我们需要使用addToBackStack的话，直接调用addToBackStack(null)即可。]]></content>
+    <content type="text"><![CDATA[碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。 概念Fragment（碎片）是在Android 3.0出现的。可以把Fragment理解成Activity的一个模块化区域，他拥有自己的生命周期，接收属于自己的输入事件，并且可以在Activity运行期间被添加和删除。Fragment必须被嵌入一个Activity中，它们的生命周期直接受宿主Activity的影响。当一个Activity正在运行时，可以独立的操作其中的每一个Fragment，如添加和删除。Fragment的加载方式有两种：静态加载和动态加载。静态加载很简单，只需把Fragment当成普通UI放在界面Layout中。动态加载需要先了解Fragment事务，事务指的就是原子性，不可分割的操作。所谓的Fragment事务。所谓Fragment事务，就是对Fragment的进行添加、删除、替换或者其它操作，提交给Activity的每一个变化，这就是事务。动态加载的流程如下： 开启一个新事务； 通过事务添加Fragment； 提交事务，否则添加不成功。 Fragment的生命周期Fragment的生命周期与Activity类似，用到的方法如下表所示。 方法名称 方法说明 onAttach() 绑定Fragment到Activity onCreate() 创建Fragment onCreateView() 创建Fragment的布局 onActivityCreated() Activity创建完成后回调该方法 onStart() 可见，不可交互状态 onResume() 可见，可交互状态 onPause() 部分可见，不可交互状态 onStop() 不可见 onDestroyView() 销毁Fragment的View对象 onDestroy() Fragment被销毁 onDetach() Fragment从Activity解绑 这里有几点需要注意的地方：1、因为Fragment与Activity是绑定在一起的，所以当Activity被销毁时，Fragment也要被销毁。Fragment的调销毁过程是：onPause()——&gt;onStop()——&gt;onDestroyView()——&gt;onDestroy()——&gt;onDetach()。2、调用FragmentTransaction的hide()与show()对于Fragment的生命周期没有影响。3、调用FragmentTransaction的replace()方法，并且在次之前没有调用addToBackStack，则之前已创建的Fragment(如果有)将会被解绑；反之，如果在次之前调用了addToBackStack方法，之前已创建的Fragment(如果有)将只会被销毁它的View对象，即调用onDestroyView()方法。 Fragment与Activity如何进行交互由于所有的Fragment都依赖与Activity，因此它们之间实现通信并不复杂，大概可以分为两种：一种是在Activity中访问Fragment，一种是在Frament中访问Activity，具体如下： 在Activity中访问Frament因为可以在Activity中获取Fragment实例（特殊除外），所以可以直接访问Frament中声明的公有方法。 小提示：除了直接通过Fragment的公有方法访问外，我们还可以通过接口回调的方式访问Fragment中相关参数。 在Fragment中访问Activity在Fragment中可以通过getActivity()方法得到当前绑定的Activity的实例，然后进行操作。 如何切换Fragment首先分别获取FragmentMangager与FragmentTransaction的实例，然后创建一个Fragment对象，接下来调用FragmentTransaction对象的replace（）方法和commit方法来完成Fragment的切换。具体代码如下：123456//获取FragmentManager的实例FragmentManager fragmentManager=getFragmentManager();FragmentTransaction transaction=fragmentManager.beginTransaction();ExampleFragment fragment=new ExampleFragment();//创建一个FragmentfragmentTransaction.replace(R.id.content,fragment);//R.id.content对应的控件必须是一个ViewGroupfragmentTransaction.commit(); 理解addToBackStack()官方的解释：Add this transaction to the back stack. This means that the transaction will be remembered after it is committed, and will reverse its operation when later popped off the stack.大白话：在commit之前保存此时的状态，之后如果按返回键，可以再次回到此时的状态。一般我们需要使用addToBackStack的话，直接调用addToBackStack(null)即可。]]></content>
       <categories>
         <category>四大组件</category>
       </categories>
@@ -237,8 +237,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>框架</tag>
         <tag>Cache</tag>
+        <tag>框架</tag>
       </tags>
   </entry>
   <entry>
