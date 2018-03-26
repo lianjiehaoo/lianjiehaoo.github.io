@@ -91,12 +91,12 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://i2.bvimg.com/632703/a550ba4ac375acda.png">
-<meta property="og:updated_time" content="2018-03-25T12:17:26.992Z">
+<meta property="og:image" content="https://s20.postimg.org/7hmmb7m6l/image.png">
+<meta property="og:updated_time" content="2018-03-26T07:31:41.924Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java线程池">
 <meta name="twitter:description" content="在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。">
-<meta name="twitter:image" content="http://i2.bvimg.com/632703/a550ba4ac375acda.png">
+<meta name="twitter:image" content="https://s20.postimg.org/7hmmb7m6l/image.png">
 
 
 
@@ -372,7 +372,7 @@
       
 
       
-        <p>在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。<a id="more"></a><br>学习线程池，需要用到以下几个关键类。<br>1、Executor<br>2、Executors<br>3、ExecutorSevice<br>4、ThreadPoolExecutor<br>在分别介绍它们之前，让我们先捋清一下它们之间的关系。<br><img src="http://i2.bvimg.com/632703/a550ba4ac375acda.png" alt=""><br>图中的AbstractExecutorService类可以不用理会，我们不讲它。另外，Excutors类不好在UML类图中将其涵盖进去，等会我们再介绍。</p>
+        <p>在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。<a id="more"></a><br>学习线程池，需要用到以下几个关键类。<br>1、Executor<br>2、Executors<br>3、ExecutorSevice<br>4、ThreadPoolExecutor<br>在分别介绍它们之前，让我们先捋清一下它们之间的关系。<br><img src="https://s20.postimg.org/7hmmb7m6l/image.png" alt=""><br>图中的AbstractExecutorService类可以不用理会，我们不讲它。另外，Excutors类不好在UML类图中将其涵盖进去，等会我们再介绍。</p>
 <h1 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h1><p>查看Executor的API，有这么一段话：</p>
 <blockquote>
 <p>The Executor implementations provided in this package implement ExecutorService, which is a more extensive interface. The ThreadPoolExecutor class provides an extensible thread pool implementation. The Executors class provides convenient factory methods for these Executors.</p>

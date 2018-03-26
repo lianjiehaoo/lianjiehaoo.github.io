@@ -92,8 +92,8 @@
 <meta property="og:description" content="相对于Synchronized,我们还可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://chuantu.biz/t6/211/1516533234x-1404817814.jpg">
-<meta property="og:image" content="http://chuantu.biz/t6/212/1516582907x-1404817814.jpg">
-<meta property="og:updated_time" content="2018-01-29T07:06:05.452Z">
+<meta property="og:image" content="https://s20.postimg.org/8dj3qlyf1/image.jpg">
+<meta property="og:updated_time" content="2018-03-26T08:32:29.147Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之Lock">
 <meta name="twitter:description" content="相对于Synchronized,我们还可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。">
@@ -423,7 +423,7 @@
 <p>16.创建5个Reader对象，并且用5个线程来执行它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Reader readers[]=new Reader[5];</span><br><span class="line">Thread threadsReader[]=new Thread[5];</span><br><span class="line">for (int i=0; i&lt;5; i++)&#123;</span><br><span class="line">readers[i]=new Reader(pricesInfo);</span><br><span class="line">threadsReader[i]=new Thread(readers[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>17.创建一个Writer对象，并且用线程来执行它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Writer writer=new Writer(pricesInfo);</span><br><span class="line">Thread threadWriter=new Thread(writer);</span><br></pre></td></tr></table></figure></p>
 <p>18.启动这些线程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0; i&lt;5; i++)&#123;</span><br><span class="line">threadsReader[i].start();</span><br><span class="line">&#125;</span><br><span class="line">threadWriter.start();</span><br></pre></td></tr></table></figure></p>
-<p>在以下截图中，你可以看到执行这个例子的一个部分输出:<br><img src="http://chuantu.biz/t6/212/1516582907x-1404817814.jpg" alt=""></p>
+<p>在以下截图中，你可以看到执行这个例子的一个部分输出:<br><img src="https://s20.postimg.org/8dj3qlyf1/image.jpg" alt=""></p>
 <h1 id="修改Lock的公平性"><a href="#修改Lock的公平性" class="headerlink" title="修改Lock的公平性"></a>修改Lock的公平性</h1><p>在ReentrantLock类和ReentrantReadWriteLock类的构造器中，允许一个名为fair的boolean类型参数，它允许你来控制这些类的行为。默认值为 false，这将启用非公平模式。在这个模式中，当有多个线程正在等待一把锁（ReentrantLock或者 ReentrantReadWriteLock），这个锁必须选择它们中间的一个来获得进入临界区，选择任意一个是没有任何标准的。true值将开启公平模式。在这个模式中，当有多个线程正在等待一把锁（ReentrantLock或者ReentrantReadWriteLock），这个锁必须选择它们中间的一个来获得进入临界区，它将选择等待时间最长的线程。由于tryLock()方法并不会使线程进入睡眠，即使Lock接口正在被使用，这个公平属性并不会影响它的功能。更多关于公平模式的介绍，请<a href="http://ifeve.com/basic-thread-synchronization-7/" target="_blank" rel="noopener">点击查阅</a>。</p>
 <hr>
 <p><strong>参考资料</strong><br><a href="http://ifeve.com/basic-thread-synchronization-5/" target="_blank" rel="noopener">并发编程网</a></p>
