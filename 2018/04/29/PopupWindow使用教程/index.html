@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="PopupWindow是android.widget中一个弹框控件，与普通dialog相比，它的优势在于可以任意改变其在界面中的位置。本篇我们就来好好研究一下它的用法吧。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-29T03:37:32.333Z">
+<meta property="og:updated_time" content="2018-04-29T04:07:09.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PopupWindow使用教程">
 <meta name="twitter:description" content="PopupWindow是android.widget中一个弹框控件，与普通dialog相比，它的优势在于可以任意改变其在界面中的位置。本篇我们就来好好研究一下它的用法吧。">
@@ -422,6 +422,8 @@
 <h4 id="相对位置更新"><a href="#相对位置更新" class="headerlink" title="相对位置更新"></a>相对位置更新</h4><p>相对于当前的位置进行偏移， 不同的显示位置对于的相对原点也不同。<br>showAsDropDown的相对原点是整个屏幕左上角, 包括状态栏。所以由于包括状态栏所以坐标偏移的时候一定要y轴偏移大于60超出状态栏的高度。 否则因为遮挡状态栏导致PopupWindow无法显示.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mPopupWindow.update(50, 60, -1,-1); // x轴偏移50</span><br></pre></td></tr></table></figure></p>
 <p>showAtLocation的相对原点是<strong>自身位置</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void update (int x, // 坐标偏移</span><br><span class="line">int y, </span><br><span class="line">int width, // PopupWindow宽高</span><br><span class="line">int height)</span><br><span class="line"></span><br><span class="line">void update (int x, </span><br><span class="line">int y, </span><br><span class="line">int width, </span><br><span class="line">int height, </span><br><span class="line">boolean force) // 可获取焦点</span><br></pre></td></tr></table></figure></p>
 <h2 id="背景变灰"><a href="#背景变灰" class="headerlink" title="背景变灰"></a>背景变灰</h2><p>当我们弹出PopupWindow时，有时希望背景能够变成灰色，那我们可以通过以下方式实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* 设置添加屏幕的背景透明度</span><br><span class="line">* </span><br><span class="line">* @param bgAlpha 屏幕透明度0.0-1.0 1表示完全不透明</span><br><span class="line">*            </span><br><span class="line">*/</span><br><span class="line">public void setBackgroundAlpha(float bgAlpha) &#123;</span><br><span class="line">WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();</span><br><span class="line">lp.alpha = bgAlpha;</span><br><span class="line">((Activity) mContext).getWindow().setAttributes(lp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>参考资料</strong><br><a href="https://juejin.im/post/58ed82c3a22b9d0063469e98" target="_blank" rel="noopener">PopupWindow最全使用说明</a></p>
 
       
     </div>
