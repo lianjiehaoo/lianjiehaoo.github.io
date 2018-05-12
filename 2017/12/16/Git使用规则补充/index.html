@@ -91,12 +91,12 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="学习的git的同学想必看过了廖雪峰老师的Git教程，笔者在学习过程中也深受这篇文章的启发。但是在学习或使用过程中，笔者也遇到了一些比较实际的但是廖老师没有提到或者只是一笔带过的问题。这篇文章就把这些问题的解决办法记录一下吧～">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://s20.postimg.org/tgt0ypde5/Jietu20180216-081611.jpg">
-<meta property="og:updated_time" content="2018-03-26T07:41:07.124Z">
+<meta property="og:image" content="http://yoursite.com/2017/12/16/Git使用规则补充/Jietu20180512-194316.jpg">
+<meta property="og:updated_time" content="2018-05-12T11:45:22.305Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git使用规则补充">
 <meta name="twitter:description" content="学习的git的同学想必看过了廖雪峰老师的Git教程，笔者在学习过程中也深受这篇文章的启发。但是在学习或使用过程中，笔者也遇到了一些比较实际的但是廖老师没有提到或者只是一笔带过的问题。这篇文章就把这些问题的解决办法记录一下吧～">
-<meta name="twitter:image" content="https://s20.postimg.org/tgt0ypde5/Jietu20180216-081611.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/16/Git使用规则补充/Jietu20180512-194316.jpg">
 
 
 
@@ -372,7 +372,7 @@
       
 
       
-        <p>学习的git的同学想必看过了<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">廖雪峰老师的Git教程</a>，笔者在学习过程中也深受这篇文章的启发。但是在学习或使用过程中，笔者也遇到了一些比较实际的但是廖老师没有提到或者只是一笔带过的问题。这篇文章就把这些问题的解决办法记录一下吧～<a id="more"></a><br><strong>1.如何方便的使用一台机器向不同的远端仓库（如：github）提交代码?</strong><br>我们知道在往github的某一个仓库提交代码时，需要在本地生成一个SSH Key，然后将其添加到github中，如下。<br><img src="https://s20.postimg.org/tgt0ypde5/Jietu20180216-081611.jpg" alt=""><br>但是现在需要为github中的另外一个库添加SSH key，理所当然地，我们要再次在本地生成一个SSH key，命令如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youremail@yourcompany.com&quot;</span><br></pre></td></tr></table></figure></p>
+        <p>学习的git的同学想必看过了<a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">廖雪峰老师的Git教程</a>，笔者在学习过程中也深受这篇文章的启发。但是在学习或使用过程中，笔者也遇到了一些比较实际的但是廖老师没有提到或者只是一笔带过的问题。这篇文章就把这些问题的解决办法记录一下吧～<a id="more"></a><br><strong>1.如何方便的使用一台机器向不同的远端仓库（如：github）提交代码?</strong><br>我们知道在往github的某一个仓库提交代码时，需要在本地生成一个SSH Key，然后将其添加到github中，如下。<br><img src="/2017/12/16/Git使用规则补充/Jietu20180512-194316.jpg"><br>但是现在需要为github中的另外一个库添加SSH key，理所当然地，我们要再次在本地生成一个SSH key，命令如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youremail@yourcompany.com&quot;</span><br></pre></td></tr></table></figure></p>
 <p>若一路回车（密码可以不写），这样会覆盖~/.ssh/ 目录下生成 id_rsa 和 id_rsa.pub 两个文件。为了区分，我们在第一个回车后设置路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter file in which to save the key (/root/.ssh/id_rsa):~/.ssh/文件名</span><br></pre></td></tr></table></figure></p>
 <p>由此我们分别为github中的两个库（A库和B库）生成对应的公钥和私钥，完成后的目录：<br>id_rsa<br>id_rsa.pub<br>id_sub<br>id_sub.pub<br>之后我们将新生成的SSH key设置给B库，此时，理所当然地我们开始往B库中提交代码，但是事实没有那么美好，<strong>提示：没有权限。</strong>如何解决呢？<br>1、 首先查看代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-add -l</span><br></pre></td></tr></table></figure></p>
 <p>若提示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Could not open a connection to your authentication agent.</span><br></pre></td></tr></table></figure></p>
