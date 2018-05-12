@@ -91,14 +91,14 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="读者可能会问在下：  为什么要使用AutoCache？简洁、高性能。 现在市面上有那么多缓存的框架，像piccso等都很优秀，那笔者是不是在重复造车？AutoCache是为那些追求轻量级缓存的APP而生的。目的是让开发者既能快速完成APP缓存功能的开发，又能保证上线后性能的稳定。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-d934024b5cb541e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-8b44b4cfd957789e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-7880687895d6e259.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-02-28T04:39:49.218Z">
+<meta property="og:image" content="http://yoursite.com/2016/10/23/AutoCache高性能缓存框架使用教程/1.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/23/AutoCache高性能缓存框架使用教程/2.png">
+<meta property="og:image" content="http://yoursite.com/2016/10/23/AutoCache高性能缓存框架使用教程/3.png">
+<meta property="og:updated_time" content="2018-05-12T13:59:45.989Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AutoCache高性能缓存框架使用教程">
 <meta name="twitter:description" content="读者可能会问在下：  为什么要使用AutoCache？简洁、高性能。 现在市面上有那么多缓存的框架，像piccso等都很优秀，那笔者是不是在重复造车？AutoCache是为那些追求轻量级缓存的APP而生的。目的是让开发者既能快速完成APP缓存功能的开发，又能保证上线后性能的稳定。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2109293-d934024b5cb541e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="http://yoursite.com/2016/10/23/AutoCache高性能缓存框架使用教程/1.png">
 
 
 
@@ -374,7 +374,7 @@
       
 
       
-        <p><img src="http://upload-images.jianshu.io/upload_images/2109293-d934024b5cb541e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一只正在设计AutoCache的攻城狮"></p>
+        <img src="/2016/10/23/AutoCache高性能缓存框架使用教程/1.png" title="一只正在设计AutoCache的攻城狮">
 <blockquote>
 <p><strong>读者可能会问在下：</strong></p>
 <ol>
@@ -386,7 +386,7 @@
 <p><a href="https://github.com/tangxianming/auto-cache" target="_blank" rel="noopener">AutoCache</a> 能够让你高效地编写app缓存代码 ，保证你的数据流被安全、准确地存储到SDcard私有目录。参考下列核心调用代码来开始你的 AutoCache 之旅：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.MediaCache.getInstance(context).asyncCache(&quot;url&quot;, new CallBack() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void onStart() &#123;</span><br><span class="line">//Run in UI thread.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void save2DataBase(String cachePath) &#123;</span><br><span class="line">//Run in io thread,</span><br><span class="line">//You can sava the  cachPath to database or sharepreference.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onSuccess(byte[] bytes) &#123;</span><br><span class="line">//Run in UI thread.</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public void onErro(Throwable e) &#123;</span><br><span class="line">//Run in UI thread.</span><br><span class="line">&#125;</span><br><span class="line">&#125;, FILE_TYPE, &quot;filename&quot;);</span><br></pre></td></tr></table></figure></p>
 <h1 id="集成方法"><a href="#集成方法" class="headerlink" title="集成方法"></a>集成方法</h1><p>在Module的build.gradle文件中添加如下依赖即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.txm.topcodes.autocache:autocache:0.1.2&apos;</span><br></pre></td></tr></table></figure></p>
 <h1 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h1><p>为方便开发者，AutoCache提供统一调用入口，调用方式十分简洁。下面先给大家看一张思维导图，该图罗列了框架的主体功能及其构成。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2109293-8b44b4cfd957789e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AutoCache功能结构图"></p>
+<img src="/2016/10/23/AutoCache高性能缓存框架使用教程/2.png" title="AutoCache功能结构图">
 <p>从结构图不难看出，<strong>AutoCache类</strong>就是调用框架的入口类。当我们需要从本地获取流文件时，调用方式是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.Media.get…();</span><br></pre></td></tr></table></figure></p>
 <p>缓存网络文件时，调用方式是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.MediaCache.getInstance(context).asyncCache();</span><br></pre></td></tr></table></figure></p>
 <p>缓存内存文件时，调用方式是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AutoCache.MediaCache.getInstance(context).cache();</span><br></pre></td></tr></table></figure></p>
@@ -402,7 +402,7 @@
 <li>网络请求时，全局捕获异常。</li>
 <li>本次请求之后，根据文件名、文件类型从本地获取文件流。</li>
 </ol>
-<p><img src="http://upload-images.jianshu.io/upload_images/2109293-7880687895d6e259.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<img src="/2016/10/23/AutoCache高性能缓存框架使用教程/3.png">
 <p><strong>对于需求1。</strong>AutoCache完全是在后台<em>IO线程</em>中完成的，不需要调用者主动去操作。</p>
 <blockquote>
 <p>IO线程：I/O 操作（读写文件、读写数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 io线程比Thread线程更有效率。</p>

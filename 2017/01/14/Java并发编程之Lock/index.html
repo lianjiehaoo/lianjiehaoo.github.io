@@ -91,13 +91,13 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="相对于Synchronized,我们还可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://chuantu.biz/t6/211/1516533234x-1404817814.jpg">
-<meta property="og:image" content="https://s20.postimg.org/8dj3qlyf1/image.jpg">
-<meta property="og:updated_time" content="2018-03-26T08:32:29.147Z">
+<meta property="og:image" content="http://yoursite.com/2017/01/14/Java并发编程之Lock/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/01/14/Java并发编程之Lock/2.jpg">
+<meta property="og:updated_time" content="2018-05-12T13:18:23.010Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之Lock">
 <meta name="twitter:description" content="相对于Synchronized,我们还可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。">
-<meta name="twitter:image" content="http://chuantu.biz/t6/211/1516533234x-1404817814.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2017/01/14/Java并发编程之Lock/1.jpg">
 
 
 
@@ -396,9 +396,9 @@
 <p>9.实现run()方法，它使用PrintQueue对象来发送一个打印任务。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">printQueue.printJob(new Object());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>10.通过创建类名为Main，且包括main（）方法来实现这个示例的主类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br></pre></td></tr></table></figure></p>
 <p>11.创建一个共享的PrintQueue对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PrintQueue printQueue=new PrintQueue();</span><br></pre></td></tr></table></figure></p>
-<p>12.创建5个Job对象，并且使用5个线程来运行它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Thread thread[]=new Thread[5];</span><br><span class="line">for (int i=0; i&lt;5; i++)&#123;</span><br><span class="line">thread[i]=new Thread(new Job(printQueue));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>13.启动这5个线程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0; i&lt;5; i++)&#123;</span><br><span class="line">thread[i].start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>从以下截图，你可以看到执行这个示例的输出：<br><img src="http://chuantu.biz/t6/211/1516533234x-1404817814.jpg" alt=""><br>在 printJob()中，queueLock是这个示例的关键所在。当我们通过锁来实现一个临界区并且保证只有一个执行线程能运行一个代码块，我们必须创建一个ReentrantLock对象。在临界区的起始部分，我们必须通过使用lock()方法来获得锁的控制权。当一个线程A调用这个方法时，如果没有其他线程持有这个锁的控制权，那么这个方法就会给线程A分配这个锁的控制权并允许线程A执行这个临界区。否则，如果其他线程B正在执行由这个锁控制的临界区，lock()方法将会使线程A睡眠直到线程B完成这个临界区的执行。<br>在临界区的尾部，我们必须使用unlock()方法来释放锁的控制权，允许其他线程运行这个临界区。如果你在临界区的尾部没有调用unlock()方法，那么其他正在等待该代码块的线程将会永远等待，造成死锁情况。如果你在临界区使用try-catch代码块，别忘了在finally部分的内部包含unlock()方法的代码。</p>
+<p>12.创建10个Job对象，并且使用10个线程来运行它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Thread thread[]=new Thread[5];</span><br><span class="line">for (int i=0; i&lt;10; i++)&#123;</span><br><span class="line">thread[i]=new Thread(new Job(printQueue));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>13.启动这10个线程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0; i&lt;10; i++)&#123;</span><br><span class="line">thread[i].start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从以下截图，你可以看到执行这个示例的输出：<br><img src="/2017/01/14/Java并发编程之Lock/1.jpg"><br>在 printJob()中，queueLock是这个示例的关键所在。当我们通过锁来实现一个临界区并且保证只有一个执行线程能运行一个代码块，我们必须创建一个ReentrantLock对象。在临界区的起始部分，我们必须通过使用lock()方法来获得锁的控制权。当一个线程A调用这个方法时，如果没有其他线程持有这个锁的控制权，那么这个方法就会给线程A分配这个锁的控制权并允许线程A执行这个临界区。否则，如果其他线程B正在执行由这个锁控制的临界区，lock()方法将会使线程A睡眠直到线程B完成这个临界区的执行。<br>在临界区的尾部，我们必须使用unlock()方法来释放锁的控制权，允许其他线程运行这个临界区。如果你在临界区的尾部没有调用unlock()方法，那么其他正在等待该代码块的线程将会永远等待，造成死锁情况。如果你在临界区使用try-catch代码块，别忘了在finally部分的内部包含unlock()方法的代码。</p>
 <h5 id="tryLock"><a href="#tryLock" class="headerlink" title="tryLock()"></a>tryLock()</h5><p>Lock接口（和ReentrantLock类，以及后面要讲的ReadWriteLock接口和ReentrantReadWriteLock类）包含其他方法来获取锁的控制权，那就是tryLock()方法。这个方法与lock()方法的最大区别是，如果一个线程调用这个方法不能获取Lock接口的控制权时，将会立即返回并且不会使这个线程进入睡眠。这个方法返回一个boolean值，true表示这个线程获取了锁的控制权，false则表示没有。</p>
 <blockquote>
 <p><strong>小知识:</strong><br>预先考虑到tryLock()方法的结果，并采取相应的措施，这是程序员的责任。如果这个方法返回false值，预计你的程序不会执行这个临界区。如果是这样，你应该针对此错误结果做相应的处理。</p>
@@ -423,10 +423,10 @@
 <p>16.创建5个Reader对象，并且用5个线程来执行它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Reader readers[]=new Reader[5];</span><br><span class="line">Thread threadsReader[]=new Thread[5];</span><br><span class="line">for (int i=0; i&lt;5; i++)&#123;</span><br><span class="line">readers[i]=new Reader(pricesInfo);</span><br><span class="line">threadsReader[i]=new Thread(readers[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>17.创建一个Writer对象，并且用线程来执行它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Writer writer=new Writer(pricesInfo);</span><br><span class="line">Thread threadWriter=new Thread(writer);</span><br></pre></td></tr></table></figure></p>
 <p>18.启动这些线程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0; i&lt;5; i++)&#123;</span><br><span class="line">threadsReader[i].start();</span><br><span class="line">&#125;</span><br><span class="line">threadWriter.start();</span><br></pre></td></tr></table></figure></p>
-<p>在以下截图中，你可以看到执行这个例子的一个部分输出:<br><img src="https://s20.postimg.org/8dj3qlyf1/image.jpg" alt=""></p>
+<p>在以下截图中，你可以看到执行这个例子的一个部分输出:<br><img src="/2017/01/14/Java并发编程之Lock/2.jpg"></p>
 <h1 id="修改Lock的公平性"><a href="#修改Lock的公平性" class="headerlink" title="修改Lock的公平性"></a>修改Lock的公平性</h1><p>在ReentrantLock类和ReentrantReadWriteLock类的构造器中，允许一个名为fair的boolean类型参数，它允许你来控制这些类的行为。默认值为 false，这将启用非公平模式。在这个模式中，当有多个线程正在等待一把锁（ReentrantLock或者 ReentrantReadWriteLock），这个锁必须选择它们中间的一个来获得进入临界区，选择任意一个是没有任何标准的。true值将开启公平模式。在这个模式中，当有多个线程正在等待一把锁（ReentrantLock或者ReentrantReadWriteLock），这个锁必须选择它们中间的一个来获得进入临界区，它将选择等待时间最长的线程。由于tryLock()方法并不会使线程进入睡眠，即使Lock接口正在被使用，这个公平属性并不会影响它的功能。更多关于公平模式的介绍，请<a href="http://ifeve.com/basic-thread-synchronization-7/" target="_blank" rel="noopener">点击查阅</a>。</p>
 <hr>
-<p><strong>参考资料</strong><br><a href="http://ifeve.com/basic-thread-synchronization-5/" target="_blank" rel="noopener">并发编程网</a></p>
+<p><strong>参考资料</strong><br><a href="http://ifeve.com/basic-thread-synchronization-5/" target="_blank" rel="noopener">并发编程网-1</a><br><a href="http://ifeve.com/basic-thread-synchronization-6/" target="_blank" rel="noopener">并发编程网-2</a></p>
 
       
     </div>

@@ -91,12 +91,12 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://chuantu.biz/t6/211/1516520176x-1404817814.jpg">
-<meta property="og:updated_time" content="2018-01-29T00:30:43.099Z">
+<meta property="og:image" content="http://yoursite.com/2016/12/18/Java并发编程-Synchronized/1.jpg">
+<meta property="og:updated_time" content="2018-05-12T13:55:19.832Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之Synchronized">
 <meta name="twitter:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
-<meta name="twitter:image" content="http://chuantu.biz/t6/211/1516520176x-1404817814.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2016/12/18/Java并发编程-Synchronized/1.jpg">
 
 
 
@@ -381,7 +381,8 @@
 </ol>
 <h1 id="普通同步方法"><a href="#普通同步方法" class="headerlink" title="普通同步方法"></a>普通同步方法</h1><p>下面是一个普通的同步方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public synchronized void add(int value)&#123;</span><br><span class="line">this.count += value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>如果此时A线程和B线程同时对同一个对象的add方法访问，那么只能有一个线程（假设是A线程）能够进入方法体内获得锁资源，此时B线程只能等待A线程执行完方法体后（释放锁资源）才能执行add方法体中的代码。<br>总结一下就是，在同一时刻只能有一个线程能对同一个对象的synchronized方法进行访问。如果一个线程A正在执行一个synchronized方法，而线程B想要执行同个实例对象的非静态synchronized方法，它将阻塞，直到线程A执行完。但是如果线程B访问相同类的不同实例对象，它们都不会被阻塞。</p>
-<h5 id="再深入一点："><a href="#再深入一点：" class="headerlink" title="再深入一点："></a>再深入一点：</h5><p>CPU从主内存中读数据的效率相对来说不高，现在主流的计算机中，都有几级缓存。每个线程读取共享变量时，都会将该变量加载进其对应CPU的高速缓存里，修改该变量后，CPU会立即更新该缓存，但并不一定会立即将其写回主内存（实际上写回主内存的时间不可预期）。此时其它线程（尤其是不在同一个CPU上执行的线程）访问该变量时，从主内存中读到的就是旧的数据，而非第一个线程更新后的数据。<br><img src="http://chuantu.biz/t6/211/1516520176x-1404817814.jpg" alt=""></p>
+<h5 id="再深入一点："><a href="#再深入一点：" class="headerlink" title="再深入一点："></a>再深入一点：</h5><p>CPU从主内存中读数据的效率相对来说不高，现在主流的计算机中，都有几级缓存。每个线程读取共享变量时，都会将该变量加载进其对应CPU的高速缓存里，修改该变量后，CPU会立即更新该缓存，但并不一定会立即将其写回主内存（实际上写回主内存的时间不可预期）。此时其它线程（尤其是不在同一个CPU上执行的线程）访问该变量时，从主内存中读到的就是旧的数据，而非第一个线程更新后的数据。</p>
+<img src="/2016/12/18/Java并发编程-Synchronized/1.jpg">
 <h1 id="静态同步方法"><a href="#静态同步方法" class="headerlink" title="静态同步方法"></a>静态同步方法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static synchronized void add(int value)&#123;</span><br><span class="line">count += value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>与普通同步方法不同，静态同步方法修饰的对象是整个class对象。只有一个执行线程能访问被synchronized关键字声明的静态方法，<strong>但另一个线程可以访问该类的一个对象中的其他非静态的方法。</strong>你必须非常小心这一点，因为两个线程可以访问两个不同的同步方法，如果其中一个是静态的而另一个不是。如果这两种方法改变相同的数据,你将会有数据不一致的错误。</p>
 <h1 id="普通方法中的同步块"><a href="#普通方法中的同步块" class="headerlink" title="普通方法中的同步块"></a>普通方法中的同步块</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public void log2(String msg1, String msg2)&#123;</span><br><span class="line">synchronized(this)&#123;</span><br><span class="line">log.writeln(msg1);</span><br><span class="line">log.writeln(msg2);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

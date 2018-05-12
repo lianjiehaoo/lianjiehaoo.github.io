@@ -91,12 +91,12 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="实现Android阴影共有三种方式：使用.9图（略）、设置视图的高度、在layer-list资源文件中模拟阴影效果，本篇文章将对后两种方式做介绍。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://upload.ouliu.net/i/20180127163857w285w.png">
-<meta property="og:updated_time" content="2018-01-27T09:40:54.525Z">
+<meta property="og:image" content="http://yoursite.com/2017/05/20/Android实现阴影效果的三种方式/1.png">
+<meta property="og:updated_time" content="2018-05-12T13:17:25.273Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android实现阴影效果的三种方式">
 <meta name="twitter:description" content="实现Android阴影共有三种方式：使用.9图（略）、设置视图的高度、在layer-list资源文件中模拟阴影效果，本篇文章将对后两种方式做介绍。">
-<meta name="twitter:image" content="http://upload.ouliu.net/i/20180127163857w285w.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/05/20/Android实现阴影效果的三种方式/1.png">
 
 
 
@@ -379,7 +379,7 @@
 <li>高度：静态组件。</li>
 <li>转换：用于动画的动态组件。</li>
 </ul>
-<p>Z = elevation + translationZ<br><img src="http://upload.ouliu.net/i/20180127163857w285w.png" alt="不同视图高度的阴影。"><br>如果要在布局定义中设置视图的高度，请使用 <code>android:elevation</code> 属性。如果要在Activity的代码中设置视图高度，请使用 <code>View.setElevation()</code> 方法。<br>如果要设置视图转换，请使用 <code>View.setTranslationZ()</code> 方法，同时，该方法可以通过<strong>属性动画</strong>为视图高度添加动画。</p>
+<p>Z = elevation + translationZ<br><img src="/2017/05/20/Android实现阴影效果的三种方式/1.png" title="不同视图高度的阴影。"><br>如果要在布局定义中设置视图的高度，请使用 <code>android:elevation</code> 属性。如果要在Activity的代码中设置视图高度，请使用 <code>View.setElevation()</code> 方法。<br>如果要设置视图转换，请使用 <code>View.setTranslationZ()</code> 方法，同时，该方法可以通过<strong>属性动画</strong>为视图高度添加动画。</p>
 <h4 id="自定义视图阴影"><a href="#自定义视图阴影" class="headerlink" title="自定义视图阴影"></a>自定义视图阴影</h4><p>视图的背景将决定其阴影的默认形状，下面举一个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">android:id=&quot;@+id/myview&quot;</span><br><span class="line">...</span><br><span class="line">android:elevation=&quot;2dp&quot;</span><br><span class="line">android:background=&quot;@drawable/myrect&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
 <p>背景被定义为一个拥有圆角的矩形：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/drawable/myrect.xml --&gt;</span><br><span class="line">&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:shape=&quot;rectangle&quot;&gt;</span><br><span class="line">&lt;solid android:color=&quot;#42000000&quot; /&gt;</span><br><span class="line">&lt;corners android:radius=&quot;5dp&quot; /&gt;</span><br><span class="line">&lt;/shape&gt;</span><br></pre></td></tr></table></figure></p>
 <p>视图将投射一个带有圆角的阴影，因为背景将定义视图的轮廓。 如果提供一个自定义轮廓，则此轮廓将替换视图阴影的默认形状。</p>

@@ -91,12 +91,12 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="GlobalDialog是由ITalk应用开源的一款全局对话框库。相比于Android原生对话框的繁琐配置，GlobalDialog的优势在于能够快速实现全局对话框的功能（通知账号下线、通知账号异常等）。进一步了解，请访问笔者的Github。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2109293-cdafa26ebd9bd991.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-12-29T11:35:38.162Z">
+<meta property="og:image" content="http://yoursite.com/2017/06/10/GlobalDialog框架使用教程/1.jpg">
+<meta property="og:updated_time" content="2018-05-12T13:06:36.063Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GlobalDialog框架使用教程">
 <meta name="twitter:description" content="GlobalDialog是由ITalk应用开源的一款全局对话框库。相比于Android原生对话框的繁琐配置，GlobalDialog的优势在于能够快速实现全局对话框的功能（通知账号下线、通知账号异常等）。进一步了解，请访问笔者的Github。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2109293-cdafa26ebd9bd991.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="http://yoursite.com/2017/06/10/GlobalDialog框架使用教程/1.jpg">
 
 
 
@@ -372,7 +372,8 @@
       
 
       
-        <p><img src="http://upload-images.jianshu.io/upload_images/2109293-cdafa26ebd9bd991.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="请勿模仿。"><br>GlobalDialog是由<a href="http://italkyou.bmob.site" target="_blank" rel="noopener">ITalk应用</a>开源的一款全局对话框库。相比于Android原生对话框的繁琐配置，GlobalDialog的优势在于能够快速实现<strong>全局对话框</strong>的功能（通知账号下线、通知账号异常等）。进一步了解，请访问笔者的<a href="https://github.com/tangxianming/global-dialog" target="_blank" rel="noopener">Github</a>。<br><a id="more"></a> </p>
+        <img src="/2017/06/10/GlobalDialog框架使用教程/1.jpg" title="请勿模仿。">
+<p>GlobalDialog是由<a href="http://italkyou.bmob.site" target="_blank" rel="noopener">ITalk应用</a>开源的一款全局对话框库。相比于Android原生对话框的繁琐配置，GlobalDialog的优势在于能够快速实现<strong>全局对话框</strong>的功能（通知账号下线、通知账号异常等）。进一步了解，请访问笔者的<a href="https://github.com/tangxianming/global-dialog" target="_blank" rel="noopener">Github</a>。<br><a id="more"></a> </p>
 <p>#集成方法<br>在Module的build.gradle文件中添加如下依赖即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.txm.topcodes.globaldialog:globaldialog:0.1.6&apos;</span><br></pre></td></tr></table></figure></p>
 <p>#调用方式<br>常规方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">new GlobalDialog.Builder()</span><br><span class="line">.setContext(context) </span><br><span class="line">.setDescription(&quot;hello world&quot;) //弹出框的提示信息。</span><br><span class="line">.setStyle(GlobalDialog.Style.SingleAlert) //弹窗的样式。有DoubleAlert、SingleAlert两种，默认为后者。</span><br><span class="line">.setForce(ture) //设置弹框销毁的策略。默认为true。</span><br><span class="line">.setDialogClickListener(new OnDialogClickListener() &#123; //设置回调，也可以不设置。</span><br><span class="line">@Override</span><br><span class="line">public void onSure() &#123;</span><br><span class="line">super.onSure();</span><br><span class="line">&#125;</span><br><span class="line">&#125;).build().show();</span><br></pre></td></tr></table></figure></p>
 <p>精简方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new GlobalDialog.Builder()</span><br><span class="line">.setContext(context) </span><br><span class="line">.setDescription(&quot;hello world&quot;) </span><br><span class="line">.build().show();</span><br></pre></td></tr></table></figure></p>
