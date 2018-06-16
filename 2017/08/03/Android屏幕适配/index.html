@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="Android的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章将以Google的官方文档为基础，全面而深入的讲解Android屏幕适配的原因、重要概念、解决方案及最佳实践。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-11T14:40:06.624Z">
+<meta property="og:updated_time" content="2018-06-16T12:56:17.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android屏幕适配方案">
 <meta name="twitter:description" content="Android的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章将以Google的官方文档为基础，全面而深入的讲解Android屏幕适配的原因、重要概念、解决方案及最佳实践。">
@@ -494,7 +494,7 @@
 </ul>
 <p>也就是说，如果我们为 xhdpi 设备生成了 200x200 px尺寸的图片，就应该使用同一资源为 hdpi、mdpi 和 ldpi 设备分别生成 150x150、100x100 和 75x75 尺寸的图片。然后，将生成的图片文件放在 res/ 下的相应子目录中(mdpi、hdpi、xhdpi、xxhdpi)，系统就会根据运行您应用的设备的屏幕密度自动选择合适的图片。</p>
 <blockquote>
-<p><strong>注意：</strong><br>实际开发的过程中，通常都会做三套配图，对应着drawable-hdpi、drawable-xhdpi、drawable-xxhdpi三个文件夹。当然时间赶的话，做一套也是可以的。具体可以参考<a href="https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650235875&amp;idx=1&amp;sn=add1f85f961b2e70164900cc287b1e66&amp;scene=38#wechat_redirect" target="_blank" rel="noopener">王月半子的文章</a>和<a href="http://www.imooc.com/article/7265" target="_blank" rel="noopener">慕课网的这篇文章</a>，对于慕课网的这篇，其中对资源的加载策略做了详细的讲解，值得一看。</p>
+<p><strong>注意：</strong><br>实际开发的过程中，通常都会做三套配图，对应着drawable-hdpi、drawable-xhdpi、drawable-xxhdpi三个文件夹。当然时间赶的话，做一套也是可以的。具体可以参考<a href="https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&amp;mid=2650235875&amp;idx=1&amp;sn=add1f85f961b2e70164900cc287b1e66&amp;scene=38#wechat_redirect" target="_blank" rel="noopener">王月半子的文章</a>和<a href="http://www.imooc.com/article/7265" target="_blank" rel="noopener">慕课网的这篇文章</a>。对于慕课网的这篇，其中对资源的加载策略做了详细的讲解，值得一看，同时，慕课网一文所提及的资源加载策略同样适用于values文件夹。对于王月半子的文章中有提及过mipmap和drawable的区别，我在此基础上的总结是APP的桌面图标坚决用mipmap-[<em>]dpi，其它的资源除所提及的必须放在drawable文件夹中的外，google并没有给出明确的指示，所以放mipmap-[</em>]dpi中和drawable-[*]dpi都可以。最后还需要注意的一点是，如果有的手机尺寸比较奇葩，可以试试w<n>dp限定符，还是不行的话，就建议动态设置了。</n></p>
 </blockquote>
 <p>这样一来，只要我们引用 @drawable/id，系统都能根据相应屏幕的 dpi 选取合适的位图。还记得我们上面提到的图标设计尺寸吗？和这个其实是一个意思。但是还有个问题需要注意下，<strong>如果是.9图或者是不需要多个分辨率的图片，就放在drawable文件夹即可。</strong></p>
 <blockquote>
