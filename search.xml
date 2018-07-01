@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Android演化历史]]></title>
     <url>%2F2018%2F06%2F21%2FAndroid%E5%90%84%E7%89%88%E6%9C%AC%E4%BB%A3%E5%8F%B7%E3%80%81%E7%89%88%E6%9C%AC%E5%8F%B7%E3%80%81API%E7%BA%A7%E5%88%AB%E3%80%81%E5%8F%91%E5%B8%83%E6%97%B6%E9%97%B4%E5%AF%B9%E7%85%A7%E8%A1%A8%2F</url>
-    <content type="text"><![CDATA[Android开发过程中，经常会遇到类似于这个版本号对应的API级别是多少？这个API级别对应的版本号是多少？这样的问题。本文就以此为出发点，详细的介绍一下Android的版本演化进程。一是为了下次再遇到前面说的问题时能够快速查找本文得到答案，二是让自己对Android发展历程有一个清晰的思路。 对照表 版本号 API级别 代号 发布时间 Android 9.0 28 P 2018-3 Android 8.1 27 Oreo Android 8.0 26 Oreo 2017-3 Android 7.1.1 25 Nougat 2016-10 Android 7.0 24 Nougat 2016-08 Android 6.0 23 Marshmallow 2015-10 Android 5.1 22 Lollipop 2015-03 Android 5.0 21 Lollipop 2014-11 Android 4.4W 20 KitKat 2014-06 Android 4.4 19 KitKat 2013-10 Android 4.3 18 Jelly Bean 2013-07 Android 4.2 17 Jelly Bean 2012-11 Android 4.1 16 Jelly Bean 2012-07 Android 4.0.3 15 Ice Cream Sandwich 2011-12 Android 4.0 14 Ice Cream Sandwich 2011-10 Android 3.2 13 Honeycomb 2011-07 Android 3.1 12 Honeycomb 2011-05 Android 3.0 11 Honeycomb 2011-02 Android 2.3.3 10 Gingerbread 2011-02 Android 2.3 9 Gingerbread 2010-12 Android 2.2 8 Froyo 2010-05 Android 2.1 7 Eclair 2010-01 Android 2.0.1 6 Eclair 2009-12 Android 2.0 5 Eclair 2009-10 Android 1.6 4 Donut 2009-09 Android 1.5 3 Cupcake 2009-04 Android 1.1 2 2009-02 Android 1.0 1 2008-09 Android重要历史版本功能Android 4.4 全屏沉浸模式 透明系统 UI 样式 用于动画场景的转场框架 屏幕录制 步测器和计步器see more>> Android 5.0 Material Design 全新的通知中心设计 支持64位ART虚拟机see more>> Android 6.0 运行时权限及其管理 低电耗模式和应用待机模式 文本选择 WLAN 和网络连接变更 指纹身份验证 主题化 ColorStateListsee more>> Android 7.0 多语言区域支持，更多语言 多窗口支持 新增的表情符号see more>> 参考资料Android各版本代号…]]></content>
+    <content type="text"><![CDATA[Android开发过程中，经常会遇到类似于这个版本号对应的API级别是多少？这个API级别对应的版本号是多少？这样的问题。本文就以此为出发点，详细的介绍一下Android的版本演化进程。一是为了下次再遇到前面说的问题时能够快速查找本文得到答案，二是让自己对Android发展历程有一个清晰的思路。 对照表 版本号 API级别 代号 发布时间 Android 9.0 28 P 2018-3 Android 8.1 27 Oreo Android 8.0 26 Oreo 2017-3 Android 7.1.1 25 Nougat 2016-10 Android 7.0 24 Nougat 2016-08 Android 6.0 23 Marshmallow 2015-10 Android 5.1 22 Lollipop 2015-03 Android 5.0 21 Lollipop 2014-11 Android 4.4W 20 KitKat 2014-06 Android 4.4 19 KitKat 2013-10 Android 4.3 18 Jelly Bean 2013-07 Android 4.2 17 Jelly Bean 2012-11 Android 4.1 16 Jelly Bean 2012-07 Android 4.0.3 15 Ice Cream Sandwich 2011-12 Android 4.0 14 Ice Cream Sandwich 2011-10 Android 3.2 13 Honeycomb 2011-07 Android 3.1 12 Honeycomb 2011-05 Android 3.0 11 Honeycomb 2011-02 Android 2.3.3 10 Gingerbread 2011-02 Android 2.3 9 Gingerbread 2010-12 Android 2.2 8 Froyo 2010-05 Android 2.1 7 Eclair 2010-01 Android 2.0.1 6 Eclair 2009-12 Android 2.0 5 Eclair 2009-10 Android 1.6 4 Donut 2009-09 Android 1.5 3 Cupcake 2009-04 Android 1.1 2 2009-02 Android 1.0 1 2008-09 Android重要历史版本功能Android 4.4 全屏沉浸模式 透明系统 UI 样式 用于动画场景的转场框架 屏幕录制 步测器和计步器see more>> Android 5.0 Material Design 全新的通知中心设计 支持64位ART虚拟机see more>> Android 6.0 运行时权限及其管理 低电耗模式和应用待机模式 文本选择 WLAN 和网络连接变更 指纹身份验证 主题化 ColorStateListsee more>> Android 7.0 多语言区域支持，更多语言 多窗口支持 新增的表情符号see more>> 参考资料Android平台版本对比]]></content>
   </entry>
   <entry>
     <title><![CDATA[RecycleView探究（一）：添加头尾布局]]></title>
@@ -169,8 +169,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>View</tag>
         <tag>框架</tag>
+        <tag>View</tag>
       </tags>
   </entry>
   <entry>
@@ -275,8 +275,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>框架</tag>
         <tag>Cache</tag>
+        <tag>框架</tag>
       </tags>
   </entry>
   <entry>
