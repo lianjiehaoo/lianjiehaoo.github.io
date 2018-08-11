@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="DecimalFormat," />
 
 
 
@@ -83,13 +83,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="唐先明de博客">
-<meta property="og:url" content="http://yoursite.com/categories/算法/index.html">
+<meta name="description" content="产品狗的需求：要求客户端拿到服务器返回的数据后，以最多保留2位小数的形式展示该数据。例如：2.247==&amp;gt;2.25、2.20==&amp;gt;2.2。">
+<meta name="keywords" content="DecimalFormat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DecimalFormat使用详解">
+<meta property="og:url" content="http://yoursite.com/2018/08/11/DecimalFormat使用详解/index.html">
 <meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="产品狗的需求：要求客户端拿到服务器返回的数据后，以最多保留2位小数的形式展示该数据。例如：2.247==&amp;gt;2.25、2.20==&amp;gt;2.2。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/08/11/DecimalFormat使用详解/1.jpg">
+<meta property="og:updated_time" content="2018-08-11T03:21:06.204Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="唐先明de博客">
+<meta name="twitter:title" content="DecimalFormat使用详解">
+<meta name="twitter:description" content="产品狗的需求：要求客户端拿到服务器返回的数据后，以最多保留2位小数的形式展示该数据。例如：2.247==&amp;gt;2.25、2.20==&amp;gt;2.2。">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/11/DecimalFormat使用详解/1.jpg">
 
 
 
@@ -119,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/算法/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/11/DecimalFormat使用详解/"/>
 
 
 
 
 
-  <title>分类: 算法 | 唐先明de博客</title>
+  <title>DecimalFormat使用详解 | 唐先明de博客</title>
   
 
 
@@ -144,7 +151,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -262,55 +269,178 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>算法<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/11/DecimalFormat使用详解/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/12/20/MD5加密算法/" itemprop="url">
-              
-                <span itemprop="name">MD5加密算法</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">DecimalFormat使用详解</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-12-20T17:19:02+08:00"
-              content="2017-12-20" >
-          12-20
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-11T11:16:06+08:00">
+                2018-08-11
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><strong>产品狗的需求：</strong><br>要求客户端拿到服务器返回的数据后，以最多保留2位小数的形式展示该数据。例如：2.247==&gt;2.25、2.20==&gt;2.2。</p>
+</blockquote>
+<a id="more"></a>
+<p>拿到这个需求后，当然最先考虑的是使用<code>String.format(&quot;%.2f&quot;, 2.20)</code>,可是结果却是：<br><img src="/2018/08/11/DecimalFormat使用详解/1.jpg"><br>很显然，String.format的形式只能适用于固定的小数保留需求。<br>之后笔者在网上搜索了一圈，发现主要有DecimalFormat、BigDecimal、NumberFormat<a href="https://www.cnblogs.com/chenrenshui/p/6128444.html" target="_blank" rel="noopener">这几种方案</a>。鉴于它们的功能一样，本文就对DecimalFormat做一番研究。</p>
+<h2 id="DecimalFormat-中的-0-和"><a href="#DecimalFormat-中的-0-和" class="headerlink" title="DecimalFormat 中的 0 和 #"></a>DecimalFormat 中的 0 和 #</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">import java.text.DecimalFormat;</span><br><span class="line"></span><br><span class="line">public class DecimalFormatTest</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[]args)&#123;</span><br><span class="line">DecimalFormat df1,df2;</span><br><span class="line">System.out.println(&quot;整数部分0/#的区别&quot;);</span><br><span class="line"></span><br><span class="line">df1 = new DecimalFormat(&quot;#.00&quot;);</span><br><span class="line">df2 = new DecimalFormat(&quot;0.00&quot;);</span><br><span class="line"></span><br><span class="line">System.out.println(df1.format(0.1)); // .10</span><br><span class="line">System.out.println(df2.format(0.1)); // 0.10  </span><br><span class="line"></span><br><span class="line">System.out.println(&quot;小数部分0/#的区别&quot;);</span><br><span class="line"></span><br><span class="line">df1 = new DecimalFormat(&quot;0.00&quot;);</span><br><span class="line">df2 = new DecimalFormat(&quot;0.##&quot;);</span><br><span class="line"></span><br><span class="line">System.out.println(df1.format(0.1)); // 0.10</span><br><span class="line">System.out.println(df2.format(0.1)); // 0.1</span><br><span class="line"></span><br><span class="line">System.out.println(df1.format(0.006)); // 0.01</span><br><span class="line">System.out.println(df2.format(0.006)); // 0.01</span><br><span class="line"></span><br><span class="line">System.out.println(&quot;3、整数部分有多位&quot;);</span><br><span class="line"></span><br><span class="line">df1 = new DecimalFormat(&quot;0.00&quot;);</span><br><span class="line">df2 = new DecimalFormat(&quot;#.00&quot;);</span><br><span class="line"></span><br><span class="line">System.out.println(df1.format(2)); // 2.00</span><br><span class="line">System.out.println(df2.format(2)); // 2.00</span><br><span class="line"></span><br><span class="line">System.out.println(df1.format(20)); // 20.00</span><br><span class="line">System.out.println(df2.format(20)); // 20.00</span><br><span class="line"></span><br><span class="line">System.out.println(df1.format(200)); // 200.00</span><br><span class="line">System.out.println(df2.format(200)); // 200.00</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>结论：</strong><br>1、小数部分 #代表最多有几位，0代表必须有且只能有几位。<br>.00 表示最终结果有两位小数,没有则补0，多了就四舍五入第三个小数。<br>.## 表示最终结果最多有两位小数，一位或者没有都可以，多了同样四舍五入第三位。<br>2、整数部分 0 和 #。<br>当整数部分为0时，比如 0.1，# 此时认为整数部分不存在，所以不写 。0 认为没有至少也得一位，写上0。（这跟上面第一部分的表现是一致的：# 有就写，没有就不写；0 必须有，没有就补0。）<br>3、整数部分有多位时： 2；20；200。<br>由上面的结果可以看出 0和#对整数部分多位时的处理是一致的，就是有几位写多少位。（这跟上面两部分的表现是不一致的 在有多位时，0和#都没有匹配位数，而是有多少写多少。）<br>通常，我们使用的处理方式有： 0.00 或者 0.## 。<br><strong>实践：</strong><br>对于问题中的2.247==&gt;2.25、2.20==&gt;2.2，采用DecimalFormat实现如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new DecimalFormat(&quot;0.##&quot;).format(dd);</span><br></pre></td></tr></table></figure></p>
+<h2 id="问题延伸"><a href="#问题延伸" class="headerlink" title="问题延伸"></a>问题延伸</h2><p><a href="https://blog.csdn.net/alanzyy/article/details/8465098" target="_blank" rel="noopener">1、DecimalFormat对数值格式化的舍入问题——RoundingMode。</a><br><a href="https://www.cnblogs.com/yjmyzz/p/4427669.html" target="_blank" rel="noopener">2、恶心的0.5四舍五入问题。</a><br>对于此条问题，笔者使用的方式是文中所提及的<code>在具体数据后加上0.000001</code>。<br>3、String.format对于浮点型数据的展示问题。<br>注意在精度要求高的情况下，<strong>String.format中使用的浮点数必须是双精度的</strong>，这样才能确保四舍五入的规则正确。比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(String.format(&quot;%.2f&quot;, 2.245f));</span><br></pre></td></tr></table></figure></p>
+<p>打印的结果是 2.24，错误。如果是这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(String.format(&quot;%.2f&quot;, 2.245));</span><br></pre></td></tr></table></figure></p>
+<p>打印的结果就是 2.25，正确。<br>为什么会这样呢？这里涉及到精度损耗的问题。在<code>String.format(&quot;%.2f&quot;, 2.245f)</code>中接受的数值应该是double类型的，所以2.245f 实际上是被转换为了double类型。而 java 将2.245f 强制转化为double类型后，得到的实际double类型值为：2.244999885559082。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DecimalFormat/" rel="tag"># DecimalFormat</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/21/由View-post-方法引发的想象/" rel="next" title="由View.post()方法引发的想象">
+                <i class="fa fa-chevron-left"></i> 由View.post()方法引发的想象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -318,6 +448,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -338,8 +472,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -412,6 +555,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DecimalFormat-中的-0-和"><span class="nav-number">1.</span> <span class="nav-text"><a href="#DecimalFormat-&#x4E2D;&#x7684;-0-&#x548C;" class="headerlink" title="DecimalFormat &#x4E2D;&#x7684; 0 &#x548C; #"></a>DecimalFormat &#x4E2D;&#x7684; 0 &#x548C; #</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题延伸"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x5EF6;&#x4F38;" class="headerlink" title="&#x95EE;&#x9898;&#x5EF6;&#x4F38;"></a>&#x95EE;&#x9898;&#x5EF6;&#x4F38;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -545,6 +704,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
