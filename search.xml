@@ -4,6 +4,13 @@
     <title><![CDATA[动画基础03：矢量图动画]]></title>
     <url>%2F2019%2F02%2F17%2F%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8003%EF%BC%9A%E7%9F%A2%E9%87%8F%E5%9B%BE%E5%8A%A8%E7%94%BB%2F</url>
     <content type="text"><![CDATA[笔者已将本节的代码上传至Github，大家可以结合着学习。本篇参考了CSDN作者：Mr13_周 的以下三篇文章。1、SVG 的 PathData 在 Android 中的使用2、Android：获取并制作矢量图动画3、Android 矢量图动画（完结篇）在通读完这3篇文章后，笔者在代码实操过程中遇到以下几个问题，现把他们的解答记录了下来。 知识一：strokeLineJoin的miter模式 。strokeLineJoin是path标签下的属性，负责线条的拐角形状，包括如下3个属性值：1、miter : 默认值，也就是系统默认使用的。2、round : 圆角式连接。3、bevel：斜角式连接。当线条拐角为 MITER时，拐角处的外缘需要使用延长线来补偿：而这种补偿方案会有一个问题：如果拐角的角度太小，就有可能由于出现连接点过长的情况。比如这样：所以为了避免意料之外的过长的尖角出现， MITER 型连接点有一个额外的规则：当尖角过长时，自动改用 BEVEL 的方式来渲染连接点。例如上图的这个尖角，在默认情况下是不会出现的，而是会由于延长线过长而被转为 BEVEL 型连接点：至于多尖的角才属于过于尖，尖到需要转为使用 BEVEL 来绘制，则是由path标签的属性strokeMiterLimit来设置的。strokeMiterLimit 参数是对于转角长度的限制，具体来讲，是指尖角的外缘端点和内部拐角的距离与线条宽度的比。也就是下面这两个长度的比：这个 strokeMiterLimit 的默认值是 4，对应的是一个大约 29° 的锐角：默认情况下，大于这个角的尖角会被保留，而小于这个夹角的strokeLineJoin就会被自动转换为bevel模式。参考地址&gt;&gt; 知识二：SVG、VectorDrawable、AnimatedVectorDrawable之间的联系。SVG是一种格式，代表矢量图形，类似的有JPG、PNG格式。SVG不能在Android中直接使用。VectorDrawable是Android 5.0系统中引入了来支持矢量图(SVG)的，同时还引入了 AnimatedVectorDrawable 来支持矢量图动画。市场上有很多SVG转VectorDrawable的工具，笔者推荐这个网站，不过需要科学上网哦。参考地址&gt;&gt; 知识三：VectorDrawable的各个标签的属性介绍。如果你喜欢原滋原味的，请查看官方文档。如果喜欢翻译好了的，请移步这篇文章的最后部分。 知识四：对trimPathStart、trimPathEnd、trimPathOffset属性的理解。具体介绍请移步到简书的这篇文章。这里还有一点需要补充，当他们的值n大于1时，实际的值是n-1，比如trimPathStart的值是1.1，那么系统会自动按0.1处理。注意，n不能小于0，否者会将当前path全部修剪。其它的情况，可以下载笔者的代码自己操作一下。 知识五：怎么处理兼容性？Android从5.0版本（API 21）才开始支持矢量图，引入了VectorDrawable（矢量图） 和 AnimatedVectorDrawable（矢量图动画）。对于低版本，官方虽然也给出了兼容方法，但是依然还有很多坑要踩，比如这篇文章所说的。所以笔者建议如果没有强制要求的话，还是把你的app的最低版本支持提高到API 21吧。 知识六：width、height、viewportWidth、viewportHeight属性说明。1、android:width \ android:height:定义矢量图的宽高。2、android:viewportHeight \ android:viewportWidth:定义图像被划分的比例大小。比如width=200dp、viewportWidth=500，即把200dp大小的图像划分成500份，后面Path标签中的坐标，就全部使用的是这里划分后的坐标系统。]]></content>
+      <categories>
+        <category>Android动画基础</category>
+      </categories>
+      <tags>
+        <tag>AnimationDrawable</tag>
+        <tag>AnimatedVectorDrawable</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[动画基础02：视图动画、属性动画]]></title>
