@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-17T02:03:35.631Z">
+<meta property="og:updated_time" content="2019-03-03T13:18:18.015Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fragment的理解">
 <meta name="twitter:description" content="碎片化的出现让一些复杂冗长的内容在一些屏幕与分辨率存在差异的屏幕上得到了合理的展示，极大地提高了用户的体验。下面对Fragment的一些热点问题进行一下讲解。">
@@ -432,7 +432,7 @@
 </tr>
 </tbody>
 </table>
-<p>这里有几点需要注意的地方：<br>1、因为Fragment与Activity是绑定在一起的，所以当Activity被销毁时，Fragment也要被销毁。Fragment的调销毁过程是：onPause()——&gt;onStop()——&gt;onDestroyView()——&gt;onDestroy()——&gt;onDetach()。<br>2、调用FragmentTransaction的hide()与show()对于Fragment的生命周期没有影响。<br>3、调用FragmentTransaction的replace()方法，并且在次之前没有调用addToBackStack，则之前已创建的Fragment(如果有)将会被解绑；反之，如果在次之前调用了addToBackStack方法，之前已创建的Fragment(如果有)将只会被销毁它的View对象，即调用onDestroyView()方法。</p>
+<p>这里有几点需要注意的地方：<br>1、因为Fragment与Activity是绑定在一起的，所以当Activity被销毁时，Fragment也要被销毁。Fragment的调销毁过程是：onPause()——&gt;onStop()——&gt;onDestroyView()——&gt;onDestroy()——&gt;onDetach()。<br>2、调用FragmentTransaction的hide()与show()对于Fragment的生命周期没有影响。<br>3、调用FragmentTransaction的replace()方法，并且在次之前没有调用addToBackStack，则之前已创建的Fragment(如果有)将会被解绑；反之，如果在此之前调用了addToBackStack方法，之前已创建的Fragment(如果有)将只会被销毁它的View对象，即调用onDestroyView()方法。之后如果按返回键或者调用<code>getSupportFragmentManager().popBackStack()</code>方法，之前的Fragment将会再次显示，这个过程中依次调用了之前fragment的onCreateView()——&gt;onActivityCreated()——&gt;onStart()——&gt;onResume()方法。</p>
 <h1 id="Fragment与Activity如何进行交互"><a href="#Fragment与Activity如何进行交互" class="headerlink" title="Fragment与Activity如何进行交互"></a>Fragment与Activity如何进行交互</h1><p>由于所有的Fragment都依赖与Activity，因此它们之间实现通信并不复杂，大概可以分为两种：一种是在Activity中访问Fragment，一种是在Frament中访问Activity，具体如下：</p>
 <h4 id="在Activity中访问Frament"><a href="#在Activity中访问Frament" class="headerlink" title="在Activity中访问Frament"></a>在Activity中访问Frament</h4><p>因为可以在Activity中获取Fragment实例（特殊除外），所以可以直接访问Frament中声明的公有方法。</p>
 <blockquote>
@@ -564,7 +564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -586,7 +586,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

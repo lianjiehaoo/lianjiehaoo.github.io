@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="淡入淡出动画,翻牌动画,揭露动画," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。以下内容是对官方文档的翻译。">
+<meta name="keywords" content="淡入淡出动画,翻牌动画,揭露动画">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动画基础04：淡入淡出、翻牌、揭露动画">
+<meta property="og:url" content="http://yoursite.com/2019/02/22/动画基础04：淡入、翻牌、揭露动画/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。以下内容是对官方文档的翻译。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/02/22/动画基础04：淡入、翻牌、揭露动画/anim_crossfade.gif">
+<meta property="og:image" content="http://yoursite.com/2019/02/22/动画基础04：淡入、翻牌、揭露动画/anim_card_flip.gif">
+<meta property="og:updated_time" content="2019-03-03T13:18:18.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动画基础04：淡入淡出、翻牌、揭露动画">
+<meta name="twitter:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。以下内容是对官方文档的翻译。">
+<meta name="twitter:image" content="http://yoursite.com/2019/02/22/动画基础04：淡入、翻牌、揭露动画/anim_crossfade.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/22/动画基础04：淡入、翻牌、揭露动画/"/>
+
+
+
+
+
+  <title>动画基础04：淡入淡出、翻牌、揭露动画 | 唐先明de博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">唐先明de博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/动画基础04：淡入、翻牌、揭露动画/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">动画基础04：淡入淡出、翻牌、揭露动画</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T15:20:25+08:00">
+                2019-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android动画基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Android动画基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。以下内容是对<a href="https://developer.android.com/training/animation/reveal-or-hide-view#java" target="_blank" rel="noopener">官方文档</a>的翻译。<a id="more"></a><br>当你在使用APP时，如果立即从旧的内容切换到新内容，则很容易让用户感到不适，所以我们需要转场动画来平滑地过渡这种新旧内容的切换过程。<br>有三种常用的动画适合该场景，他们分别是淡入淡出动画、翻牌动画、揭露动画。</p>
+<h2 id="淡入淡出动画"><a href="#淡入淡出动画" class="headerlink" title="淡入淡出动画"></a>淡入淡出动画</h2><p>淡入淡出动画顾名思义是在一个View或者ViewGroup消失时，另外一个View同步显示的动画。本节采用<code>ViewPropertyAnimator</code>实现淡入淡出动画，从Android 3.1 （API level 12）开始支持 ViewPropertyAnimator。<br>这是一个使用淡入淡出动画的例子。<br><img src="/2019/02/22/动画基础04：淡入、翻牌、揭露动画/anim_crossfade.gif" title="Crossfade animation"></p>
+<h4 id="创建views"><a href="#创建views" class="headerlink" title="创建views"></a>创建views</h4><p>首先，你需要创建两个你需要使用淡入淡出动画的View。下面创建了一个进度指示view和一个可滑动的文本view：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ScrollView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">        android:id=&quot;@+id/content&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView style=&quot;?android:textAppearanceMedium&quot;</span><br><span class="line">            android:lineSpacingMultiplier=&quot;1.2&quot;</span><br><span class="line">            android:layout_width=&quot;match_parent&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:text=&quot;@string/lorem_ipsum&quot;</span><br><span class="line">            android:padding=&quot;16dp&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/ScrollView&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ProgressBar android:id=&quot;@+id/loading_spinner&quot;</span><br><span class="line">        style=&quot;?android:progressBarStyleLarge&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_gravity=&quot;center&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/FrameLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建淡入淡出动画"><a href="#创建淡入淡出动画" class="headerlink" title="创建淡入淡出动画"></a>创建淡入淡出动画</h4><p>分为3个步骤：<br>1、创建成员变量以便接下来对其添加动画。<br>2、对于将要淡入的view，提前将visibility属性设置为<code>GONE</code>。这不仅能够避免该view在动画开始之前占用layout空间，同时也避免了不必要的layout计算。<br>3、预先保存<code>config_shortAnimTime</code>属性值。这个属性值表示标准的短暂动画时长，这个时长是很理想的数值对于频繁使用的动画来说。除此之外，还有<code>config_longAnimTime</code>和<code>config_mediumAnimTime</code>可供选择。</p>
+<p>下面的代码使用了之前创建的layout作为活动的content view：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class CrossfadeActivity extends Activity &#123;</span><br><span class="line"></span><br><span class="line">    private View contentView;</span><br><span class="line">    private View loadingView;</span><br><span class="line">    private int shortAnimationDuration;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_crossfade);</span><br><span class="line"></span><br><span class="line">        contentView = findViewById(R.id.content);</span><br><span class="line">        loadingView = findViewById(R.id.loading_spinner);</span><br><span class="line"></span><br><span class="line">        // Initially hide the content view.</span><br><span class="line">        contentView.setVisibility(View.GONE);</span><br><span class="line"></span><br><span class="line">        // Retrieve and cache the system&apos;s default &quot;short&quot; animation time.</span><br><span class="line">        shortAnimationDuration = getResources().getInteger(</span><br><span class="line">                android.R.integer.config_shortAnimTime);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="添加淡入淡出动画"><a href="#添加淡入淡出动画" class="headerlink" title="添加淡入淡出动画"></a>添加淡入淡出动画</h4><p>最后，我们要实现淡入淡出动画还需要如下3个步骤：<br>1、对于将要淡入的view，设置它的alpha属性为0并且设置visiblity为<code>VISIBLE</code>。（如果你回顾一下，该view之前的visibility为<code>GONE</code>.）这一步让该view处于可见但完全透明的状态。<br>2、对将要淡入的view，让它的透明度从0变化到1。对于将要淡出的view，让它的透明度从1到0。<br>3、在<code>Animator.AnimatorListener</code>的<code>onAnimationEnd()</code>方法中设置淡出view 的 visibility 属性为<code>GONE</code>。注意，虽然该view已经完全透明，但是设置属性visibility为<code>GONE</code>不仅可以阻止该view占用layout空间，同时还避免了不必要的layout计算。<br>下面是这几步的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public class CrossfadeActivity extends Activity &#123;</span><br><span class="line"></span><br><span class="line">    private View contentView;</span><br><span class="line">    private View loadingView;</span><br><span class="line">    private int shortAnimationDuration;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    private void crossfade() &#123;</span><br><span class="line"></span><br><span class="line">        // Set the content view to 0% opacity but visible, so that it is visible</span><br><span class="line">        // (but fully transparent) during the animation.</span><br><span class="line">        contentView.setAlpha(0f);</span><br><span class="line">        contentView.setVisibility(View.VISIBLE);</span><br><span class="line"></span><br><span class="line">        // Animate the content view to 100% opacity, and clear any animation</span><br><span class="line">        // listener set on the view.</span><br><span class="line">        contentView.animate()</span><br><span class="line">                .alpha(1f)</span><br><span class="line">                .setDuration(shortAnimationDuration)</span><br><span class="line">                .setListener(null);</span><br><span class="line"></span><br><span class="line">        // Animate the loading view to 0% opacity. After the animation ends,</span><br><span class="line">        // set its visibility to GONE as an optimization step (it won&apos;t</span><br><span class="line">        // participate in layout passes, etc.)</span><br><span class="line">        loadingView.animate()</span><br><span class="line">                .alpha(0f)</span><br><span class="line">                .setDuration(shortAnimationDuration)</span><br><span class="line">                .setListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">                        loadingView.setVisibility(View.GONE);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="翻牌动画"><a href="#翻牌动画" class="headerlink" title="翻牌动画"></a>翻牌动画</h2><p>该动画适用于在两个view之间实现类似翻牌的动效。本节的翻牌动画借助了<code>FragmentTransaction</code>类的<code>setCustomAnimations</code>方法，该类从Android3.0（API等级11）开始可以调用。当然，你也可以借助其他的方式实现咯。<br>下面是翻牌的样子：<br><img src="/2019/02/22/动画基础04：淡入、翻牌、揭露动画/anim_card_flip.gif" title="Card flip animation"></p>
+<h4 id="创建Animator-object"><a href="#创建Animator-object" class="headerlink" title="创建Animator object"></a>创建Animator object</h4><p>为了创建翻牌动画，你一共需要四个animators。两个分别控制前面的内容（卡片正面）从左边翻出和从左边翻入。同时需要两个animators分别控制后面的内容（卡片反面）从右边翻入和右边翻出。<br>card_flip_left_in.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;!-- Before rotating, immediately set the alpha to 0. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;1.0&quot;</span><br><span class="line">        android:valueTo=&quot;0.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:duration=&quot;0&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Rotate. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;-180&quot;</span><br><span class="line">        android:valueTo=&quot;0&quot;</span><br><span class="line">        android:propertyName=&quot;rotationY&quot;</span><br><span class="line">        android:interpolator=&quot;@android:interpolator/accelerate_decelerate&quot;</span><br><span class="line">        android:duration=&quot;@integer/card_flip_time_full&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Half-way through the rotation (see startOffset), set the alpha to 1. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;0.0&quot;</span><br><span class="line">        android:valueTo=&quot;1.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:startOffset=&quot;@integer/card_flip_time_half&quot;</span><br><span class="line">        android:duration=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure></p>
+<p>card_flip_left_out.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;!-- Rotate. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;0&quot;</span><br><span class="line">        android:valueTo=&quot;180&quot;</span><br><span class="line">        android:propertyName=&quot;rotationY&quot;</span><br><span class="line">        android:interpolator=&quot;@android:interpolator/accelerate_decelerate&quot;</span><br><span class="line">        android:duration=&quot;@integer/card_flip_time_full&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Half-way through the rotation (see startOffset), set the alpha to 0. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;1.0&quot;</span><br><span class="line">        android:valueTo=&quot;0.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:startOffset=&quot;@integer/card_flip_time_half&quot;</span><br><span class="line">        android:duration=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure></p>
+<p>card_flip_right_in.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;!-- Before rotating, immediately set the alpha to 0. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;1.0&quot;</span><br><span class="line">        android:valueTo=&quot;0.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:duration=&quot;0&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Rotate. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;180&quot;</span><br><span class="line">        android:valueTo=&quot;0&quot;</span><br><span class="line">        android:propertyName=&quot;rotationY&quot;</span><br><span class="line">        android:interpolator=&quot;@android:interpolator/accelerate_decelerate&quot;</span><br><span class="line">        android:duration=&quot;@integer/card_flip_time_full&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Half-way through the rotation (see startOffset), set the alpha to 1. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;0.0&quot;</span><br><span class="line">        android:valueTo=&quot;1.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:startOffset=&quot;@integer/card_flip_time_half&quot;</span><br><span class="line">        android:duration=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure></p>
+<p>card_flip_right_out.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;!-- Rotate. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;0&quot;</span><br><span class="line">        android:valueTo=&quot;-180&quot;</span><br><span class="line">        android:propertyName=&quot;rotationY&quot;</span><br><span class="line">        android:interpolator=&quot;@android:interpolator/accelerate_decelerate&quot;</span><br><span class="line">        android:duration=&quot;@integer/card_flip_time_full&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Half-way through the rotation (see startOffset), set the alpha to 0. --&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:valueFrom=&quot;1.0&quot;</span><br><span class="line">        android:valueTo=&quot;0.0&quot;</span><br><span class="line">        android:propertyName=&quot;alpha&quot;</span><br><span class="line">        android:startOffset=&quot;@integer/card_flip_time_half&quot;</span><br><span class="line">        android:duration=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建view"><a href="#创建view" class="headerlink" title="创建view"></a>创建view</h4><p>卡片的正反面是两个独立的layout，方便之后将这两个独立的layout分别绑定到两个frament上。下面是这两个独立的layout之一：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;</span><br><span class="line">    android:background=&quot;#a6c&quot;</span><br><span class="line">    android:padding=&quot;16dp&quot;</span><br><span class="line">    android:gravity=&quot;bottom&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView android:id=&quot;@android:id/text1&quot;</span><br><span class="line">        style=&quot;?android:textAppearanceLarge&quot;</span><br><span class="line">        android:textStyle=&quot;bold&quot;</span><br><span class="line">        android:textColor=&quot;#fff&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:text=&quot;@string/card_back_title&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView style=&quot;?android:textAppearanceSmall&quot;</span><br><span class="line">        android:textAllCaps=&quot;true&quot;</span><br><span class="line">        android:textColor=&quot;#80ffffff&quot;</span><br><span class="line">        android:textStyle=&quot;bold&quot;</span><br><span class="line">        android:lineSpacingMultiplier=&quot;1.2&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:text=&quot;@string/card_back_description&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>下面是另一个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;ImageView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:src=&quot;@drawable/image1&quot;</span><br><span class="line">    android:scaleType=&quot;centerCrop&quot;</span><br><span class="line">    android:contentDescription=&quot;@string/description_image_1&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建fragments"><a href="#创建fragments" class="headerlink" title="创建fragments"></a>创建fragments</h4><p>创建两个fragment作为卡片的正反面，将之前的两个layout分别绑定到这两个frament上。然后将这两个fragment作为FragmentActivity的展示内容，该Activity就是你要展示翻牌动画的页面。下面是两个fragment的定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class CardFlipActivity extends FragmentActivity &#123;</span><br><span class="line">    ...</span><br><span class="line">    /**</span><br><span class="line">     * A fragment representing the front of the card.</span><br><span class="line">     */</span><br><span class="line">    public class CardFrontFragment extends Fragment &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public View onCreateView(LayoutInflater inflater, ViewGroup container,</span><br><span class="line">                Bundle savedInstanceState) &#123;</span><br><span class="line">            return inflater.inflate(R.layout.fragment_card_front, container, false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * A fragment representing the back of the card.</span><br><span class="line">     */</span><br><span class="line">    public class CardBackFragment extends Fragment &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public View onCreateView(LayoutInflater inflater, ViewGroup container,</span><br><span class="line">                Bundle savedInstanceState) &#123;</span><br><span class="line">            return inflater.inflate(R.layout.fragment_card_back, container, false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="实现动画"><a href="#实现动画" class="headerlink" title="实现动画"></a>实现动画</h4><p>现在，你需要在activity中展示这两个fragment的内容。为了实现此需求，你应该为你的activity创建一个layout。下面的例子在此layout中创建了一个<code>FrameLayout</code>作为frament的容器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:id=&quot;@+id/container&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在activity中，将以上的layout设置为content view。然后在activity的<code>oncreate</code>阶段显示卡片的正面内容。下面的例子展示了这一过程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class CardFlipActivity extends FragmentActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_activity_card_flip);</span><br><span class="line"></span><br><span class="line">        if (savedInstanceState == null) &#123;</span><br><span class="line">            getSupportFragmentManager()</span><br><span class="line">                    .beginTransaction()</span><br><span class="line">                    .add(R.id.container, new CardFrontFragment())</span><br><span class="line">                    .commit();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在你已经展示了卡片的正面，接下来要做的就是如何使用翻牌动画翻开卡片的背面，大致需要如下2个步骤：<br>1、在卡片背面内容覆盖卡片正面内容时，将你之前设置好的自定义动画赋值给frament的transitions。<br>2、为fragment增加back stack。这样是为了让用户按返回键时可以回退到上一个frament页面。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class CardFlipActivity extends FragmentActivity &#123;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    private void flipCard() &#123;</span><br><span class="line">        if (showingBack) &#123;</span><br><span class="line">            getSupportFragmentManager().popBackStack();</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Flip to the back.</span><br><span class="line"></span><br><span class="line">        showingBack = true;</span><br><span class="line"></span><br><span class="line">        // Create and commit a new fragment transaction that adds the fragment for</span><br><span class="line">        // the back of the card, uses custom animations, and is part of the fragment</span><br><span class="line">        // manager&apos;s back stack.</span><br><span class="line"></span><br><span class="line">        getSupportFragmentManager()</span><br><span class="line">                .beginTransaction()</span><br><span class="line"></span><br><span class="line">                // Replace the default fragment animations with animator resources</span><br><span class="line">                // representing rotations when switching to the back of the card, as</span><br><span class="line">                // well as animator resources representing rotations when flipping</span><br><span class="line">                // back to the front (e.g. when the system Back button is pressed).</span><br><span class="line">                .setCustomAnimations(</span><br><span class="line">                        R.animator.card_flip_right_in,</span><br><span class="line">                        R.animator.card_flip_right_out,</span><br><span class="line">                        R.animator.card_flip_left_in,</span><br><span class="line">                        R.animator.card_flip_left_out)</span><br><span class="line"></span><br><span class="line">                // Replace any fragments currently in the container view with a</span><br><span class="line">                // fragment representing the next page (indicated by the</span><br><span class="line">                // just-incremented currentPage variable).</span><br><span class="line">                .replace(R.id.container, new CardBackFragment())</span><br><span class="line"></span><br><span class="line">                // Add this transaction to the back stack, allowing users to press</span><br><span class="line">                // Back to get to the front of the card.</span><br><span class="line">                .addToBackStack(null)</span><br><span class="line"></span><br><span class="line">                // Commit the transaction.</span><br><span class="line">                .commit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="揭露动画"><a href="#揭露动画" class="headerlink" title="揭露动画"></a>揭露动画</h2><p>揭露动画给用户提供了一种视觉上的延续，当需要显示或者隐藏view时。<code>ViewAnimationUtils.createCircularReveal()</code>方法可以帮助你实现此动画，此方式在Android 5.0（API level 21）以上提供。<br>下面的代码展示了如何使用揭露动画展示初始状态为invisible的view：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// previously invisible view</span><br><span class="line">View myView = findViewById(R.id.my_view);</span><br><span class="line"></span><br><span class="line">// Check if the runtime version is at least Lollipop</span><br><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">    // get the center for the clipping circle</span><br><span class="line">    int cx = myView.getWidth() / 2;</span><br><span class="line">    int cy = myView.getHeight() / 2;</span><br><span class="line"></span><br><span class="line">    // get the final radius for the clipping circle</span><br><span class="line">    float finalRadius = (float) Math.hypot(cx, cy);</span><br><span class="line"></span><br><span class="line">    // create the animator for this view (the start radius is zero)</span><br><span class="line">    Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0f, finalRadius);</span><br><span class="line"></span><br><span class="line">    // make the view visible and start the animation</span><br><span class="line">    myView.setVisibility(View.VISIBLE);</span><br><span class="line">    anim.start();</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    // set the view to visible without a circular reveal animation below Lollipop</span><br><span class="line">    myView.setVisibility(View.VISIBLE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>ViewAnimationUtils.createCircularReveal()</code>动画一共有5个参数。第一个参数表示目标view。接下来的两个参数代表了揭露动画开始的圆心坐标。一般地，这通常是目标view的中心点坐标，但是你也可以将它定义为你的手指触摸点的坐标，从而使得揭露动画从你的手指触摸点开始揭露。第四个参数表示动画开始的圆形区域半径。<br>在上面的例子中，初始的圆形半径为0，从而目标view初始状态是隐藏的。最后一个参数代表揭露区域（圆形区域）的最大半径。值得注意的是，最后一个参数必须保证能够完全覆盖你的目标view。<br>下面是使用揭露动画隐藏视图的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// previously visible view</span><br><span class="line">final View myView = findViewById(R.id.my_view);</span><br><span class="line"></span><br><span class="line">// Check if the runtime version is at least Lollipop</span><br><span class="line">if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">    // get the center for the clipping circle</span><br><span class="line">    int cx = myView.getWidth() / 2;</span><br><span class="line">    int cy = myView.getHeight() / 2;</span><br><span class="line"></span><br><span class="line">    // get the initial radius for the clipping circle</span><br><span class="line">    float initialRadius = (float) Math.hypot(cx, cy);</span><br><span class="line"></span><br><span class="line">    // create the animation (the final radius is zero)</span><br><span class="line">    Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0f);</span><br><span class="line"></span><br><span class="line">    // make the view invisible when the animation is done</span><br><span class="line">    anim.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            super.onAnimationEnd(animation);</span><br><span class="line">            myView.setVisibility(View.INVISIBLE);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // start the animation</span><br><span class="line">    anim.start();</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    // set the view to visible without a circular reveal animation below Lollipop</span><br><span class="line">    myView.setVisibility(View.VISIBLE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实例中，揭露动画的初始半径足够覆盖整个目标视图，所以初始时的视图是完全可见的。最终的半径设置为0，则表示动画结束后会隐藏目标视图。注意，当动画结束后要将目标视图的visiblility属性设置为<code>INVISIBLE</code>以提高性能。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/淡入淡出动画/" rel="tag"># 淡入淡出动画</a>
+          
+            <a href="/tags/翻牌动画/" rel="tag"># 翻牌动画</a>
+          
+            <a href="/tags/揭露动画/" rel="tag"># 揭露动画</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/17/动画基础03：矢量图动画/" rel="next" title="动画基础03：矢量图动画">
+                <i class="fa fa-chevron-left"></i> 动画基础03：矢量图动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/" rel="prev" title="动画基础05：Path类型插值器、路径动画、Fling动画">
+                动画基础05：Path类型插值器、路径动画、Fling动画 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#淡入淡出动画"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;" class="headerlink" title="&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;"></a>&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建views"><span class="nav-number">1.0.1.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;views" class="headerlink" title="&#x521B;&#x5EFA;views"></a>&#x521B;&#x5EFA;views</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建淡入淡出动画"><span class="nav-number">1.0.2.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;" class="headerlink" title="&#x521B;&#x5EFA;&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;"></a>&#x521B;&#x5EFA;&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加淡入淡出动画"><span class="nav-number">1.0.3.</span> <span class="nav-text"><a href="#&#x6DFB;&#x52A0;&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;" class="headerlink" title="&#x6DFB;&#x52A0;&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;"></a>&#x6DFB;&#x52A0;&#x6DE1;&#x5165;&#x6DE1;&#x51FA;&#x52A8;&#x753B;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#翻牌动画"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x7FFB;&#x724C;&#x52A8;&#x753B;" class="headerlink" title="&#x7FFB;&#x724C;&#x52A8;&#x753B;"></a>&#x7FFB;&#x724C;&#x52A8;&#x753B;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Animator-object"><span class="nav-number">2.0.1.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;Animator-object" class="headerlink" title="&#x521B;&#x5EFA;Animator object"></a>&#x521B;&#x5EFA;Animator object</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建view"><span class="nav-number">2.0.2.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;view" class="headerlink" title="&#x521B;&#x5EFA;view"></a>&#x521B;&#x5EFA;view</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建fragments"><span class="nav-number">2.0.3.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;fragments" class="headerlink" title="&#x521B;&#x5EFA;fragments"></a>&#x521B;&#x5EFA;fragments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现动画"><span class="nav-number">2.0.4.</span> <span class="nav-text"><a href="#&#x5B9E;&#x73B0;&#x52A8;&#x753B;" class="headerlink" title="&#x5B9E;&#x73B0;&#x52A8;&#x753B;"></a>&#x5B9E;&#x73B0;&#x52A8;&#x753B;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#揭露动画"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x63ED;&#x9732;&#x52A8;&#x753B;" class="headerlink" title="&#x63ED;&#x9732;&#x52A8;&#x753B;"></a>&#x63ED;&#x9732;&#x52A8;&#x753B;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

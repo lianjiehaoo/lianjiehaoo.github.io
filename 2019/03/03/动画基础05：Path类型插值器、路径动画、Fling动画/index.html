@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PathInterpolator,路径动画,FlingAnimation," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
+<meta name="keywords" content="PathInterpolator,路径动画,FlingAnimation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动画基础05：Path类型插值器、路径动画、Fling动画">
+<meta property="og:url" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif">
+<meta property="og:updated_time" content="2019-03-03T13:34:27.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动画基础05：Path类型插值器、路径动画、Fling动画">
+<meta name="twitter:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/"/>
+
+
+
+
+
+  <title>动画基础05：Path类型插值器、路径动画、Fling动画 | 唐先明de博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">唐先明de博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">动画基础05：Path类型插值器、路径动画、Fling动画</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-03T21:08:19+08:00">
+                2019-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android动画基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Android动画基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<a id="more"></a><br>本节内容是Android移动动画的进阶内容，其实除了“Fling动画”之外，“Path类型插值器”、“路径动画”算是对之前的文章：<a href="https://kimball325.github.io/2019/01/25/动画基础02：视图动画、属性动画/" target="_blank" rel="noopener">动画基础02：视图动画、属性动画</a>中所提及的插值器、估值器内容的补充。也就是说，Path类型插值器、路径动画能够实现的效果，用插值器和估值器也可以实现，但是前者更加高效。本章的内容主要参考了官方给的下面两篇文章：<br><a href="https://developer.android.com/training/animation/reposition-view" target="_blank" rel="noopener">1、Move a View with Animation</a><br><a href="https://developer.android.com/guide/topics/graphics/fling-animation" target="_blank" rel="noopener">2、Move views using a fling animation</a><br>参考的中文翻译文章在文末有给出。</p>
+<h4 id="Path类型的插值器"><a href="#Path类型的插值器" class="headerlink" title="Path类型的插值器"></a>Path类型的插值器</h4><p>Path类型的插值器是一种新的插值器，Android从5.0开始支持。可以用代码、XML两种方式实现，这里我们只讨论代码实现的方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">Path path = new Path();</span><br><span class="line">path.lineTo(0.25f, 0.25f);</span><br><span class="line">path.moveTo(0.25f, 0.5f);</span><br><span class="line">path.lineTo(1f, 1f);</span><br><span class="line">PathInterpolator pathInterpolator = new PathInterpolator(path);</span><br><span class="line">…………</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从以上代码可以看出，Path被限制在一个1*1的正方形中，x、y坐标的取值范围都为[0,1]，并且Path必须从(0,0)坐标开始，(1,1)坐标结束。x坐标代表时间进度：0-100%，y坐标代表当前时间点对应的动画完成度：0-100%。<br>一旦<code>pathInterpolator</code>创建完成，就可以通过<code>Animator.setInterpolator()</code>方法使用它了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animation = ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 100f);</span><br><span class="line">animation.setInterpolator(pathInterpolator);</span><br><span class="line">animation.start();</span><br></pre></td></tr></table></figure></p>
+<h4 id="路径动画"><a href="#路径动画" class="headerlink" title="路径动画"></a>路径动画</h4><p>ObjectAnimator从 Android 5.0 开始提供了一类新的构造方法用于实现沿自定义路径移动的动画。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">Path path = new Path();</span><br><span class="line">path.moveTo(view.getX(), view.getY());</span><br><span class="line">path.cubicTo(view.getX(), view.getY(),</span><br><span class="line">view.getX() + 300, view.getY() + 200,</span><br><span class="line">view.getX() - 400, view.getY() + 500);</span><br><span class="line">//下面两种方法不允许</span><br><span class="line">//path.addCircle(view.getX(), view.getY(),100,Path.Direction.CCW);</span><br><span class="line">//path.arcTo(view.getX()+100, view.getY()+100, view.getX() + 500, view.getY() + 500, 270f, -180f, true);</span><br><span class="line">ObjectAnimator objectAnimator =</span><br><span class="line">ObjectAnimator.ofFloat(ivBalPathAnimator, View.X, View.Y, path);</span><br><span class="line">objectAnimator.setDuration(1200);</span><br><span class="line">objectAnimator.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">objectAnimator.setRepeatMode(ValueAnimator.REVERSE);</span><br><span class="line">objectAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">objectAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Fling动画"><a href="#Fling动画" class="headerlink" title="Fling动画"></a>Fling动画</h4><p>Fling动画使用物理学中摩擦力的概念，使得view的速度逐渐被降低，从而实现了现实中的阻力运动。Android 4.4版本开始支持该动画。<br><img src="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif" title="Fling Animation"><br><strong> 1、添加支持库 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">implementation &apos;com.android.support:support-dynamic-animation:28.0.0&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> 2、创建fling动画 </strong><br>FlingAnimation类可以帮助你创建fling动画，只要在创建FlingAnimation实例时传入操作的view对象以及操作对象的属性即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FlingAnimation fling = new FlingAnimation(view, DynamicAnimation.SCROLL_X);</span><br></pre></td></tr></table></figure></p>
+<p><strong> 3、设置初始速度 </strong><br>为了让物体移动（并非只有移动），我们必须给物体一个初速度。默认的初速度是0，所以我们必须定义一个大于0的初速度以保证物体能够移动。<br>设置初速度的方法是<code>setStartVelocity()</code>。您可以使用固定值作为起始速度，也可以将其基于触摸手势的速度通过<a href="http://www.gcssloop.com/customview/gestruedector" target="_blank" rel="noopener">GestureDetetor.OnGestureListener </a>获取。如果您选择提供固定值，您应该以每秒dp的值定义值，然后将其转换为每秒像素数。以每秒dp定义值的方式允许速度独立于设备的密度和形状因子。有关将起始速度转换为每秒像素数的更多信息，将在下一篇文章 《Spring Animation》中的“ 每秒转换为每秒像素数”部分讲解 。</p>
+<p><strong> 4、设置动画的取值范围 </strong><br>你可以通过<code>setMinValue()</code>和<code>setMaxValue()</code>设置属性值的变化范围，这个对于有明确变化范围的属性显得十分重要，例如透明度（0-1）。注意，当fling时的属性值到达设定的最大值或者最小值时，动画会立刻结束。</p>
+<p><strong> 5、设置阻力因子 </strong><br>你可以通过<code>setFriction()</code>改变动画的阻力因子，他定义了速度下降的速度。阻力因子的默认值是1。<br>下面的例子定义了一个横向滑动的fling动画，滑动边界被设置为0和maxScroll，摩擦力设置为1.1。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FlingAnimation fling = new FlingAnimation(view, DynamicAnimation.SCROLL_X);</span><br><span class="line">fling.setStartVelocity(-velocityX)</span><br><span class="line">.setMinValue(0)</span><br><span class="line">.setMaxValue(maxScroll)</span><br><span class="line">.setFriction(1.1f)</span><br><span class="line">.start();</span><br></pre></td></tr></table></figure></p>
+<p>注意，上面的方法仅仅适用于单个属性的fling变化。如果有多个属性同时需要fling变化呢？有的文章倒是建议用<code>FloatPropertyCompat</code>实现。可是<code>FloatPropertyCompat</code>有它的局限性，正如<a href="https://code.tutsplus.com/zh-hans/tutorials/adding-physics-based-animations-to-android-apps--cms-29053" target="_blank" rel="noopener">这篇文章</a>的第五部分所说：要在确保所有属性的值不是完全相互独立的情况下，该方法才适用。否则，我们只能针对每个属性都建立一个FlingAnimation。</p>
+<p><strong> 6、设置最小可见变化 </strong><br>当您在为不以像素为单位定义的自定义属性设置动画时，应设置用户可见的动画值的最小更改，它作为定义动画结束的最小值。<br>当操作DynamicAnimation.ViewProperty动画时不需要调用此方法，因为此时的最小可见变化可以自动获取。例如：<br>1、默认最小可见的变化值是1个像素，如：TRANSLATION_X，TRANSLATION_Y， TRANSLATION_Z，SCROLL_X，和 SCROLL_Y。<br>2、对于使用旋转动画，如ROTATION， ROTATION_X，和ROTATION_Y，最小可见变化是MIN_VISIBLE_CHANGE_ALPHA，或1/10像素。<br>3、对于使用不透明度的动画，最小可见变化为 MIN_VISIBLE_CHANGE_ALPHA或者1/256。<br>要设置动画的最小可见变化，请调用<code>setMinimumVisibleChange()</code>方法，并传递最小可见常量或您需要为自定义属性计算的值。有关计算此值的更多信息，请参阅本文末的“计算最小可见变化值”部分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">anim.setMinimumVisibleChange(DynamicAnimation.MIN_VISIBLE_CHANGE_SCALE);</span><br></pre></td></tr></table></figure></p>
+<p>注意：只有在为不以像素定义的自定义属性制作动画时，才需要设置最小可见变化值。</p>
+<blockquote>
+<p><strong>计算最小可见变化值 ：</strong><br>最小可见变化值=自定义属性值的范围/以像素为单位的动画执行范围。<br>例如，要进行动画制作的自定义非像素为单位的属性变化范围是从0到100，同时如果此过程对应于200像素的动画更改。根据公式，最小可见变化值是100/200等于0.5像素。</p>
+</blockquote>
+<hr>
+<p><strong>参考资料</strong><br><a href="https://cloud.tencent.com/info/eb3faa589479ceb0a501d4cbf3a25541.html" target="_blank" rel="noopener">中文翻译：使用fling动画移动视图</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PathInterpolator/" rel="tag"># PathInterpolator</a>
+          
+            <a href="/tags/路径动画/" rel="tag"># 路径动画</a>
+          
+            <a href="/tags/FlingAnimation/" rel="tag"># FlingAnimation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/22/动画基础04：淡入、翻牌、揭露动画/" rel="next" title="动画基础04：淡入淡出、翻牌、揭露动画">
+                <i class="fa fa-chevron-left"></i> 动画基础04：淡入淡出、翻牌、揭露动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Path类型的插值器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;" class="headerlink" title="Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;"></a>Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路径动画"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8DEF;&#x5F84;&#x52A8;&#x753B;" class="headerlink" title="&#x8DEF;&#x5F84;&#x52A8;&#x753B;"></a>&#x8DEF;&#x5F84;&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fling动画"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Fling&#x52A8;&#x753B;" class="headerlink" title="Fling&#x52A8;&#x753B;"></a>Fling&#x52A8;&#x753B;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
