@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="PathInterpolator,路径动画,FlingAnimation," />
+  <meta name="keywords" content="PathInterpolator,路径动画,FlingAnimation,SpringAnimation," />
 
 
 
@@ -84,17 +84,17 @@
 
 
 <meta name="description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
-<meta name="keywords" content="PathInterpolator,路径动画,FlingAnimation">
+<meta name="keywords" content="PathInterpolator,路径动画,FlingAnimation,SpringAnimation">
 <meta property="og:type" content="article">
-<meta property="og:title" content="动画基础05：Path类型插值器、路径动画、Fling动画">
+<meta property="og:title" content="Android动画（五）——Path类型插值器、路径动画、Fling动画、Spring动画">
 <meta property="og:url" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/index.html">
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif">
-<meta property="og:updated_time" content="2019-03-03T13:34:27.974Z">
+<meta property="og:updated_time" content="2019-07-16T14:11:25.589Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="动画基础05：Path类型插值器、路径动画、Fling动画">
+<meta name="twitter:title" content="Android动画（五）——Path类型插值器、路径动画、Fling动画、Spring动画">
 <meta name="twitter:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
 <meta name="twitter:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif">
 
@@ -132,7 +132,7 @@
 
 
 
-  <title>动画基础05：Path类型插值器、路径动画、Fling动画 | 唐先明de博客</title>
+  <title>Android动画（五）——Path类型插值器、路径动画、Fling动画、Spring动画 | 唐先明de博客</title>
   
 
 
@@ -300,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">动画基础05：Path类型插值器、路径动画、Fling动画</h1>
+          <h1 class="post-title" itemprop="name headline">Android动画（五）——Path类型插值器、路径动画、Fling动画、Spring动画</h1>
         
 
         <div class="post-meta">
@@ -372,7 +372,7 @@
       
 
       
-        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<a id="more"></a><br>本节内容是Android移动动画的进阶内容，其实除了“Fling动画”之外，“Path类型插值器”、“路径动画”算是对之前的文章：<a href="https://kimball325.github.io/2019/01/25/动画基础02：视图动画、属性动画/" target="_blank" rel="noopener">动画基础02：视图动画、属性动画</a>中所提及的插值器、估值器内容的补充。也就是说，Path类型插值器、路径动画能够实现的效果，用插值器和估值器也可以实现，但是前者更加高效。本章的内容主要参考了官方给的下面两篇文章：<br><a href="https://developer.android.com/training/animation/reposition-view" target="_blank" rel="noopener">1、Move a View with Animation</a><br><a href="https://developer.android.com/guide/topics/graphics/fling-animation" target="_blank" rel="noopener">2、Move views using a fling animation</a><br>参考的中文翻译文章在文末有给出。</p>
+        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<a id="more"></a><br>本节内容是Android移动动画的进阶内容。其中，“Path类型插值器”、“路径动画”算是补充了<a href="https://kimball325.github.io/2019/01/25/动画基础02：视图动画、属性动画/" target="_blank" rel="noopener">视图动画、属性动画</a>中所提及的插值器、估值器内容，“Path类型插值器”、“路径动画”能够实现的效果，用插值器和估值器也可以实现，但前者更加高效。本章的内容主要参考了官方的下面三篇文章：<br><a href="https://developer.android.com/training/animation/reposition-view" target="_blank" rel="noopener">1、Move a View with Animation</a><br><a href="https://developer.android.com/guide/topics/graphics/fling-animation" target="_blank" rel="noopener">2、Move views using a fling animation</a><br><a href="https://developer.android.com/guide/topics/graphics/spring-animation#add-support-library" target="_blank" rel="noopener">3、Animate movement using spring physics</a><br>参考的中文文章在文末有给出。</p>
 <h4 id="Path类型的插值器"><a href="#Path类型的插值器" class="headerlink" title="Path类型的插值器"></a>Path类型的插值器</h4><p>Path类型的插值器是一种新的插值器，Android从5.0开始支持。可以用代码、XML两种方式实现，这里我们只讨论代码实现的方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">Path path = new Path();</span><br><span class="line">path.lineTo(0.25f, 0.25f);</span><br><span class="line">path.moveTo(0.25f, 0.5f);</span><br><span class="line">path.lineTo(1f, 1f);</span><br><span class="line">PathInterpolator pathInterpolator = new PathInterpolator(path);</span><br><span class="line">…………</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>从以上代码可以看出，Path被限制在一个1*1的正方形中，x、y坐标的取值范围都为[0,1]，并且Path必须从(0,0)坐标开始，(1,1)坐标结束。x坐标代表时间进度：0-100%，y坐标代表当前时间点对应的动画完成度：0-100%。<br>一旦<code>pathInterpolator</code>创建完成，就可以通过<code>Animator.setInterpolator()</code>方法使用它了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animation = ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 100f);</span><br><span class="line">animation.setInterpolator(pathInterpolator);</span><br><span class="line">animation.start();</span><br></pre></td></tr></table></figure></p>
 <h4 id="路径动画"><a href="#路径动画" class="headerlink" title="路径动画"></a>路径动画</h4><p>ObjectAnimator从 Android 5.0 开始提供了一类新的构造方法用于实现沿自定义路径移动的动画。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">Path path = new Path();</span><br><span class="line">path.moveTo(view.getX(), view.getY());</span><br><span class="line">path.cubicTo(view.getX(), view.getY(),</span><br><span class="line">view.getX() + 300, view.getY() + 200,</span><br><span class="line">view.getX() - 400, view.getY() + 500);</span><br><span class="line">//下面两种方法不允许</span><br><span class="line">//path.addCircle(view.getX(), view.getY(),100,Path.Direction.CCW);</span><br><span class="line">//path.arcTo(view.getX()+100, view.getY()+100, view.getX() + 500, view.getY() + 500, 270f, -180f, true);</span><br><span class="line">ObjectAnimator objectAnimator =</span><br><span class="line">ObjectAnimator.ofFloat(ivBalPathAnimator, View.X, View.Y, path);</span><br><span class="line">objectAnimator.setDuration(1200);</span><br><span class="line">objectAnimator.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">objectAnimator.setRepeatMode(ValueAnimator.REVERSE);</span><br><span class="line">objectAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">objectAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -387,8 +387,12 @@
 <blockquote>
 <p><strong>计算最小可见变化值 ：</strong><br>最小可见变化值=自定义属性值的范围/以像素为单位的动画执行范围。<br>例如，要进行动画制作的自定义非像素为单位的属性变化范围是从0到100，同时如果此过程对应于200像素的动画更改。根据公式，最小可见变化值是100/200等于0.5像素。</p>
 </blockquote>
+<h4 id="Spring动画"><a href="#Spring动画" class="headerlink" title="Spring动画"></a>Spring动画</h4><p>这一部分的内容在官网讲得也是很明白了。需要注意的是，官网结尾最后的“Cancel animation”部分提到的‘cancel()’和‘skipToEnd()’使用注意事项：</p>
+<blockquote>
+<p>cancel()：立即停止动画<br>skipToEnd()：恢复到最终位置并停止动画。需要注意的是，在无阻尼的情况下，不能调用该方法（即：DampingRatio==0时）。为了安全，可以先调用canSkipToEnd()进行判断，有阻尼的情况下返回true，否则返回false。一般来说，skipToEnd()会有跳跃的效果。</p>
+</blockquote>
 <hr>
-<p><strong>参考资料</strong><br><a href="https://cloud.tencent.com/info/eb3faa589479ceb0a501d4cbf3a25541.html" target="_blank" rel="noopener">中文翻译：使用fling动画移动视图</a></p>
+<p><strong>参考资料</strong><br><a href="https://cloud.tencent.com/info/eb3faa589479ceb0a501d4cbf3a25541.html" target="_blank" rel="noopener">1、中文翻译：使用fling动画移动视图</a><br><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/0330/7757.html" target="_blank" rel="noopener">2、SpringAnimation详解－Android</a></p>
 
       
     </div>
@@ -412,6 +416,8 @@
           
             <a href="/tags/FlingAnimation/" rel="tag"># FlingAnimation</a>
           
+            <a href="/tags/SpringAnimation/" rel="tag"># SpringAnimation</a>
+          
         </div>
       
 
@@ -423,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/22/动画基础04：淡入、翻牌、揭露动画/" rel="next" title="动画基础04：淡入淡出、翻牌、揭露动画">
-                <i class="fa fa-chevron-left"></i> 动画基础04：淡入淡出、翻牌、揭露动画
+              <a href="/2019/02/22/动画基础04：淡入、翻牌、揭露动画/" rel="next" title="Android动画（四）——淡入淡出、翻牌、揭露动画">
+                <i class="fa fa-chevron-left"></i> Android动画（四）——淡入淡出、翻牌、揭露动画
               </a>
             
           </div>
@@ -534,7 +540,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -576,7 +582,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Path类型的插值器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;" class="headerlink" title="Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;"></a>Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路径动画"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8DEF;&#x5F84;&#x52A8;&#x753B;" class="headerlink" title="&#x8DEF;&#x5F84;&#x52A8;&#x753B;"></a>&#x8DEF;&#x5F84;&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fling动画"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Fling&#x52A8;&#x753B;" class="headerlink" title="Fling&#x52A8;&#x753B;"></a>Fling&#x52A8;&#x753B;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Path类型的插值器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;" class="headerlink" title="Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;"></a>Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路径动画"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8DEF;&#x5F84;&#x52A8;&#x753B;" class="headerlink" title="&#x8DEF;&#x5F84;&#x52A8;&#x753B;"></a>&#x8DEF;&#x5F84;&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fling动画"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Fling&#x52A8;&#x753B;" class="headerlink" title="Fling&#x52A8;&#x753B;"></a>Fling&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring动画"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Spring&#x52A8;&#x753B;" class="headerlink" title="Spring&#x52A8;&#x753B;"></a>Spring&#x52A8;&#x753B;</span></a></li></ol></div>
             
 
           </div>
