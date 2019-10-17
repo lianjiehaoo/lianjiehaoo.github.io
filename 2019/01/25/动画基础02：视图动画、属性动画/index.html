@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。本篇以掘金网的Android 动画：这是一份详细 &amp;amp; 清晰的动画学习指南这篇文章为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇的任务就是记录下这三个知识点。">
+<meta name="description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。本篇以文章《Android 动画：这是一份详细 &amp;amp; 清晰的动画学习指南》为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇将记录下这三个知识点。">
 <meta name="keywords" content="Animation,LayoutAnimation,Animator,ValueAnimator,ObjectAnimator,ViewPropertyAnimator">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android动画（二）：视图动画、属性动画">
 <meta property="og:url" content="http://yoursite.com/2019/01/25/动画基础02：视图动画、属性动画/index.html">
 <meta property="og:site_name" content="唐先明de博客">
-<meta property="og:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。本篇以掘金网的Android 动画：这是一份详细 &amp;amp; 清晰的动画学习指南这篇文章为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇的任务就是记录下这三个知识点。">
+<meta property="og:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。本篇以文章《Android 动画：这是一份详细 &amp;amp; 清晰的动画学习指南》为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇将记录下这三个知识点。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-21T04:06:59.564Z">
+<meta property="og:updated_time" content="2019-10-14T22:12:45.080Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android动画（二）：视图动画、属性动画">
-<meta name="twitter:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。本篇以掘金网的Android 动画：这是一份详细 &amp;amp; 清晰的动画学习指南这篇文章为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇的任务就是记录下这三个知识点。">
+<meta name="twitter:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。本篇以文章《Android 动画：这是一份详细 &amp;amp; 清晰的动画学习指南》为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇将记录下这三个知识点。">
 
 
 
@@ -370,15 +370,14 @@
       
 
       
-        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<br>本篇以掘金网的<a href="https://juejin.im/post/5aea7063f265da0b9b072758" target="_blank" rel="noopener">Android 动画：这是一份详细 &amp; 清晰的动画学习指南</a>这篇文章为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇的任务就是记录下这三个知识点。<a id="more"></a></p>
-<h4 id="知识一：LayoutAnimation的局限性"><a href="#知识一：LayoutAnimation的局限性" class="headerlink" title="知识一：LayoutAnimation的局限性"></a>知识一：LayoutAnimation的局限性</h4><p>LayoutAnimation只在创建ViewGroup的时候生效，后续添加的子View是没有动画效果的。这和LayoutTransition有很大的区别，在后续介绍布局动画时再展开介绍。</p>
-<h4 id="知识二：动画监听方法归类"><a href="#知识二：动画监听方法归类" class="headerlink" title="知识二：动画监听方法归类"></a><a href="https://hencoder.com/ui-1-6/" target="_blank" rel="noopener">知识二：动画监听方法归类</a></h4><p>1、转场动画相关<br>Animation.setAnimationListener(Animation.AnimationListener listener);<br>2、属性动画相关<br>Animator.addListener(AnimatorListenerAdapter adapter);<br>Animator.addListener(Animator.AnimatorListener listener);<br>Animator.addPauseListener(Animator.AnimatorPauseListener listener);<br>Animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener listener);<br>3、ViewPropertyAnimator动画相关<br>ViewPropertyAnimator.setListener(AnimatorListenerAdapter adapter);<br>ViewPropertyAnimator.setListener(Animator.AnimatorListener listener);<br>ViewPropertyAnimator.setUpdateListener(AnimatorUpdateListener listener);<br>ViewPropertyAnimator.withEndAction(Runnable runnable);<br>ViewPropertyAnimator.withStartAction(Runnable runnable);</p>
+        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<br>本篇以文章<a href="https://juejin.im/post/5aea7063f265da0b9b072758" target="_blank" rel="noopener">《Android 动画：这是一份详细 &amp; 清晰的动画学习指南》</a>为基础，笔者在通读了这篇文章并进行了必要的代码实操后觉得有三个知识点需要补充，所以本篇将记录下这三个知识点。<a id="more"></a></p>
+<h4 id="知识一：LayoutAnimation的局限性"><a href="#知识一：LayoutAnimation的局限性" class="headerlink" title="知识一：LayoutAnimation的局限性"></a>知识一：LayoutAnimation的局限性</h4><p>LayoutAnimation 只在创建 ViewGroup 的时候生效，后续添加的子 View 是没有动画效果的。这和 LayoutTransition 有很大的区别，在后续介绍<a href="https://kimball325.github.io/2019/01/25/%E5%8A%A8%E7%94%BB%E5%9F%BA%E7%A1%8002%EF%BC%9A%E8%A7%86%E5%9B%BE%E5%8A%A8%E7%94%BB%E3%80%81%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/" target="_blank" rel="noopener">布局动画</a>时再展开介绍。</p>
+<h4 id="知识二：动画监听方法归类"><a href="#知识二：动画监听方法归类" class="headerlink" title="知识二：动画监听方法归类"></a>知识二：动画监听方法归类</h4><p>1、转场动画相关<br>Animation.setAnimationListener(Animation.AnimationListener listener);<br>2、属性动画相关<br>Animator.addListener(AnimatorListenerAdapter adapter);<br>Animator.addListener(Animator.AnimatorListener listener);<br>Animator.addPauseListener(Animator.AnimatorPauseListener listener);<br>Animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener listener);<br>3、ViewPropertyAnimator动画相关<br>ViewPropertyAnimator.setListener(AnimatorListenerAdapter adapter);<br>ViewPropertyAnimator.setListener(Animator.AnimatorListener listener);<br>ViewPropertyAnimator.setUpdateListener(AnimatorUpdateListener listener);<br>ViewPropertyAnimator.withEndAction(Runnable runnable);<br>ViewPropertyAnimator.withStartAction(Runnable runnable);</p>
 <blockquote>
 <p><strong> 注意 </strong><br>withStartAction() / withEndAction() 是一次性的，在动画执行结束后就自动弃掉了，就算之后再重用  ViewPropertyAnimator 来做别的动画，用它们设置的回调也不会再被调用。而 set/addListener() 所设置的 AnimatorListener 是持续有效的，当动画重复执行时，回调总会被调用。</p>
 </blockquote>
-<h4 id="知识三：AnimationDrawable的使用时机"><a href="#知识三：AnimationDrawable的使用时机" class="headerlink" title="知识三：AnimationDrawable的使用时机"></a>知识三：AnimationDrawable的使用时机</h4><p>AnimationDrawable的start方法不能在你的Activity的<code>onCreate()</code>中使用，否者会没有效果，因为这个时候AnimationDrawable还没有绑定到窗口。如果你想在进入页面后立即开始动画，可以在你的Activity的<code>onStart()</code>方法中调用。当然，你也可以在交互监听中调用start方法，比如在某个View的<code>onClick()</code>方法中调用。</p>
-<hr>
-<p>没错，本篇完结了。</p>
+<p><a href="https://hencoder.com/ui-1-6/" target="_blank" rel="noopener">参考链接&gt;&gt;</a></p>
+<h4 id="知识三：AnimationDrawable的使用时机"><a href="#知识三：AnimationDrawable的使用时机" class="headerlink" title="知识三：AnimationDrawable的使用时机"></a>知识三：AnimationDrawable的使用时机</h4><p>AnimationDrawable 的 start 方法不能在你的 Activity 的<code>onCreate()</code>中使用，否者会没有效果，因为这个时候 AnimationDrawable 还没有绑定到窗口。如果你想在进入页面后立即开始动画，可以在你的 Activity 的<code>onStart()</code>方法中调用。当然，你也可以在交互监听中调用 start 方法，比如在某个 View 的<code>onClick()</code>方法中调用。</p>
 
       
     </div>
@@ -512,7 +511,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -534,7 +533,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -576,7 +575,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#知识一：LayoutAnimation的局限性"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x77E5;&#x8BC6;&#x4E00;&#xFF1A;LayoutAnimation&#x7684;&#x5C40;&#x9650;&#x6027;" class="headerlink" title="&#x77E5;&#x8BC6;&#x4E00;&#xFF1A;LayoutAnimation&#x7684;&#x5C40;&#x9650;&#x6027;"></a>&#x77E5;&#x8BC6;&#x4E00;&#xFF1A;LayoutAnimation&#x7684;&#x5C40;&#x9650;&#x6027;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识二：动画监听方法归类"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x77E5;&#x8BC6;&#x4E8C;&#xFF1A;&#x52A8;&#x753B;&#x76D1;&#x542C;&#x65B9;&#x6CD5;&#x5F52;&#x7C7B;" class="headerlink" title="&#x77E5;&#x8BC6;&#x4E8C;&#xFF1A;&#x52A8;&#x753B;&#x76D1;&#x542C;&#x65B9;&#x6CD5;&#x5F52;&#x7C7B;"></a><a href="https://hencoder.com/ui-1-6/" target="_blank" rel="noopener">&#x77E5;&#x8BC6;&#x4E8C;&#xFF1A;&#x52A8;&#x753B;&#x76D1;&#x542C;&#x65B9;&#x6CD5;&#x5F52;&#x7C7B;</a></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识三：AnimationDrawable的使用时机"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x77E5;&#x8BC6;&#x4E09;&#xFF1A;AnimationDrawable&#x7684;&#x4F7F;&#x7528;&#x65F6;&#x673A;" class="headerlink" title="&#x77E5;&#x8BC6;&#x4E09;&#xFF1A;AnimationDrawable&#x7684;&#x4F7F;&#x7528;&#x65F6;&#x673A;"></a>&#x77E5;&#x8BC6;&#x4E09;&#xFF1A;AnimationDrawable&#x7684;&#x4F7F;&#x7528;&#x65F6;&#x673A;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#知识一：LayoutAnimation的局限性"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x77E5;&#x8BC6;&#x4E00;&#xFF1A;LayoutAnimation&#x7684;&#x5C40;&#x9650;&#x6027;" class="headerlink" title="&#x77E5;&#x8BC6;&#x4E00;&#xFF1A;LayoutAnimation&#x7684;&#x5C40;&#x9650;&#x6027;"></a>&#x77E5;&#x8BC6;&#x4E00;&#xFF1A;LayoutAnimation&#x7684;&#x5C40;&#x9650;&#x6027;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识二：动画监听方法归类"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x77E5;&#x8BC6;&#x4E8C;&#xFF1A;&#x52A8;&#x753B;&#x76D1;&#x542C;&#x65B9;&#x6CD5;&#x5F52;&#x7C7B;" class="headerlink" title="&#x77E5;&#x8BC6;&#x4E8C;&#xFF1A;&#x52A8;&#x753B;&#x76D1;&#x542C;&#x65B9;&#x6CD5;&#x5F52;&#x7C7B;"></a>&#x77E5;&#x8BC6;&#x4E8C;&#xFF1A;&#x52A8;&#x753B;&#x76D1;&#x542C;&#x65B9;&#x6CD5;&#x5F52;&#x7C7B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识三：AnimationDrawable的使用时机"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x77E5;&#x8BC6;&#x4E09;&#xFF1A;AnimationDrawable&#x7684;&#x4F7F;&#x7528;&#x65F6;&#x673A;" class="headerlink" title="&#x77E5;&#x8BC6;&#x4E09;&#xFF1A;AnimationDrawable&#x7684;&#x4F7F;&#x7528;&#x65F6;&#x673A;"></a>&#x77E5;&#x8BC6;&#x4E09;&#xFF1A;AnimationDrawable&#x7684;&#x4F7F;&#x7528;&#x65F6;&#x673A;</span></a></li></ol></div>
             
 
           </div>

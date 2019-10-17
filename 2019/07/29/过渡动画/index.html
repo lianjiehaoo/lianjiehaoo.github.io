@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
+<meta name="description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。">
 <meta name="keywords" content="Scene Transition,Content Transition,Shared Element Transition">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android动画（七）：过渡动画">
 <meta property="og:url" content="http://yoursite.com/2019/07/29/过渡动画/index.html">
 <meta property="og:site_name" content="唐先明de博客">
-<meta property="og:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
+<meta property="og:description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-29T14:16:16.096Z">
+<meta property="og:updated_time" content="2019-10-14T22:12:45.084Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android动画（七）：过渡动画">
-<meta name="twitter:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
+<meta name="twitter:description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。">
 
 
 
@@ -321,6 +321,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android动画基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Android动画基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -348,26 +370,65 @@
       
 
       
-        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<a id="more"></a><br>Android 4.4.2 (API level 19) 引入了Transition 框架，支持场景过渡效果，到了Android 5.0（API level 21）开始支持Activity过渡动画。相对于View Animation或Property Animator，Transition动画更具特殊性，Transition可以看作对Property Animator的高度封装。<br>为了对Transition有一个大概的了解，我们对Scene Transition(场景过渡动画)、Activity过渡动画、Shared Element Transition(共享元素过渡动画)这三个方面来做一个简单的了解。</p>
-<h3 id="Scene-Transition-场景过渡动画"><a href="#Scene-Transition-场景过渡动画" class="headerlink" title="Scene Transition(场景过渡动画)"></a>Scene Transition(场景过渡动画)</h3><p>场景过渡动画是指以动画的形式实现View两个场景的切换(从一个场景切换到另一个场景)。而且在切换过程中通过Transition来设置不同的过渡动画效果。<br>场景过渡动画中有三个特别关键概念：Scene（场景），Transition（过渡动画），TransitionManager（管理）。</p>
-<ul>
-<li><p>Scene：Scene代表一个场景。Scene保存了一个视图层级结构，包括它所有的views以及views的状态，通常由getSceneForLayout (ViewGroup sceneRoot,int layoutId,Context context)获取Scene实例。Transition框架可以实现在starting scene和ending scene之间执行动画。而且大多数情况下，我们不需要创建starting scene，因为starting scene通常由当前UI状态决定，我们只需要创建ending scene。</p>
-</li>
-<li><p>Transition：Transiton则是用来设置过渡动画效果用的。而且系统给提供了一些非常使用的Transtion动画效果，如下表所示:<br>|系统Transition|解释|<br>| ———- |———-  |<br>|ChangeBounds |检测View的位置边界创建移动和大小变化动画(关注布局边界的变化，不关注scale引起的布局边界变化)|<br>|ChangeTransform|检测View的scale和rotation创建缩放和旋转动画(关注scale和ratation的变化)|<br>|ChangeClipBounds|检测View的剪切区域的位置边界，和ChangeBounds类似。不过ChangeBounds针对的是view而ChangeClipBounds针对的是view的剪切区域rect的变化，（关注setClipBounds(Rect rect)中rect的变化）|<br>|ChangeImageTransform|检测ImageView的ScaleType，并创建相应动画(关注的是ImageView的scaleType)|<br>|Fade|根据View的visibility状态的的不同创建淡入淡动画,调整的是透明度(关注的是View的visibility的状态)|<br>|Slide|根据View的visibility状态的的不同创建滑动动画(关注的是View的visibility的状态)|<br>|Explode|根据View的visibility状态的的不同创建分解动画(关注的是View的visibility的状态)|<br>|AutoTransition|默认动画，ChangeBounds、Fade动画的集合|</p>
+        <p>笔者已将本节的代码上传至 <a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<a id="more"></a><br>Android 4.4.2 (API level 19) 引入了 Transition 框架，支持场景过渡效果，到了A ndroid 5.0（API level 21） 开始支持 Activity 过渡动画。相对于视图动画或属性动画，Transition 动画更具特殊性，Transition 可以看作对属性动画的高度封装。为了对 Transition 有一个大体的了解，我们从 Scene Transition(场景过渡动画)、Activity 过渡动画之 Content Transition、Activity 过渡动画之 Shared Element Transition 这三个方面来做概述。</p>
+<h3 id="场景过渡动画：Scene-Transition"><a href="#场景过渡动画：Scene-Transition" class="headerlink" title="场景过渡动画：Scene Transition"></a>场景过渡动画：Scene Transition</h3><p>场景过渡动画是指以动画的形式实现View两个场景的切换(从一个场景切换到另一个场景)。而且在切换过程中通过 Transition 来设置不同的过渡动画效果。<br>场景过渡动画中有三个特别关键概念：Scene（场景），Transition（过渡动画），TransitionManager（管理）。</p>
+<p>1、Scene：Scene 代表一个场景。Scene 保存了一个视图层级结构，包括它所有的 views 以及 views 的状态，通常由 getSceneForLayout (ViewGroup sceneRoot,int layoutId,Context context)获取 Scene 实例。Transition 框架可以实现在 starting scene 和 ending scene 之间执行动画。而且大多数情况下，我们不需要创建 starting scene，因为 starting scene 通常由当前UI状态决定，我们只需要创建 ending scene。</p>
+<p>2、Transition：Transiton 则是用来设置过渡动画效果用的。而且系统给提供了一些非常有用的 Transtion 动画效果，如下表所示:</p>
+<table>
+<thead>
+<tr>
+<th>系统Transition</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ChangeBounds</td>
+<td>检测 View 的位置边界创建移动和大小变化动画(关注布局边界的变化，不关注 scale 引起的布局边界变化)</td>
+</tr>
+<tr>
+<td>ChangeTransform</td>
+<td>检测 View 的 scale 和 rotation 创建缩放和旋转动画(关注 scale 和 ratation 的变化)</td>
+</tr>
+<tr>
+<td>ChangeClipBounds</td>
+<td>检测 View 的剪切区域的位置边界，和 ChangeBounds 类似。不过 ChangeBounds 针对的是 view 而 ChangeClipBounds 针对的是 view 的剪切区域 rect 的变化，（关注 setClipBounds(Rect rect) 中 rect 的变化）</td>
+</tr>
+<tr>
+<td>ChangeImageTransform</td>
+<td>检测 ImageView 的 ScaleType，并创建相应动画(关注的是 ImageView 的 scaleType)</td>
+</tr>
+<tr>
+<td>Fade</td>
+<td>根据 View 的 visibility状态的的不同创建淡入淡动画,调整的是透明度(关注的是 View 的 visibility 的状态)</td>
+</tr>
+<tr>
+<td>Slide</td>
+<td>根据 View 的 visibility 状态的的不同创建滑动动画(关注的是 View 的 visibility 的状态)</td>
+</tr>
+<tr>
+<td>Explode</td>
+<td>根据 View 的 visibility 状态的的不同创建分解动画(关注的是 View 的 visibility 的状态)</td>
+</tr>
+<tr>
+<td>AutoTransition</td>
+<td>默认动画，ChangeBounds、Fade 动画的集合</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p><strong>PathMotion</strong><br>Transition 的辅助工具，以 path 的方式指定过渡效果，两个具体实现类 ArcMotion 和 PatternPathMotion，效果类似于之前讲过的路径动画。<a href="http://rkhcy.github.io/2017/09/21/TransitionNote/" target="_blank" rel="noopener">参考链接&gt;&gt;</a></p>
 </blockquote>
-</li>
-<li><p>TransitionManager<br>TransitionManager 用于将 Scene 和 Transition 联系起来，它提供了一系列的方法，如：go(Scene scene, Transition transition)，到指定的场景所使用的过渡动画是什么，beginDelayedTransition(ViewGroup sceneRoot, Transition transition)，在当前场景到下一帧的过渡效果是什么。</p>
-</li>
-</ul>
+<p>3、TransitionManager<br>TransitionManager 用于将 Scene 和 Transition 联系起来，它提供了一系列的方法，如：go(Scene scene, Transition transition)，到指定的场景所使用的过渡动画是什么，beginDelayedTransition(ViewGroup sceneRoot, Transition transition)，在当前场景到下一帧的过渡效果是什么。</p>
 <p>我们在使用场景过渡动画时，有两种实现方式。<br>1、TransitionManager.go方式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">//定义开始场景、结束场景。</span><br><span class="line">mSceneStart = Scene.getSceneForLayout(sceneRootView, R.layout.scene_start, context);</span><br><span class="line">mSceneEnd = Scene.getSceneForLayout(sceneRootView, R.layout.scene_end, context);</span><br><span class="line">//开始场景过渡动画。其中&quot;transition&quot;参数可以通过代码生成，如：new AutoTransition()。也可以是引用xml文件，如：TransitionInflater.from(this).inflateTransition(R.transition.xxx)。</span><br><span class="line">TransitionManager.go(mSceneEnd,transition);</span><br></pre></td></tr></table></figure></p>
-<p>2、beginDelayedTransition方式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">TransitionManager.beginDelayedTransition(sceneRootView,transition);</span><br><span class="line">//下面改变sceneRootView中子view的属性，如：位置，缩放比例等。</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<p>beginDelayedTransition的方式是不是会让你联想到之前讲过的LayoutTransition动画呢？我反正是想到了。它们之间的区别可以这么理解：LayoutTransition针对的是各个控件在限定场景到达时的动画表现。而beginDelayedTransition针对的是不同的场景之间的切换动画。前者关注的是控件（微观），后者关注的是场景（宏观）。<br>除了使用系统自带的Transtion使用动画以外，我们还可以自定义Transition动画，具体可参考<a href="https://developer.android.com/training/transitions/custom-transitions" target="_blank" rel="noopener">官方的这篇文章</a>。或者直接看官方给的<a href="https://github.com/googlesamples/android-CustomTransition" target="_blank" rel="noopener">DEMO</a>。</p>
-<h4 id="最后，使用场景过渡动画需要注意以下几点："><a href="#最后，使用场景过渡动画需要注意以下几点：" class="headerlink" title="最后，使用场景过渡动画需要注意以下几点："></a>最后，使用场景过渡动画需要注意以下几点：</h4><p>1、Android 版本在 4.0(API Level 14) 到 4.4.2(API Level 19) 使用 Android Support Library，但是Activity过渡动画和共享元素过渡动画至少要Android 5.0版本才支持。<br>2、对于 SurfaceView 可能不起效果，因为 SurfaceView 的实例是在非 UI 线程更新的，因此会造成和其他视图动画不同步。<br>3、某些特定的转换类型在应用到 TextureView 时可能不会产生所需的动画效果。<br>4、继承自 AdapterView 的视图如：ListView，与该框架不兼容。RecycleView兼容该框架，不过由于RecycleView复用机制的存在，这里就会存在两个动画：一个进入、一个退出，所以如果不满足需求，还是老实用ItemAnimator吧（PS：后面再写篇文章介绍RecycleView）。<br>5、不要对包含文本的视图的大小进行动画（可是我没找具体的不兼容情况）。<br>6、默认情况下，sceneRoot下所有的view都会执行Transition动画，我们可以通过Transition.addTarget 和 removeTarget 方法选择性添加或移除执行动画的 View 。需要注意的是，Transition的removeTarget方法必须在已经使用了addTarget的前提下才有效果。在未使用addTarget的情况下，如果要排除某个view执行动画效果，可以使用Transition的excludeTarget替代removeTarget方法。</p>
-<h3 id="Activity过渡动画、Shared-Element-Transition-共享元素过渡动画"><a href="#Activity过渡动画、Shared-Element-Transition-共享元素过渡动画" class="headerlink" title="Activity过渡动画、Shared Element Transition(共享元素过渡动画)"></a>Activity过渡动画、Shared Element Transition(共享元素过渡动画)</h3><p>这个部分就直接参考<a href="https://juejin.im/post/59cc54825188257a73280214" target="_blank" rel="noopener">这篇文章</a>吧～<br>笔者补充一点，对于文章中提到的<code>ViewOverlay</code>，建议看下<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0130/2384.html" target="_blank" rel="noopener">这篇文章</a>加深理解噢。</p>
-<hr>
-<p><strong>参考资料</strong><br><a href="https://developer.android.com/training/transitions" target="_blank" rel="noopener">1、Animate layout changes using a transition</a><br><a href="https://blog.csdn.net/wuyuxing24/article/details/78857912" target="_blank" rel="noopener">2、Android Transition（Android过渡动画）</a><br><a href="http://rkhcy.github.io/2017/09/21/TransitionNote/" target="_blank" rel="noopener">3、Android Transition（一）</a></p>
+<p>2、beginDelayedTransition方式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">TransitionManager.beginDelayedTransition(sceneRootView,transition);</span><br><span class="line">//下面改变 sceneRootView 中子 View 的属性，如：位置，缩放比例等。</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>beginDelayedTransition 的方式是不是会让你联想到之前讲过的 LayoutTransition 动画呢？它们之间的区别可以这么理解：LayoutTransition针对的是各个控件在限定场景到达时的动画表现。而beginDelayedTransition针对的是不同的场景之间的切换动画。前者关注的是控件（微观），后者关注的是场景（宏观）。<br>除了使用系统自带的 Transtion 使用动画以外，我们还可以自定义 Transition 动画，具体可参考<a href="https://developer.android.com/training/transitions/custom-transitions" target="_blank" rel="noopener">官方的这篇文章</a>。或者直接看官方给的<a href="https://github.com/googlesamples/android-CustomTransition" target="_blank" rel="noopener">DEMO</a>。</p>
+<h5 id="使用场景过渡动画需要注意的点："><a href="#使用场景过渡动画需要注意的点：" class="headerlink" title="使用场景过渡动画需要注意的点："></a>使用场景过渡动画需要注意的点：</h5><p>1、Android 版本在 4.0(API Level 14) 到 4.4.2(API Level 19) 使用 Android Support Library，但是Activity过渡动画和共享元素过渡动画至少要Android 5.0版本才支持。<br>2、对于 SurfaceView 可能不起效果，因为 SurfaceView 的实例是在非 UI 线程更新的，因此会造成和其他视图动画不同步。<br>3、某些特定的转换类型在应用到 TextureView 时可能不会产生所需的动画效果。<br>4、继承自 AdapterView 的视图如：ListView，与该框架不兼容。RecycleView 兼容该框架，不过由于 RecycleView 复用机制的存在，这里就会存在两个动画：一个进入、一个退出，所以如果不满足需求，还是老实用 ItemAnimator 吧。（PS：后面再写篇文章详细介绍 RecycleView。）<br>5、不要对包含文本的视图的大小进行动画。(这里所指的大小改变主要包括直接改变视图的宽高或者通过 setTextSize 改变视图的大小，不包括 scale 引起的视图大小变化。)<br>6、默认情况下，sceneRoot 下所有的 View 都会执行 Transition 动画，我们可以通过 Transition.addTarget 和 removeTarget 方法选择性添加或移除执行动画的 View 。需要注意的是，Transition 的 removeTarget 方法必须在已经使用了 addTarget的前提下才有效果。在未使用 addTarget 的情况下，如果要排除某个 View 执行动画效果，可以使用 Transition 的 excludeTarget 替代 removeTarget 方法。<br><strong>本节参考资料:</strong><br><a href="https://developer.android.com/training/transitions" target="_blank" rel="noopener">1、Animate layout changes using a transition</a><br><a href="http://rkhcy.github.io/2017/09/21/TransitionNote/" target="_blank" rel="noopener">2、Android Transition（一）</a><br><a href="https://blog.csdn.net/wuyuxing24/article/details/78857912" target="_blank" rel="noopener">3、Android Transition（Android过渡动画）</a></p>
+<h3 id="Activity过渡动画：Content-Transition、Shared-Element-Transition"><a href="#Activity过渡动画：Content-Transition、Shared-Element-Transition" class="headerlink" title="Activity过渡动画：Content Transition、Shared Element Transition"></a>Activity过渡动画：Content Transition、Shared Element Transition</h3><p>官方参考文档：<a href="https://developer.android.com/training/transitions/start-activity" target="_blank" rel="noopener">Start an activity using an animation</a><br>中文参考文档：<a href="https://juejin.im/post/59cc54825188257a73280214" target="_blank" rel="noopener">Activity 过渡动画</a></p>
+<h5 id="对于共享元素的延迟加载"><a href="#对于共享元素的延迟加载" class="headerlink" title="对于共享元素的延迟加载"></a>对于共享元素的延迟加载</h5><p>如果共享元素在被调用的 Activity 需要通过 AsyncTask, Loader, 或其它类似的数据加载方式决定它们最终的表现，数据被分发返回到主线程之前框架是可以开始过渡的。<br>为了解决这个问题，Activity Transitions API 提供了一个方法暂时推迟过渡直到我们确切地知道共享元素已经被适当的渲染和放置。<br>为了从开始时暂时阻止共享元素过渡，调用 postponeEnterTransition()（API &gt;= 21）或 supportPostponeEnterTransition()（API &lt; 21）在你被调用的 Activity 中的 onCreate() 方法中。然后，当你知道所有共享元素已经被适当的摆放和大小时，调用 startPostponedEnterTransition()（API &gt;= 21）或supportStartPostponedEnterTransition()（API &lt; 21） 恢复过渡。<br>你会找到一个常见的处理模式是在 OnPreDrawListener 中开启延迟过渡，它将会在共享元素被渲染和放置后调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// ... load remote image with Glide/Picasso here</span><br><span class="line">supportPostponeEnterTransition();</span><br><span class="line">ivBackdrop.getViewTreeObserver().addOnPreDrawListener(</span><br><span class="line">    new ViewTreeObserver.OnPreDrawListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean onPreDraw() &#123;</span><br><span class="line">            ivBackdrop.getViewTreeObserver().removeOnPreDrawListener(this);</span><br><span class="line">            supportStartPostponedEnterTransition();</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>需要记住的是，一定要在共享元素被渲染和放置后调用<code>startPostponedEnterTransition</code>方法，否者被调用的 Activity 会一直被堵塞。<br><a href="https://yuweiguocn.github.io/shared-element-activity-transition/" target="_blank" rel="noopener">参考文章&gt;&gt;</a></p>
+<h5 id="ViewOverlay-补充"><a href="#ViewOverlay-补充" class="headerlink" title="ViewOverlay 补充"></a>ViewOverlay 补充</h5><p><code>ViewOverlay</code>可以实现跨ViewGroup的动画，参考Demo中的<a href="https://github.com/tangxianming/AnimationPracticeApplication/blob/master/app/src/main/java/com/txm/topcodes/animationpracticeapplication/activity/OverlayActivity.java" target="_blank" rel="noopener">OverlayActivity类</a>，有如下要的：<br>1、动画完成后一定要记得在目标 ViewGroup Overlay 移除当前的View。<br>2、被添加到目标 ViewGroup Overlay 中的 View，无法响应点击事件。</p>
+<h5 id="Activity-过渡动画需要注意的点："><a href="#Activity-过渡动画需要注意的点：" class="headerlink" title="Activity 过渡动画需要注意的点："></a>Activity 过渡动画需要注意的点：</h5><p>1、对于非共享元素过渡动画，一些国内机型在开启 windowAllowEnterTransitionOverlap 后，如果 ExitTransition 设置的转场时间过长，则会出现返回页面时无法恢复原来状态的问题。<br>使用经验：如果需要启动页也有动画效果的话，不能将动画时长设置过长，同时要结合多个机型测试一下。另外，不设置 ExitTransition 动画效果不会有问题。<br>2、一些国内机型跳转目标页时，即使使用了 excludeTarget(android.R.id.statusBarBackground, true) 方法排除状态栏参与动画，状态栏背景仍会出现颜色切换现象（颜色为目标页面背景色）。<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">解决方案请参考Demo&gt;&gt;</a><br>3、使用 Fragment 的 Transition 实现界面过渡可完美避免出现上述问题。 <a href="https://github.com/lgvalle/Material-Animations" target="_blank" rel="noopener">参考项目&gt;&gt;</a></p>
 
       
     </div>
@@ -411,6 +472,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/18/Android问题汇总和解决方案/" rel="prev" title="Android问题汇总和解决方案">
+                Android问题汇总和解决方案 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -491,7 +556,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -513,7 +578,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -555,7 +620,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scene-Transition-场景过渡动画"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Scene-Transition-&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;" class="headerlink" title="Scene Transition(&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;)"></a>Scene Transition(&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最后，使用场景过渡动画需要注意以下几点："><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x6700;&#x540E;&#xFF0C;&#x4F7F;&#x7528;&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x4EE5;&#x4E0B;&#x51E0;&#x70B9;&#xFF1A;" class="headerlink" title="&#x6700;&#x540E;&#xFF0C;&#x4F7F;&#x7528;&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x4EE5;&#x4E0B;&#x51E0;&#x70B9;&#xFF1A;"></a>&#x6700;&#x540E;&#xFF0C;&#x4F7F;&#x7528;&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x4EE5;&#x4E0B;&#x51E0;&#x70B9;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity过渡动画、Shared-Element-Transition-共享元素过渡动画"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Activity&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x3001;Shared-Element-Transition-&#x5171;&#x4EAB;&#x5143;&#x7D20;&#x8FC7;&#x6E21;&#x52A8;&#x753B;" class="headerlink" title="Activity&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x3001;Shared Element Transition(&#x5171;&#x4EAB;&#x5143;&#x7D20;&#x8FC7;&#x6E21;&#x52A8;&#x753B;)"></a>Activity&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x3001;Shared Element Transition(&#x5171;&#x4EAB;&#x5143;&#x7D20;&#x8FC7;&#x6E21;&#x52A8;&#x753B;)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#场景过渡动画：Scene-Transition"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#xFF1A;Scene-Transition" class="headerlink" title="&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#xFF1A;Scene Transition"></a>&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#xFF1A;Scene Transition</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用场景过渡动画需要注意的点："><span class="nav-number">1.0.1.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x70B9;&#xFF1A;" class="headerlink" title="&#x4F7F;&#x7528;&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x70B9;&#xFF1A;"></a>&#x4F7F;&#x7528;&#x573A;&#x666F;&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x70B9;&#xFF1A;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity过渡动画：Content-Transition、Shared-Element-Transition"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Activity&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#xFF1A;Content-Transition&#x3001;Shared-Element-Transition" class="headerlink" title="Activity&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#xFF1A;Content Transition&#x3001;Shared Element Transition"></a>Activity&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#xFF1A;Content Transition&#x3001;Shared Element Transition</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#对于共享元素的延迟加载"><span class="nav-number">2.0.1.</span> <span class="nav-text"><a href="#&#x5BF9;&#x4E8E;&#x5171;&#x4EAB;&#x5143;&#x7D20;&#x7684;&#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;" class="headerlink" title="&#x5BF9;&#x4E8E;&#x5171;&#x4EAB;&#x5143;&#x7D20;&#x7684;&#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;"></a>&#x5BF9;&#x4E8E;&#x5171;&#x4EAB;&#x5143;&#x7D20;&#x7684;&#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ViewOverlay-补充"><span class="nav-number">2.0.2.</span> <span class="nav-text"><a href="#ViewOverlay-&#x8865;&#x5145;" class="headerlink" title="ViewOverlay &#x8865;&#x5145;"></a>ViewOverlay &#x8865;&#x5145;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Activity-过渡动画需要注意的点："><span class="nav-number">2.0.3.</span> <span class="nav-text"><a href="#Activity-&#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x70B9;&#xFF1A;" class="headerlink" title="Activity &#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x70B9;&#xFF1A;"></a>Activity &#x8FC7;&#x6E21;&#x52A8;&#x753B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x70B9;&#xFF1A;</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

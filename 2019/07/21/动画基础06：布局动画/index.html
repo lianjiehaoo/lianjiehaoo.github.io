@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。在Android的动画体系中，有补间动画，帧动画和属性动画，但是这些动画都是针对单个对象的，如果想对ViewGroup作动画，就要用到布局动画了。布局动画一共有两种：LayoutAnimation和LayoutTransition，本文将逐一介绍他们的用法和区别。">
+<meta name="description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。在 Android 的动画体系中，有补间动画，帧动画和属性动画，但是这些动画都是针对单个对象的，如果想对 ViewGroup 作动画，就要用到布局动画了。布局动画一共有两种：LayoutAnimation 和 LayoutTransition，本文将逐一介绍他们的用法和区别。">
 <meta name="keywords" content="LayoutAnimation,LayoutTransition">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android动画（六）：布局动画">
 <meta property="og:url" content="http://yoursite.com/2019/07/21/动画基础06：布局动画/index.html">
 <meta property="og:site_name" content="唐先明de博客">
-<meta property="og:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。在Android的动画体系中，有补间动画，帧动画和属性动画，但是这些动画都是针对单个对象的，如果想对ViewGroup作动画，就要用到布局动画了。布局动画一共有两种：LayoutAnimation和LayoutTransition，本文将逐一介绍他们的用法和区别。">
+<meta property="og:description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。在 Android 的动画体系中，有补间动画，帧动画和属性动画，但是这些动画都是针对单个对象的，如果想对 ViewGroup 作动画，就要用到布局动画了。布局动画一共有两种：LayoutAnimation 和 LayoutTransition，本文将逐一介绍他们的用法和区别。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-28T09:54:14.652Z">
+<meta property="og:updated_time" content="2019-10-17T22:36:51.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android动画（六）：布局动画">
-<meta name="twitter:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。在Android的动画体系中，有补间动画，帧动画和属性动画，但是这些动画都是针对单个对象的，如果想对ViewGroup作动画，就要用到布局动画了。布局动画一共有两种：LayoutAnimation和LayoutTransition，本文将逐一介绍他们的用法和区别。">
+<meta name="twitter:description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。在 Android 的动画体系中，有补间动画，帧动画和属性动画，但是这些动画都是针对单个对象的，如果想对 ViewGroup 作动画，就要用到布局动画了。布局动画一共有两种：LayoutAnimation 和 LayoutTransition，本文将逐一介绍他们的用法和区别。">
 
 
 
@@ -370,22 +370,25 @@
       
 
       
-        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<br>在Android的动画体系中，有补间动画，帧动画和属性动画，但是这些动画都是针对单个对象的，如果想对ViewGroup作动画，就要用到布局动画了。布局动画一共有两种：LayoutAnimation和LayoutTransition，本文将逐一介绍他们的用法和区别。<a id="more"></a></p>
-<h3 id="LayoutAnimation"><a href="#LayoutAnimation" class="headerlink" title="LayoutAnimation"></a>LayoutAnimation</h3><p>LayoutAnimation布局动画属于补间动画的一种，利用它可以快速实现对ViewGroup中子view的动画。不过，它的缺陷是只能够在ViewGroup初始化时对其子view产生动画效果，之后再增加子view时没有效果。<br>LayoutAnimation动画可以直接在xml中定义：<br>1、首先定义单个View的补间动画<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:duration=&quot;500&quot;&gt;</span><br><span class="line">  &lt;translate</span><br><span class="line">      android:fromXDelta=&quot;-50%p&quot;</span><br><span class="line">      android:toXDelta=&quot;0&quot;/&gt;</span><br><span class="line">  &lt;alpha</span><br><span class="line">      android:fromAlpha=&quot;0.0&quot;</span><br><span class="line">      android:toAlpha=&quot;1.0&quot;/&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure></p>
-<p>2、定义layoutAnimation<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;layoutAnimation xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:animation=&quot;@anim/slide_in_from_left&quot;</span><br><span class="line">    android:animationOrder=&quot;random&quot;</span><br><span class="line">    android:delay=&quot;1&quot;/&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">delay : ViewGroup 中单个Item动画的开始延时，取值是android:animation 所指定动画时长的倍数，可以是float，也可以是百分数，默认0.5</span><br><span class="line">比如slide_in_from_left中定义的动画时长是500ms，这里delay=1，那么在上一个动画执行之后延时500ms执行下一个tem的动画</span><br><span class="line"></span><br><span class="line">animationOrder : 动画开始顺序，normal(正序)、reverse(倒序)、random(随机)</span><br><span class="line"></span><br><span class="line">animation : 指定动画资源animation，注意不能使用animator</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure></p>
-<p>可以通过下面两种方式加载<br>1、直接在ViewGroup的 layout xml 文件中设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:layoutAnimation=&quot;@anim/list_item_slide_layout_animation&quot;</span><br></pre></td></tr></table></figure></p>
+        <p>笔者已将本节的代码上传至 <a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<br>在 Android 的动画体系中，有补间动画，帧动画和属性动画，但是这些动画都是针对单个对象的，如果想对 ViewGroup 作动画，就要用到布局动画了。布局动画一共有两种：LayoutAnimation 和 LayoutTransition，本文将逐一介绍他们的用法和区别。<a id="more"></a></p>
+<h3 id="LayoutAnimation"><a href="#LayoutAnimation" class="headerlink" title="LayoutAnimation"></a>LayoutAnimation</h3><p>LayoutAnimation 布局动画属于补间动画的一种，利用它可以快速实现对 ViewGroup 中子 view 的动画。不过，它的缺陷是只能够在 ViewGroup 初始化时对其子 view 产生动画效果，之后再增加子 view 时没有效果。<br>LayoutAnimation 动画可以直接在 xml 中定义：<br>1、首先定义单个 View 的补间动画<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:duration=&quot;500&quot;&gt;</span><br><span class="line">  &lt;translate</span><br><span class="line">      android:fromXDelta=&quot;-50%p&quot;</span><br><span class="line">      android:toXDelta=&quot;0&quot;/&gt;</span><br><span class="line">  &lt;alpha</span><br><span class="line">      android:fromAlpha=&quot;0.0&quot;</span><br><span class="line">      android:toAlpha=&quot;1.0&quot;/&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure></p>
+<p>2、定义 layoutAnimation<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;layoutAnimation xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:animation=&quot;@anim/slide_in_from_left&quot;</span><br><span class="line">    android:animationOrder=&quot;random&quot;</span><br><span class="line">    android:delay=&quot;1&quot;/&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">1、delay : ViewGroup 中单个Item动画的开始延时，取值是android:animation 所指定动画时长的倍数，可以是float，也可以是百分数，默认0.5</span><br><span class="line">比如slide_in_from_left中定义的动画时长是500ms，这里delay=1，那么在上一个动画执行之后延时500ms执行下一个item的动画</span><br><span class="line">2、animationOrder : 动画开始顺序，normal(正序)、reverse(倒序)、random(随机)</span><br><span class="line">3、animation : 指定动画资源animation，注意不能使用animator</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure></p>
+<p>可以通过下面两种方式加载<br>1、直接在 ViewGroup 的 layout xml 文件中设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:layoutAnimation=&quot;@anim/list_item_slide_layout_animation&quot;</span><br></pre></td></tr></table></figure></p>
 <p>2、使用代码设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Animation animation = AnimationUtils.loadAnimation(mActivity，R.anim.slide_in_from_left);</span><br><span class="line">LayoutAnimationController animationController = new LayoutAnimationController(animation，</span><br><span class="line">         1f);</span><br><span class="line">animationController.setOrder(LayoutAnimationController.ORDER_NORMAL);</span><br><span class="line">mList.setLayoutAnimation(animationController);</span><br><span class="line">mList.startLayoutAnimation();</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>同时，系统也提供了<a href="https://wiki.jikexueyuan.com/project/android-animation/11.html" target="_blank" rel="noopener">gridLayoutAnimation</a>用于给Gridview设置布局动画。<br>需要注意的是布局动画，在创建ViewGroup的时候生效，后续添加的子View是没有动画效果的。</p>
+<p>同时，系统也提供了 <a href="https://wiki.jikexueyuan.com/project/android-animation/11.html" target="_blank" rel="noopener">gridLayoutAnimation</a> 用于给 Gridview 设置布局动画。<br>需要注意的是布局动画，在创建ViewGroup的时候生效，后续添加的子View是没有动画效果的。</p>
 </blockquote>
-<h3 id="LayoutTransition"><a href="#LayoutTransition" class="headerlink" title="LayoutTransition"></a>LayoutTransition</h3><p>LayoutTransition 是API Level 11 才出现的。LayoutTransition的动画效果，只有当ViewGroup中有View添加、删除、隐藏、显示的时候才会体现出来，初始化时没有效果。<br>LayoutTransition类中主要有五种容器转换动画类型，具体如下：</p>
+<h3 id="LayoutTransition"><a href="#LayoutTransition" class="headerlink" title="LayoutTransition"></a>LayoutTransition</h3><p>LayoutTransition 是API Level 11 才出现的。LayoutTransition 的动画效果，只有当 ViewGroup 中有 View 添加、删除、隐藏、显示的时候才会体现出来，初始化时没有效果。<br>LayoutTransition 类中主要有五种容器转换动画类型，具体如下：</p>
 <blockquote>
-<p>LayoutTransition.APPEARING：当View出现或者添加的时候View出现的动画。<br>LayoutTransition.CHANGE_APPEARING：当添加View导致布局容器改变的时候整个布局容器的动画。<br>LayoutTransition.DISAPPEARING：当View消失或者隐藏的时候View消失的动画。<br>LayoutTransition.CHANGE_DISAPPEARING：当删除或者隐藏View导致布局容器改变的时候整个布局容器的动画。<br>LayoutTransition.CHANGE：当不是由于View出现或消失造成对其他View位置造成改变的时候整个布局容器的动画。</p>
+<p>LayoutTransition.APPEARING：子 View 添加到容器中时的过渡动画效果。<br>LayoutTransition.CHANGE_APPEARING：子 View 添加到容器中时，其他子 View 位置改变的过渡动画。<br>LayoutTransition.DISAPPEARING：子 View 从容器中移除时的过渡动画效果。<br>LayoutTransition.CHANGE_DISAPPEARING：子 View 从容器中移除时，其它子 View 位置改变的过渡动画。<br>LayoutTransition.CHANGING：子 View 在容器中位置改变时的过渡动画，不涉及删除或者添加操作。(没有试出效果，哪位大神知道用法的话，欢迎到<a href="https://github.com/tangxianming/AnimationPracticeApplication/issues" target="_blank" rel="noopener">github</a>留个言，谢谢。)</p>
 </blockquote>
-<p>LayoutTransition也有两种方式添加。<br>1、在xml中直接添加。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 只能使用系统默认的LayoutTransition动画</span><br><span class="line">android:animateLayoutChanges=&quot;true&quot;</span><br></pre></td></tr></table></figure></p>
-<p>2、在代码中使用。<br>使用系统默认的LayoutTransition动画<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LayoutTransition mTransitioner = new LayoutTransition();</span><br><span class="line">mViewGroup.setLayoutTransition(mTransitioner);</span><br></pre></td></tr></table></figure></p>
-<p>使用自定义的LayoutTransition动画<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LayoutTransition layoutTransition = new LayoutTransition();</span><br><span class="line">viewGroup.setLayoutTransition(layoutTransition);</span><br><span class="line">...</span><br><span class="line">layoutTransition.setAnimator(transitionType， AnimatorInflater.loadAnimator(this， R.animator.xxx));</span><br><span class="line">&lt;!--transitionType代表五种容器转换动画类型； R.animator.xxx代表属性动画资源。--&gt;</span><br></pre></td></tr></table></figure></p>
-<p>同时，可以给LayoutTransition设置监听器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mTransitioner.addTransitionListener(new LayoutTransition.TransitionListener()&#123;//...&#125;</span><br></pre></td></tr></table></figure></p>
+<p>LayoutTransition 也有两种方式添加。<br>1、在xml中直接添加。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 只能使用系统默认的 LayoutTransition 动画</span><br><span class="line">android:animateLayoutChanges=&quot;true&quot;</span><br></pre></td></tr></table></figure></p>
+<p>2、在代码中使用。<br>使用系统默认的 LayoutTransition 动画<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LayoutTransition mTransitioner = new LayoutTransition();</span><br><span class="line">mViewGroup.setLayoutTransition(mTransitioner);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：使用系统动画时，会出现动画未达到预期的现象。此时应该从这些方面考虑：<br>a. 直接子 View 是一个容器，且容器中的子 View 是否过多？<br>b. 直接子 View 之间的依赖关系是否能达到动画预期？<br>c. 运用在 SurfaceView 上的动画效果会异常。</p>
+</blockquote>
+<p>使用自定义的 LayoutTransition 动画<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LayoutTransition layoutTransition = new LayoutTransition();</span><br><span class="line">viewGroup.setLayoutTransition(layoutTransition);</span><br><span class="line">...</span><br><span class="line">layoutTransition.setAnimator(transitionType， AnimatorInflater.loadAnimator(this， R.animator.xxx));</span><br><span class="line">&lt;!--transitionType代表五种容器转换动画类型； R.animator.xxx代表属性动画资源。--&gt;</span><br></pre></td></tr></table></figure></p>
+<p>同时，可以给 LayoutTransition 设置监听器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mTransitioner.addTransitionListener(new LayoutTransition.TransitionListener()&#123;//...&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><table>
 <thead>
 <tr>
@@ -399,19 +402,19 @@
 <tr>
 <td>LayoutAnimation</td>
 <td>补间动画</td>
-<td>优点：快速实现对ViewGroup中子View的动画。对于RecyclerView这些list类型的viewGroup同样适用。<br>缺点：只能够在ViewGroup初始化时对其子View产生动画效果。</td>
+<td>优点：快速实现对 ViewGroup 中子 View 的动画。对于 RecyclerView 这些 list 类型的 ViewGroup 同样适用。<br>缺点：只能够在 ViewGroup 初始化时对其子 View 产生动画效果。</td>
 <td>API Level 1</td>
 </tr>
 <tr>
 <td>LayoutTransition</td>
 <td>属性动画</td>
-<td>优点：ViewGroup中只要有子View添加、删除、隐藏、显示，都能对子View的产生动画。。<br>缺点：1、对于RecyclerView不适用，我在实验滑动的时候是直接报错了，所以我建议如果是RecyclerView的话，还是用它自带的ItemAnimator。2、对于ListView适用，参考这个<a href="https://pupli.net/2017/03/24/android-animating-listview-with-layouttransition/" target="_blank" rel="noopener">链接</a>，不过效果有点乱，同时还使得问题复杂化了，我在<a href="https://stackoverflow.com/questions/17239151/using-changing-layouttransition-type-in-a-listview-has-no-effect" target="_blank" rel="noopener">stackoverflow</a>上看到了这个问题的回答。3、初始化ViewGroup时没有效果。</td>
+<td>优点：ViewGroup 中只要有子 View 添加、删除、隐藏、显示，都能对子 View 的产生动画。。<br>缺点：1、对于 RecyclerView 不适用，我在实验滑动的时候是直接报错了，所以我建议如果是 RecyclerView 的话，还是用它自带的 ItemAnimator。2、对于 ListView 适用，参考这个<a href="https://pupli.net/2017/03/24/android-animating-listview-with-layouttransition/" target="_blank" rel="noopener">链接</a>，不过效果有点乱，同时还使得问题复杂化了，我在<a href="https://stackoverflow.com/questions/17239151/using-changing-layouttransition-type-in-a-listview-has-no-effect" target="_blank" rel="noopener">stackoverflow</a>上看到了这个问题的回答。3、初始化 ViewGroup 时没有效果。</td>
 <td>API Level 11</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<p><strong>参考资料</strong><br>1.<a href="http://www.voidcn.com/article/p-bytxriow-xp.html" target="_blank" rel="noopener">Android 动画(一)LayoutAnimation与LayoutTransition</a><br>2.<a href="https://medium.com/@evanchen76/android-animation-30天上手-day13-layouttransition-a4c6d2a1cd90" target="_blank" rel="noopener">Android animation 30天上手 — Day13 LayoutTransition</a></p>
+<p><strong>参考资料</strong><br>1.<a href="http://www.voidcn.com/article/p-bytxriow-xp.html" target="_blank" rel="noopener">Android 动画(一) LayoutAnimation 与 LayoutTransition</a><br>2.<a href="https://medium.com/@evanchen76/android-animation-30天上手-day13-layouttransition-a4c6d2a1cd90" target="_blank" rel="noopener">Android animation 30天上手 — Day13 LayoutTransition</a></p>
 
       
     </div>
@@ -444,8 +447,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/" rel="next" title="Android动画（五）：Path类型插值器、路径动画、Fling动画、Spring动画">
-                <i class="fa fa-chevron-left"></i> Android动画（五）：Path类型插值器、路径动画、Fling动画、Spring动画
+              <a href="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/" rel="next" title="Android动画（五）：插值器和估值器补充、Fling动画、物理动画">
+                <i class="fa fa-chevron-left"></i> Android动画（五）：插值器和估值器补充、Fling动画、物理动画
               </a>
             
           </div>
@@ -537,7 +540,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -559,7 +562,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

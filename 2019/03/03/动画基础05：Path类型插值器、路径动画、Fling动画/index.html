@@ -83,20 +83,23 @@
 
 
 
-<meta name="description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
+<meta name="description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。">
 <meta name="keywords" content="PathInterpolator,路径动画,FlingAnimation,SpringAnimation">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android动画（五）：Path类型插值器、路径动画、Fling动画、Spring动画">
+<meta property="og:title" content="Android动画（五）：插值器和估值器补充、Fling动画、物理动画">
 <meta property="og:url" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/index.html">
 <meta property="og:site_name" content="唐先明de博客">
-<meta property="og:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
+<meta property="og:description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/path_interpolator.gif">
+<meta property="og:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/path_animator.gif">
 <meta property="og:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif">
-<meta property="og:updated_time" content="2019-07-21T04:06:11.875Z">
+<meta property="og:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/spring_animation.gif">
+<meta property="og:updated_time" content="2019-10-14T22:12:45.082Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android动画（五）：Path类型插值器、路径动画、Fling动画、Spring动画">
-<meta name="twitter:description" content="笔者已将本节的代码上传至Github，大家可以结合着学习。">
-<meta name="twitter:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif">
+<meta name="twitter:title" content="Android动画（五）：插值器和估值器补充、Fling动画、物理动画">
+<meta name="twitter:description" content="笔者已将本节的代码上传至 Github，大家可以结合着学习。">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/path_interpolator.gif">
 
 
 
@@ -132,7 +135,7 @@
 
 
 
-  <title>Android动画（五）：Path类型插值器、路径动画、Fling动画、Spring动画 | 唐先明de博客</title>
+  <title>Android动画（五）：插值器和估值器补充、Fling动画、物理动画 | 唐先明de博客</title>
   
 
 
@@ -300,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Android动画（五）：Path类型插值器、路径动画、Fling动画、Spring动画</h1>
+          <h1 class="post-title" itemprop="name headline">Android动画（五）：插值器和估值器补充、Fling动画、物理动画</h1>
         
 
         <div class="post-meta">
@@ -372,27 +375,30 @@
       
 
       
-        <p>笔者已将本节的代码上传至<a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<a id="more"></a><br>本节内容是Android移动动画的进阶内容。其中，“Path类型插值器”、“路径动画”算是补充了<a href="https://kimball325.github.io/2019/01/25/动画基础02：视图动画、属性动画/" target="_blank" rel="noopener">视图动画、属性动画</a>中所提及的插值器、估值器内容，“Path类型插值器”、“路径动画”能够实现的效果，用插值器和估值器也可以实现，但前者更加高效。本章的内容主要参考了官方的下面三篇文章：<br><a href="https://developer.android.com/training/animation/reposition-view" target="_blank" rel="noopener">1、Move a View with Animation</a><br><a href="https://developer.android.com/guide/topics/graphics/fling-animation" target="_blank" rel="noopener">2、Move views using a fling animation</a><br><a href="https://developer.android.com/guide/topics/graphics/spring-animation#add-support-library" target="_blank" rel="noopener">3、Animate movement using spring physics</a><br>参考的中文文章在文末有给出。</p>
-<h4 id="Path类型的插值器"><a href="#Path类型的插值器" class="headerlink" title="Path类型的插值器"></a>Path类型的插值器</h4><p>Path类型的插值器是一种新的插值器，Android从5.0开始支持。可以用代码、XML两种方式实现，这里我们只讨论代码实现的方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">Path path = new Path();</span><br><span class="line">path.lineTo(0.25f, 0.25f);</span><br><span class="line">path.moveTo(0.25f, 0.5f);</span><br><span class="line">path.lineTo(1f, 1f);</span><br><span class="line">PathInterpolator pathInterpolator = new PathInterpolator(path);</span><br><span class="line">…………</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>从以上代码可以看出，Path被限制在一个1*1的正方形中，x、y坐标的取值范围都为[0,1]，并且Path必须从(0,0)坐标开始，(1,1)坐标结束。x坐标代表时间进度：0-100%，y坐标代表当前时间点对应的动画完成度：0-100%。<br>一旦<code>pathInterpolator</code>创建完成，就可以通过<code>Animator.setInterpolator()</code>方法使用它了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animation = ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 100f);</span><br><span class="line">animation.setInterpolator(pathInterpolator);</span><br><span class="line">animation.start();</span><br></pre></td></tr></table></figure></p>
-<h4 id="路径动画"><a href="#路径动画" class="headerlink" title="路径动画"></a>路径动画</h4><p>ObjectAnimator从 Android 5.0 开始提供了一类新的构造方法用于实现沿自定义路径移动的动画。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">Path path = new Path();</span><br><span class="line">path.moveTo(view.getX(), view.getY());</span><br><span class="line">path.cubicTo(view.getX(), view.getY(),</span><br><span class="line">view.getX() + 300, view.getY() + 200,</span><br><span class="line">view.getX() - 400, view.getY() + 500);</span><br><span class="line">//下面两种方法不允许</span><br><span class="line">//path.addCircle(view.getX(), view.getY(),100,Path.Direction.CCW);</span><br><span class="line">//path.arcTo(view.getX()+100, view.getY()+100, view.getX() + 500, view.getY() + 500, 270f, -180f, true);</span><br><span class="line">ObjectAnimator objectAnimator =</span><br><span class="line">ObjectAnimator.ofFloat(ivBalPathAnimator, View.X, View.Y, path);</span><br><span class="line">objectAnimator.setDuration(1200);</span><br><span class="line">objectAnimator.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">objectAnimator.setRepeatMode(ValueAnimator.REVERSE);</span><br><span class="line">objectAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">objectAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Fling动画"><a href="#Fling动画" class="headerlink" title="Fling动画"></a>Fling动画</h4><p>Fling动画使用物理学中摩擦力的概念，使得view的速度逐渐被降低，从而实现了现实中的阻力运动。Android 4.4版本开始支持该动画。<br><img src="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif" title="Fling Animation"><br><strong> 1、添加支持库 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">implementation &apos;com.android.support:support-dynamic-animation:28.0.0&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong> 2、创建fling动画 </strong><br>FlingAnimation类可以帮助你创建fling动画，只要在创建FlingAnimation实例时传入操作的view对象以及操作对象的属性即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FlingAnimation fling = new FlingAnimation(view, DynamicAnimation.SCROLL_X);</span><br></pre></td></tr></table></figure></p>
+        <p>笔者已将本节的代码上传至 <a href="https://github.com/tangxianming/AnimationPracticeApplication" target="_blank" rel="noopener">Github</a>，大家可以结合着学习。<a id="more"></a><br>本篇讲的是 Android 视图位置变化相关的知识，其中，第一部分是对之前文章<a href="https://kimball325.github.io/2019/01/25/动画基础02：视图动画、属性动画/" target="_blank" rel="noopener">视图动画、属性动画</a>中插值器、估值器的补充。本章的内容主要参考了官方的下面三篇文章：<br><a href="https://developer.android.com/training/animation/reposition-view" target="_blank" rel="noopener">1、Move a View with Animation</a><br><a href="https://developer.android.com/guide/topics/graphics/fling-animation" target="_blank" rel="noopener">2、Move views using a fling animation</a><br><a href="https://developer.android.com/guide/topics/graphics/spring-animation#add-support-library" target="_blank" rel="noopener">3、Animate movement using spring physics</a><br>参考的中文文章在文末有给出。</p>
+<h4 id="Path类型的插值器"><a href="#Path类型的插值器" class="headerlink" title="Path类型的插值器"></a>Path类型的插值器</h4><p>Path 类型的插值器是一种新的插值器，Android 从5.0开始支持。可以用代码、XML 两种方式实现，这里我们只讨论代码实现的方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">Path path = new Path();</span><br><span class="line">path.lineTo(1f, 1f);</span><br><span class="line">PathInterpolator pathInterpolator = new PathInterpolator(path);</span><br><span class="line">…………</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从以上代码可以看出，Path 被限制在一个1*1的正方形中，x、y坐标的取值范围都为[0,1]，并且 Path 必须从(0,0)坐标开始，(1,1)坐标结束。x坐标代表时间进度：0-100%，y坐标代表当前时间点对应的动画完成度：0-100%。<br>一旦<code>pathInterpolator</code>创建完成，就可以通过<code>Animator.setInterpolator()</code>方法使用它了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animation = ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 100f);</span><br><span class="line">animation.setInterpolator(pathInterpolator);</span><br><span class="line">animation.start();</span><br></pre></td></tr></table></figure></p>
+<img src="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/path_interpolator.gif" title="Path类型的插值器">
+<h4 id="估值器实现路径动画"><a href="#估值器实现路径动画" class="headerlink" title="估值器实现路径动画"></a>估值器实现路径动画</h4><p>ObjectAnimator从 Android 5.0 开始提供了一类新的构造方法用于实现沿自定义路径移动的动画。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</span><br><span class="line">Path path = new Path();</span><br><span class="line">path.moveTo(view.getX(), view.getY());</span><br><span class="line">path.cubicTo(view.getX(), view.getY(),</span><br><span class="line">view.getX() + 300, view.getY() + 200,</span><br><span class="line">view.getX() - 400, view.getY() + 500);</span><br><span class="line">//下面两种方法不允许</span><br><span class="line">//path.addCircle(view.getX(), view.getY(),100,Path.Direction.CCW);</span><br><span class="line">//path.arcTo(view.getX()+100, view.getY()+100, view.getX() + 500, view.getY() + 500, 270f, -180f, true);</span><br><span class="line">ObjectAnimator objectAnimator =</span><br><span class="line">ObjectAnimator.ofFloat(ivBalPathAnimator, View.X, View.Y, path);</span><br><span class="line">objectAnimator.setDuration(1200);</span><br><span class="line">objectAnimator.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">objectAnimator.setRepeatMode(ValueAnimator.REVERSE);</span><br><span class="line">objectAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">objectAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<img src="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/path_animator.gif" title="路径动画">
+<h4 id="Fling动画"><a href="#Fling动画" class="headerlink" title="Fling动画"></a>Fling动画</h4><p>Fling 动画使用物理学中摩擦力的概念，使得 view 的速度逐渐被降低，从而实现了现实中的阻力运动。Android 4.4版本开始支持该动画。<br><img src="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/fling-animation.gif" title="Fling Animation"><br><strong> 1、添加支持库 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">implementation &apos;com.android.support:support-dynamic-animation:28.0.0&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> 2、创建fling动画 </strong><br>FlingAnimation 类可以帮助你创建fling动画，只要在创建 FlingAnimation 实例时传入操作的 View 对象以及操作对象的属性即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FlingAnimation fling = new FlingAnimation(view, DynamicAnimation.SCROLL_X);</span><br></pre></td></tr></table></figure></p>
 <p><strong> 3、设置初始速度 </strong><br>为了让物体移动（并非只有移动），我们必须给物体一个初速度。默认的初速度是0，所以我们必须定义一个大于0的初速度以保证物体能够移动。<br>设置初速度的方法是<code>setStartVelocity()</code>。您可以使用固定值作为起始速度，也可以将其基于触摸手势的速度通过<a href="http://www.gcssloop.com/customview/gestruedector" target="_blank" rel="noopener">GestureDetetor.OnGestureListener </a>获取。如果您选择提供固定值，您应该以每秒dp的值定义值，然后将其转换为每秒像素数。以每秒dp定义值的方式允许速度独立于设备的密度和形状因子。有关将起始速度转换为每秒像素数的更多信息，将在下一篇文章 《Spring Animation》中的“ 每秒转换为每秒像素数”部分讲解 。</p>
 <p><strong> 4、设置动画的取值范围 </strong><br>你可以通过<code>setMinValue()</code>和<code>setMaxValue()</code>设置属性值的变化范围，这个对于有明确变化范围的属性显得十分重要，例如透明度（0-1）。注意，当fling时的属性值到达设定的最大值或者最小值时，动画会立刻结束。</p>
 <p><strong> 5、设置阻力因子 </strong><br>你可以通过<code>setFriction()</code>改变动画的阻力因子，他定义了速度下降的速度。阻力因子的默认值是1。<br>下面的例子定义了一个横向滑动的fling动画，滑动边界被设置为0和maxScroll，摩擦力设置为1.1。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FlingAnimation fling = new FlingAnimation(view, DynamicAnimation.SCROLL_X);</span><br><span class="line">fling.setStartVelocity(-velocityX)</span><br><span class="line">.setMinValue(0)</span><br><span class="line">.setMaxValue(maxScroll)</span><br><span class="line">.setFriction(1.1f)</span><br><span class="line">.start();</span><br></pre></td></tr></table></figure></p>
-<p>注意，上面的方法仅仅适用于单个属性的fling变化。如果有多个属性同时需要fling变化呢？有的文章倒是建议用<code>FloatPropertyCompat</code>实现。可是<code>FloatPropertyCompat</code>有它的局限性，正如<a href="https://code.tutsplus.com/zh-hans/tutorials/adding-physics-based-animations-to-android-apps--cms-29053" target="_blank" rel="noopener">这篇文章</a>的第五部分所说：要在确保所有属性的值不是完全相互独立的情况下，该方法才适用。否则，我们只能针对每个属性都建立一个FlingAnimation。</p>
-<p><strong> 6、设置最小可见变化 </strong><br>当您在为不以像素为单位定义的自定义属性设置动画时，应设置用户可见的动画值的最小更改，它作为定义动画结束的最小值。<br>当操作DynamicAnimation.ViewProperty动画时不需要调用此方法，因为此时的最小可见变化可以自动获取。例如：<br>1、默认最小可见的变化值是1个像素，如：TRANSLATION_X，TRANSLATION_Y， TRANSLATION_Z，SCROLL_X，和 SCROLL_Y。<br>2、对于使用旋转动画，如ROTATION， ROTATION_X，和ROTATION_Y，最小可见变化是MIN_VISIBLE_CHANGE_ALPHA，或1/10像素。<br>3、对于使用不透明度的动画，最小可见变化为 MIN_VISIBLE_CHANGE_ALPHA或者1/256。<br>要设置动画的最小可见变化，请调用<code>setMinimumVisibleChange()</code>方法，并传递最小可见常量或您需要为自定义属性计算的值。有关计算此值的更多信息，请参阅本文末的“计算最小可见变化值”部分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">anim.setMinimumVisibleChange(DynamicAnimation.MIN_VISIBLE_CHANGE_SCALE);</span><br></pre></td></tr></table></figure></p>
+<p>注意，上面的方法仅仅适用于单个属性的 fling 变化。如果有多个属性同时需要fling变化呢？有的文章倒是建议用<code>FloatPropertyCompat</code>实现。可是<code>FloatPropertyCompat</code>有它的局限性，正如<a href="https://code.tutsplus.com/zh-hans/tutorials/adding-physics-based-animations-to-android-apps--cms-29053" target="_blank" rel="noopener">这篇文章</a>的第五部分所说：要在确保所有属性的值不是完全相互独立的情况下，该方法才适用。否则，我们只能针对每个属性都建立一个 FlingAnimation。</p>
+<p><strong> 6、设置最小可见变化 </strong><br>当您在为不以像素为单位定义的自定义属性设置动画时，应设置用户可见的动画值的最小更改，它作为定义动画结束的最小值。<br>当操作 DynamicAnimation.ViewProperty 动画时不需要调用此方法，因为此时的最小可见变化可以自动获取。例如：<br>1、默认最小可见的变化值是1个像素，如：TRANSLATION_X，TRANSLATION_Y， TRANSLATION_Z，SCROLL_X，和 SCROLL_Y。<br>2、对于使用旋转动画，如ROTATION， ROTATION_X，和ROTATION_Y，最小可见变化是 MIN_VISIBLE_CHANGE_ROTATION_DEGREES，或1/10像素。<br>3、对于使用不透明度的动画，最小可见变化为 MIN_VISIBLE_CHANGE_ALPHA 或者1/256。<br>要设置动画的最小可见变化，请调用<code>setMinimumVisibleChange()</code>方法，并传递最小可见常量或您需要为自定义属性计算的值。有关计算此值的更多信息，请参阅本部分末的“计算最小可见变化值”部分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">anim.setMinimumVisibleChange(DynamicAnimation.MIN_VISIBLE_CHANGE_SCALE);</span><br></pre></td></tr></table></figure></p>
 <p>注意：只有在为不以像素定义的自定义属性制作动画时，才需要设置最小可见变化值。</p>
 <blockquote>
 <p><strong>计算最小可见变化值 ：</strong><br>最小可见变化值=自定义属性值的范围/以像素为单位的动画执行范围。<br>例如，要进行动画制作的自定义非像素为单位的属性变化范围是从0到100，同时如果此过程对应于200像素的动画更改。根据公式，最小可见变化值是100/200等于0.5像素。</p>
 </blockquote>
 <h4 id="Spring动画"><a href="#Spring动画" class="headerlink" title="Spring动画"></a>Spring动画</h4><p>这一部分的内容在官网讲得也是很明白了。需要注意的是，官网结尾最后的“Cancel animation”部分提到的‘cancel()’和‘skipToEnd()’使用注意事项：</p>
 <blockquote>
-<p>cancel()：立即停止动画<br>skipToEnd()：恢复到最终位置并停止动画。需要注意的是，在无阻尼的情况下，不能调用该方法（即：DampingRatio==0时）。为了安全，可以先调用canSkipToEnd()进行判断，有阻尼的情况下返回true，否则返回false。一般来说，skipToEnd()会有跳跃的效果。</p>
+<p>cancel()：立即停止动画<br>skipToEnd()：恢复到最终位置并停止动画。需要注意的是，在无阻尼的情况下，不能调用该方法（即：DampingRatio==0时）。为了安全，可以先调用 canSkipToEnd() 进行判断，有阻尼的情况下返回 true，否则返回 false。一般来说，skipToEnd() 会有跳跃的效果。</p>
 </blockquote>
+<p>以下是Demo中实现的效果：<br><img src="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/spring_animation.gif" title="物理动画"></p>
 <hr>
-<p><strong>参考资料</strong><br><a href="https://cloud.tencent.com/info/eb3faa589479ceb0a501d4cbf3a25541.html" target="_blank" rel="noopener">1、中文翻译：使用fling动画移动视图</a><br><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/0330/7757.html" target="_blank" rel="noopener">2、SpringAnimation详解－Android</a></p>
+<p><strong>参考资料</strong><br><a href="https://cloud.tencent.com/info/eb3faa589479ceb0a501d4cbf3a25541.html" target="_blank" rel="noopener">1、中文翻译：使用 fling 动画移动视图</a><br><a href="https://juejin.im/entry/58ddd02644d904006d034b33" target="_blank" rel="noopener">2、SpringAnimation 详解</a></p>
 
       
     </div>
@@ -522,7 +528,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -544,7 +550,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -586,7 +592,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Path类型的插值器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;" class="headerlink" title="Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;"></a>Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路径动画"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8DEF;&#x5F84;&#x52A8;&#x753B;" class="headerlink" title="&#x8DEF;&#x5F84;&#x52A8;&#x753B;"></a>&#x8DEF;&#x5F84;&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fling动画"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Fling&#x52A8;&#x753B;" class="headerlink" title="Fling&#x52A8;&#x753B;"></a>Fling&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring动画"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Spring&#x52A8;&#x753B;" class="headerlink" title="Spring&#x52A8;&#x753B;"></a>Spring&#x52A8;&#x753B;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Path类型的插值器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;" class="headerlink" title="Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;"></a>Path&#x7C7B;&#x578B;&#x7684;&#x63D2;&#x503C;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#估值器实现路径动画"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4F30;&#x503C;&#x5668;&#x5B9E;&#x73B0;&#x8DEF;&#x5F84;&#x52A8;&#x753B;" class="headerlink" title="&#x4F30;&#x503C;&#x5668;&#x5B9E;&#x73B0;&#x8DEF;&#x5F84;&#x52A8;&#x753B;"></a>&#x4F30;&#x503C;&#x5668;&#x5B9E;&#x73B0;&#x8DEF;&#x5F84;&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fling动画"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Fling&#x52A8;&#x753B;" class="headerlink" title="Fling&#x52A8;&#x753B;"></a>Fling&#x52A8;&#x753B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring动画"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Spring&#x52A8;&#x753B;" class="headerlink" title="Spring&#x52A8;&#x753B;"></a>Spring&#x52A8;&#x753B;</span></a></li></ol></div>
             
 
           </div>
