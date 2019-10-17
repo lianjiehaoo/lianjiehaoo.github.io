@@ -83,17 +83,17 @@
 
 
 
-<meta name="description" content="网络相关1、Host 这个 Header的作用是？答：仅用于找到目标主机后确认子主机的域名和端口。解释：Host表示服务器主机地址，这个地址是子主机的地址，或者说是子主机的域名（也可以是IP地址）。参考地址&amp;gt;&amp;gt;2、Host 为什么不放在请求行和 Path 一起拼凑使用，而是单独作为 Header ？答：请求行中的 Path 是给子主机确定访问路径用的，而 Host 是给主主机确认访问">
+<meta name="description" content="本文将长期记录笔者在使用 Android 过程中所遇到的个别问题及其解决方案。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android问题汇总和解决方案">
 <meta property="og:url" content="http://yoursite.com/2019/09/18/Android问题汇总和解决方案/index.html">
 <meta property="og:site_name" content="唐先明de博客">
-<meta property="og:description" content="网络相关1、Host 这个 Header的作用是？答：仅用于找到目标主机后确认子主机的域名和端口。解释：Host表示服务器主机地址，这个地址是子主机的地址，或者说是子主机的域名（也可以是IP地址）。参考地址&amp;gt;&amp;gt;2、Host 为什么不放在请求行和 Path 一起拼凑使用，而是单独作为 Header ？答：请求行中的 Path 是给子主机确定访问路径用的，而 Host 是给主主机确认访问">
+<meta property="og:description" content="本文将长期记录笔者在使用 Android 过程中所遇到的个别问题及其解决方案。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-17T22:38:52.046Z">
+<meta property="og:updated_time" content="2019-10-17T23:00:42.126Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android问题汇总和解决方案">
-<meta name="twitter:description" content="网络相关1、Host 这个 Header的作用是？答：仅用于找到目标主机后确认子主机的域名和端口。解释：Host表示服务器主机地址，这个地址是子主机的地址，或者说是子主机的域名（也可以是IP地址）。参考地址&amp;gt;&amp;gt;2、Host 为什么不放在请求行和 Path 一起拼凑使用，而是单独作为 Header ？答：请求行中的 Path 是给子主机确定访问路径用的，而 Host 是给主主机确认访问">
+<meta name="twitter:description" content="本文将长期记录笔者在使用 Android 过程中所遇到的个别问题及其解决方案。">
 
 
 
@@ -369,7 +369,7 @@
       
 
       
-        <a id="more"></a>
+        <p>本文将长期记录笔者在使用 Android 过程中所遇到的个别问题及其解决方案。<a id="more"></a></p>
 <h1 id="网络相关"><a href="#网络相关" class="headerlink" title="网络相关"></a>网络相关</h1><p><strong>1、Host 这个 Header的作用是？</strong><br>答：仅用于找到目标主机后确认子主机的域名和端口。<br>解释：Host表示服务器主机地址，这个地址是子主机的地址，或者说是子主机的域名（也可以是IP地址）。<br><a href="https://blog.csdn.net/netdxy/article/details/51195560" target="_blank" rel="noopener">参考地址&gt;&gt;</a><br><strong>2、Host 为什么不放在请求行和 Path 一起拼凑使用，而是单独作为 Header ？</strong><br>答：请求行中的 Path 是给子主机确定访问路径用的，而 Host 是给主主机确认访问的子主机用的。两个的用途不一样，前者给子主机用，后者给主主机用。<br><strong>3、Http 协议中主主机的 IP 地址是何时确定的？</strong><br>答：是在 Http 请求发送之前通过DNS域名解析后确定的。<br><strong>【4】、当一个 Java 集合（如：HashMap）的 key 是类类型时， 为什么重写了类的 equals() 方法，还要重写 hashCode() 方法？</strong><br>答：因为如果只重写了 equals 方法，两个对象 equals 返回了true，但是如果没有重写 hashCode 方法，集合还是会插入元素。这样集合中就出现了重复元素了。<br><a href="https://zhuanlan.zhihu.com/p/30321358" target="_blank" rel="noopener">参考地址&gt;&gt;</a><br>（为什么hashmap中类重写了equal，没有重写hashcode，当把hashmap的容量设置为1时，get两个equal的对象key，得到了对应的值，不应该是覆盖了么，因为他们在同一个位置啊，而且又equal。）<br><strong>5、什么是编码？</strong><br>答：把数据从一种格式转换成另一种格式（可能是同一种格式），它是可逆的，它的逆向过程叫做解码。<br><strong>6、什么是对象序列化？</strong><br>答：把数据对象（一般是内存种的，例如JVM中的对象）转换成字节序列的过程。对象在程序内存里的存放形式是散乱的（存放在不同的内存区域、并且由引用进行连接），通过序列化可以把内存中的对象转换成一个字节序列，从而可使用byte[]等形式进行本地存储或网络传输，在需要的时候重新组装（反序列化）来使用。<br><strong>7、序列化和编码的区别</strong><br>答：编码是把数据由一种数据格式转换成另一种数据格式；而序列化是把数据由内存中的对象（而不是某种具体的格式）转换成字节序列。<br><strong>8、非对称加密和数字签名在加密通信中如何配合使用？</strong><br>答：使用非对称加密通信，可以在不可信网络上将双方的公钥传给对方，然后在发消息前分别对消息使用对方的公钥来加密和使用自己的私钥来签名，做到不可信网络上的可靠密钥传播及加密通信。<br>知识拓展：签名是对原数据的 hash 值进行签名，而不是直接对原数据进行签名。这样做是为了减小数据的传输体积。</p>
 
       
