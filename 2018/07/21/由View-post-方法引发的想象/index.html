@@ -92,7 +92,7 @@
 <meta property="og:description" content="如题，笔者在想这个标题的时候思考了很久，不知道应该取一个什么样的标题才能涵盖全本篇要涉及的内容。绞尽脑子，最终确定起这个不痛不痒的标题。原因是，写这篇文章之前的一系列相关疑惑就是从View.post()开始的。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/07/21/由View-post-方法引发的想象/image02.png">
-<meta property="og:updated_time" content="2019-02-17T02:03:35.644Z">
+<meta property="og:updated_time" content="2019-12-16T14:45:53.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="由View.post()方法引发的想象">
 <meta name="twitter:description" content="如题，笔者在想这个标题的时候思考了很久，不知道应该取一个什么样的标题才能涵盖全本篇要涉及的内容。绞尽脑子，最终确定起这个不痛不痒的标题。原因是，写这篇文章之前的一系列相关疑惑就是从View.post()开始的。">
@@ -373,7 +373,7 @@
 
       
         <p>如题，笔者在想这个标题的时候思考了很久，不知道应该取一个什么样的标题才能涵盖全本篇要涉及的内容。绞尽脑子，最终确定起这个不痛不痒的标题。原因是，写这篇文章之前的一系列相关疑惑就是从View.post()开始的。<a id="more"></a><br>本篇要探究这么几个问题：<br>1、都知道非静态内部类和匿名类会引发内存泄露，并且我们也知道如何取避免这个问题的发生，但是怎样做得更加完美呢？<br>2、View.Post()中的run方法和Handler.post()方法中的run方法运行线程有什么不同呢？<br>3、View.Post()中的run方法在整个Activity的生命周期的里处在哪个位置呢？<br>好，以上三个问题就是我要总结的重点了。注意，下面对post方法将做的总结，对于postDelay同样适用。</p>
-<h2 id="问题一的情况"><a href="#问题一的情况" class="headerlink" title="问题一的情况"></a>问题一的情况</h2><p>这个问题前面说过我们知道如何去避免它的发生，避免的方法可参考<a href="https://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html" target="_blank" rel="noopener">这篇文章</a>。但是，对于真正的生产环境，这些还是不够的。所引文章中所提虽然避免了 Activity 泄漏，不过 Looper 线程的消息队列中还是可能会有待处理的消息，所以我们在 Activity 的 Destroy 时或者 Stop 时应该移除消息队列MessageQueue 中的消息。下面几个方法都可以移除 Message：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public final void removeCallbacks(Runnable r);</span><br><span class="line"></span><br><span class="line">public final void removeCallbacks(Runnable r, Object token);</span><br><span class="line"></span><br><span class="line">public final void removeCallbacksAndMessages(Object token);</span><br><span class="line"></span><br><span class="line">public final void removeMessages(int what);</span><br><span class="line"></span><br><span class="line">public final void removeMessages(int what, Object object);</span><br></pre></td></tr></table></figure></p>
+<h2 id="问题一的情况"><a href="#问题一的情况" class="headerlink" title="问题一的情况"></a>问题一的情况</h2><p>这个问题前面说过我们知道如何去避免它的发生，避免的方法可参考<a href="https://github.com/francistao/LearningNotes/blob/master/Part1/Android/Android内存泄漏总结.md" target="_blank" rel="noopener">这篇文章</a>。但是，对于真正的生产环境，这些还是不够的。所引文章中所提虽然避免了 Activity 泄漏，不过 Looper 线程的消息队列中还是可能会有待处理的消息，所以我们在 Activity 的 Destroy 时或者 Stop 时应该移除消息队列MessageQueue 中的消息。下面几个方法都可以移除 Message：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public final void removeCallbacks(Runnable r);</span><br><span class="line"></span><br><span class="line">public final void removeCallbacks(Runnable r, Object token);</span><br><span class="line"></span><br><span class="line">public final void removeCallbacksAndMessages(Object token);</span><br><span class="line"></span><br><span class="line">public final void removeMessages(int what);</span><br><span class="line"></span><br><span class="line">public final void removeMessages(int what, Object object);</span><br></pre></td></tr></table></figure></p>
 <p>以上讨论的内容虽未提及View.post()系列，但是对于View.post()系列同样存在内存泄露的问题，我们可以用同样的方式避免，但是之后我们依然要记住removeCallbacks()噢。</p>
 <h2 id="问题二的情况"><a href="#问题二的情况" class="headerlink" title="问题二的情况"></a>问题二的情况</h2><p>请允许我直接从<a href="https://stackoverflow.com/questions/41728973/what-is-the-difference-between-view-postdelayed-and-handler-postdelayed-on-t" target="_blank" rel="noopener">Stack Overflow</a>粘过来吧(别打我😜)<br>According to the documentation of Handler.postDelayed(Runnable r, long delayMillis):</p>
 <blockquote>
@@ -514,7 +514,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -536,7 +536,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
