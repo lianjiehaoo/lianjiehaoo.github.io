@@ -92,7 +92,7 @@
 <meta property="og:description" content="如题，笔者在想这个标题的时候思考了很久，不知道应该取一个什么样的标题才能涵盖全本篇要涉及的内容。绞尽脑子，最终确定起这个不痛不痒的标题。原因是，写这篇文章之前的一系列相关疑惑就是从View.post()开始的。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/07/21/由View-post-方法引发的想象/image02.png">
-<meta property="og:updated_time" content="2019-12-16T14:45:53.361Z">
+<meta property="og:updated_time" content="2020-02-26T13:55:57.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="由View.post()方法引发的想象">
 <meta name="twitter:description" content="如题，笔者在想这个标题的时候思考了很久，不知道应该取一个什么样的标题才能涵盖全本篇要涉及的内容。绞尽脑子，最终确定起这个不痛不痒的标题。原因是，写这篇文章之前的一系列相关疑惑就是从View.post()开始的。">
@@ -390,7 +390,9 @@
 <p>This is called when the view is attached to a window. At this point it has a Surface and will start drawing. Note that this function is guaranteed to be called before onDraw(android.graphics.Canvas), however it may be called any time before the first onDraw – including before or after onMeasure(int, int).<br>If you override this method you must call through to the superclass implementation.</p>
 </blockquote>
 <p>大概意思是onAttachedToWindow可以保证在首个ondraw方法调用前被调用。因此，我们可以很放心地将一些绘制之前的初始化操作放在onAttachedToWindow里面。</p>
-<h2 id="问题延伸"><a href="#问题延伸" class="headerlink" title="问题延伸"></a>问题延伸</h2><p>我知道问题已经很杂了，既然标题是[**引发的想象]，那么请允许我发挥想象吧😄。这个问题是：对于Application，Service，Activity三者的Context的应用场景是怎样的呢？直接盗用一张图吧：<br><img src="/2018/07/21/由View-post-方法引发的想象/image02.png"><br>其中： NO1表示 Application 和 Service 可以启动一个 Activity，不过需要创建一个新的 task 任务队列。而对于 Dialog 而言，只有在 Activity 中才能创建。</p>
+<h2 id="问题延伸"><a href="#问题延伸" class="headerlink" title="问题延伸"></a>问题延伸</h2><h4 id="Context的应用场景"><a href="#Context的应用场景" class="headerlink" title="Context的应用场景"></a>Context的应用场景</h4><p>对于Application，Service，Activity三者的Context的应用场景是怎样的呢？直接盗用一张图吧：</p>
+<img src="/2018/07/21/由View-post-方法引发的想象/image02.png">
+<p>大家注意看到有一些 NO 上添加了一些数字，其实这些从能力上来说是 YES ，但是为什么说是 NO 呢？下面逐个解释一下：<br>数字1：启动 Activity 在这些类中是可以的，但是需要<a href="https://www.cnblogs.com/xiaoQLu/archive/2012/07/17/2595294.html" target="_blank" rel="noopener">创建一个新的 task </a>（此类场景测试过程中，笔者发现 SDK 已自动为 Intent 加上了 FLAG_ACTIVITY_NEW_TASK 标签，不需要手动添加）。一般情况不推荐。<br>数字2：在这些类中去layout inflate是合法的，但是会使用系统默认的主题样式，如果你自定义了某些样式可能不会被使用。<br>数字3：在 receiver 为 null 时允许，在 4.2 或以上的版本中，用于获取黏性广播的当前值。（可以无视）<br>注：ContentProvider、BroadcastReceiver之所以在上述表格中，是因为在其内部方法中都有一个 context 用于使用。<br><a href="https://www.cnblogs.com/liyiran/p/5283551.html" target="_blank" rel="noopener">参考链接&gt;&gt;</a></p>
 
       
     </div>
@@ -578,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题一的情况"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x4E00;&#x7684;&#x60C5;&#x51B5;" class="headerlink" title="&#x95EE;&#x9898;&#x4E00;&#x7684;&#x60C5;&#x51B5;"></a>&#x95EE;&#x9898;&#x4E00;&#x7684;&#x60C5;&#x51B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题二的情况"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x4E8C;&#x7684;&#x60C5;&#x51B5;" class="headerlink" title="&#x95EE;&#x9898;&#x4E8C;&#x7684;&#x60C5;&#x51B5;"></a>&#x95EE;&#x9898;&#x4E8C;&#x7684;&#x60C5;&#x51B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题三的情况"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x4E09;&#x7684;&#x60C5;&#x51B5;" class="headerlink" title="&#x95EE;&#x9898;&#x4E09;&#x7684;&#x60C5;&#x51B5;"></a>&#x95EE;&#x9898;&#x4E09;&#x7684;&#x60C5;&#x51B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题延伸"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x5EF6;&#x4F38;" class="headerlink" title="&#x95EE;&#x9898;&#x5EF6;&#x4F38;"></a>&#x95EE;&#x9898;&#x5EF6;&#x4F38;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题一的情况"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x4E00;&#x7684;&#x60C5;&#x51B5;" class="headerlink" title="&#x95EE;&#x9898;&#x4E00;&#x7684;&#x60C5;&#x51B5;"></a>&#x95EE;&#x9898;&#x4E00;&#x7684;&#x60C5;&#x51B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题二的情况"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x4E8C;&#x7684;&#x60C5;&#x51B5;" class="headerlink" title="&#x95EE;&#x9898;&#x4E8C;&#x7684;&#x60C5;&#x51B5;"></a>&#x95EE;&#x9898;&#x4E8C;&#x7684;&#x60C5;&#x51B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题三的情况"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x4E09;&#x7684;&#x60C5;&#x51B5;" class="headerlink" title="&#x95EE;&#x9898;&#x4E09;&#x7684;&#x60C5;&#x51B5;"></a>&#x95EE;&#x9898;&#x4E09;&#x7684;&#x60C5;&#x51B5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题延伸"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x5EF6;&#x4F38;" class="headerlink" title="&#x95EE;&#x9898;&#x5EF6;&#x4F38;"></a>&#x95EE;&#x9898;&#x5EF6;&#x4F38;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Context的应用场景"><span class="nav-number">4.0.1.</span> <span class="nav-text"><a href="#Context&#x7684;&#x5E94;&#x7528;&#x573A;&#x666F;" class="headerlink" title="Context&#x7684;&#x5E94;&#x7528;&#x573A;&#x666F;"></a>Context&#x7684;&#x5E94;&#x7528;&#x573A;&#x666F;</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -598,7 +600,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

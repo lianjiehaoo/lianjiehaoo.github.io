@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Kotlin," />
+  <meta name="keywords" content="MD5," />
 
 
 
@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 扔物线 老师的 码上开学系列教程 和 Kotlin 官方教程 为主，同时也会配合参考其他优秀文章。">
-<meta name="keywords" content="Kotlin">
+<meta name="description" content="MD5(Message-Digest Algorithm 5,信息-摘要算法5)用于确保信息传输完整一致，是计算机广泛使用的杂凑算法之一（又译摘要算法，哈希算法）。MD5算法将数据（如汉字）运算成另一固定长度值，MD5的前生有MD2，MD3和MD4。">
+<meta name="keywords" content="MD5">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kotlin 学习及使用笔记（进行中...）">
-<meta property="og:url" content="http://yoursite.com/2019/10/28/Kotlin学习笔记/index.html">
+<meta property="og:title" content="MD5加密算法">
+<meta property="og:url" content="http://yoursite.com/2019/12/20/MD5加密算法/index.html">
 <meta property="og:site_name" content="唐先明de博客">
-<meta property="og:description" content="本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 扔物线 老师的 码上开学系列教程 和 Kotlin 官方教程 为主，同时也会配合参考其他优秀文章。">
+<meta property="og:description" content="MD5(Message-Digest Algorithm 5,信息-摘要算法5)用于确保信息传输完整一致，是计算机广泛使用的杂凑算法之一（又译摘要算法，哈希算法）。MD5算法将数据（如汉字）运算成另一固定长度值，MD5的前生有MD2，MD3和MD4。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-16T14:45:53.363Z">
+<meta property="og:updated_time" content="2020-02-26T13:55:57.637Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kotlin 学习及使用笔记（进行中...）">
-<meta name="twitter:description" content="本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 扔物线 老师的 码上开学系列教程 和 Kotlin 官方教程 为主，同时也会配合参考其他优秀文章。">
+<meta name="twitter:title" content="MD5加密算法">
+<meta name="twitter:description" content="MD5(Message-Digest Algorithm 5,信息-摘要算法5)用于确保信息传输完整一致，是计算机广泛使用的杂凑算法之一（又译摘要算法，哈希算法）。MD5算法将数据（如汉字）运算成另一固定长度值，MD5的前生有MD2，MD3和MD4。">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/28/Kotlin学习笔记/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/12/20/MD5加密算法/"/>
 
 
 
 
 
-  <title>Kotlin 学习及使用笔记（进行中...） | 唐先明de博客</title>
+  <title>MD5加密算法 | 唐先明de博客</title>
   
 
 
@@ -281,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/28/Kotlin学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/20/MD5加密算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TXM">
@@ -298,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Kotlin 学习及使用笔记（进行中...）</h1>
+          <h1 class="post-title" itemprop="name headline">MD5加密算法</h1>
         
 
         <div class="post-meta">
@@ -310,8 +310,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-28T12:08:10+08:00">
-                2019-10-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-20T17:19:02+08:00">
+                2019-12-20
               </time>
             
 
@@ -333,8 +333,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-其它/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 其它</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -370,32 +370,24 @@
       
 
       
-        <p>本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 <code>扔物线</code> 老师的 <a href="https://kaixue.io" target="_blank" rel="noopener">码上开学系列教程</a> 和 <a href="https://www.kotlincn.net/docs/reference/whatsnew13.html" target="_blank" rel="noopener">Kotlin 官方教程</a> 为主，同时也会配合参考其他优秀文章。<a id="more"></a></p>
-<h4 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h4><p>Java 的单例模式通常实现起来稍显繁琐，包含大量的模板代码，具体使用可参考<a href="https://www.runoob.com/design-pattern/singleton-pattern.html" target="_blank" rel="noopener">这篇文章</a>。<br>而 Kotlin 实现单例模式是非常便捷的，只需使用 <code>object</code> 关键字即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 👇 class 替换成了 object</span><br><span class="line">object A &#123;</span><br><span class="line">    val number: Int = 1</span><br><span class="line">    fun method() &#123;</span><br><span class="line">        println(&quot;A.method()&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>通过 Android studio 转换工具将上面代码转成 Java 代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public final class A &#123;</span><br><span class="line">   private static final int number = 1;</span><br><span class="line">   public static final A INSTANCE;</span><br><span class="line"></span><br><span class="line">   public final int getNumber() &#123;</span><br><span class="line">      return number;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   public final void method() &#123;</span><br><span class="line">      String var1 = &quot;A.method()&quot;;</span><br><span class="line">      boolean var2 = false;</span><br><span class="line">      System.out.println(var1);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   static &#123;</span><br><span class="line">      A var0 = new A();</span><br><span class="line">      INSTANCE = var0;</span><br><span class="line">      number = 1;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，实际上这种通过 <code>object</code> 实现的单例是一个饿汉式的单例，并且实现了线程安全。</p>
-<h4 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h4><p>Java 一共有四大代码块，可参考<a href="https://juejin.im/entry/5876f05a2f301e005772fb07" target="_blank" rel="noopener">这篇文章</a>，需要注意的是，文章中最后提到的同步代码块中对静态代码块的解释有误，如果要了解 java 中的同步代码块知识，可以移步到笔者之前写的<a href="https://kimball325.github.io/2016/12/18/Java并发编程-Synchronized/" target="_blank" rel="noopener">这篇文章</a>。<br>Kotlin 中的构造代码块和静态代码块有了一些变化，先来看构造代码块。<br>Java 是这样写的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        // 初始化代码块，先于下面的构造器执行</span><br><span class="line">    &#125;</span><br><span class="line">    public User() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而 Kotlin 是这样写的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class User &#123;</span><br><span class="line">    init &#123;</span><br><span class="line">        // 初始化代码块，先于下面的构造器执行</span><br><span class="line">    &#125;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>对于静态代码块， Java 是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class Sample &#123;</span><br><span class="line">    static &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>而 Kotlin 是这样写的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Sample &#123;</span><br><span class="line">    companion object &#123;</span><br><span class="line">        init &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="访问限制符"><a href="#访问限制符" class="headerlink" title="访问限制符"></a>访问限制符</h4><p>Java 的访问限制符可以参考<a href="https://www.runoob.com/java/java-modifier-types.html#protected-desc" target="_blank" rel="noopener">这篇文章</a>访问控制修饰符部分。其中，如下几个知识点需要注意一下：</p>
+        <p>MD5(Message-Digest Algorithm 5,信息-摘要算法5)用于确保信息传输完整一致，是计算机广泛使用的杂凑算法之一（又译摘要算法，哈希算法）。MD5算法将数据（如汉字）运算成另一固定长度值，MD5的前生有MD2，MD3和MD4。<a id="more"></a><br>MD5算法具有如下特征：<br>1、压缩性：任意长度的数据算出的MD5值是固定的，即128 位固定长度的散列值。<br>2、容易计算：从原数据很容易算出MD5值。<br>3、抗修改性：对原数据任何一个细微的改动，所得到的MD5值都会有很大的不同。<br>4、强抗碰撞：MD5 使用的是散列函数（也称哈希函数），一定概率上也存在哈希冲突（也称哈希碰撞），即多个不同的原数据对应一个相同的 MD5 值。不过，经过 MD4、MD3 等几代算法的优化，MD5 已经充分利用散列的分散性高度避免碰撞的发生。</p>
+<p>可以看出，MD5 是一种不可逆的算法，也就说，你无法通过得到的 MD5 值逆向算出原数据内容。正是凭借这些特点，MD5 被广泛使用。</p>
+<h1 id="MD5的使用场景"><a href="#MD5的使用场景" class="headerlink" title="MD5的使用场景"></a>MD5的使用场景</h1><h4 id="场景一"><a href="#场景一" class="headerlink" title="场景一"></a>场景一</h4><p>客户端与服务器的 HTTP 通信，通信双方可以将报文内容做一个 MD5 计算，并将计算所得 MD5 值一并传递给彼此，这样，接收方可以通过对报文内容再次做 MD5 计算得到一个 MD5 值，与传递报文中的 MD5 值做比较，验证数据是否完整，或者是否中途被拦截篡改过。</p>
+<h4 id="场景二"><a href="#场景二" class="headerlink" title="场景二"></a>场景二</h4><p>网络云盘中的文件秒传功能也运用到 MD5 算法。服务器存储文件的时候，同时记录每一个文件的 MD5 值，不同文件对应着不同的 MD5 值。这样，遇到用户上传文件时，将上传文件的 MD5 值与服务器上所有存储的 MD5 值做比较，如果相同，则说明用户上传的文件已经在服务器存有。这样，只需要在数据库表中添加一个记录，映射到对应的文件，而不用重复上传，实现所谓秒传的功能。</p>
 <blockquote>
-<p>1、<strong>子类与基类在同一包中</strong>：被声明为 protected 或 default 的变量、方法和构造器能被同一个包中的任何其他类访问。<br>2、<strong>子类与基类不在同一包中</strong>：那么在子类中，子类实例可以访问其从基类继承而来的 protected 方法，而不能访问基类实例的 protected 方法。同时，在子类中既不能访问其从基类继承而来的 default 方法，也不能访问基类实例的 default 方法。（变量、构造器同理。）<br>3、子类可以对从父类继承的方法加宽访问范围。访问控制符的访问范围有大到小排序是：public &gt; protect &gt;  default &gt; private。</p>
+<p>注意：严格意义上来讲，MD5  并不属于加密算法，也不属于签名算法，而是一种摘要算法，用于数据完整性校验等。</p>
 </blockquote>
-<p>对于Kotlin的访问控制符，直接参考码上开学吧。</p>
-<h4 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h4><p>首先我们来看使用内联函数的一个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">inline fun log() &#123;</span><br><span class="line">    println(&quot;log1&quot;)</span><br><span class="line">    println(&quot;log2&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    log()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>反编译成 Java 的代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static final void log() &#123;</span><br><span class="line">     String var1 = &quot;log1&quot;;</span><br><span class="line">     System.out.println(var1);</span><br><span class="line">     var1 = &quot;log2&quot;;</span><br><span class="line">     System.out.println(var1);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static final void main(@NotNull String[] args) &#123;</span><br><span class="line">     Intrinsics.checkParameterIsNotNull(args, &quot;args&quot;);</span><br><span class="line">     String var1 = &quot;log1&quot;;</span><br><span class="line">     System.out.println(var1);</span><br><span class="line">     var1 = &quot;log2&quot;;</span><br><span class="line">     System.out.println(var1);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>而我们去掉 inline 关键字后，再反编译成 Java 代码，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static final void log() &#123;</span><br><span class="line">    String var0 = &quot;log1&quot;;</span><br><span class="line">    System.out.println(var0);</span><br><span class="line">    var0 = &quot;log2&quot;;</span><br><span class="line">    System.out.println(var0);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> public static final void main(@NotNull String[] args) &#123;</span><br><span class="line">    Intrinsics.checkParameterIsNotNull(args, &quot;args&quot;);</span><br><span class="line">    log();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
-<p>如上可以看到，使用内联函数可以减少一层函数的调用栈，但如果有多个地方调用内联函数的话，就会隐式地增加编译后代码的行数。那么如果正确使用内联函数呢，或者说它到底有什么用？有如下几个使用场景：</p>
-<p>1、函数参数包含函数类型的函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class View &#123;</span><br><span class="line">    inline fun setOnClickListener(listener: (View) -&gt; Unit) &#123;</span><br><span class="line">        listener(this)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果不使用内联函数，由于 setOnClickListener 使用的是函数类型的参数，那么在调用时会产生一个额外的对象，具体的过程可以反编译成 Java 文件后看看。</p>
-<p>2、泛型具体化。<br>平时我们使用泛型时，是不能直接对泛型类型进行操作的。比如下面的操作会导致编译不通过：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun &lt;T&gt; excute() &#123;</span><br><span class="line">    func(T::class.java) //编译器报错：Cannot use &apos;T&apos; as reified type parameter. Use a class instead.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>大意是：不能使用泛型 T 作为具体的类型参数。如果依照 Java 的解决方式，可以这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun &lt;T&gt; excute(class: Class&lt;T&gt;) &#123;</span><br><span class="line">    func(class)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>不过， Kotlin 中有更加方便的用法，也就是使用 inline 关键字达到让泛型具体化的目标：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inline fun &lt;reified T&gt; excute() &#123;</span><br><span class="line">    func(T::class.java)</span><br><span class="line">&#125;</span><br><span class="line">//PS：使用时还需在泛型声明前加上 refied 关键字，才能让泛型真正具体化。</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>Retrofit 最新拓展中，内部已经实现了一个内联函数用来代替旧版本创建实例的方式。具体可参考 <a href="https://github.com/square/retrofit/blob/master/retrofit/src/main/java/retrofit2/KotlinExtensions.kt" target="_blank" rel="noopener">Retrofit.create()</a> 拓展方法。</p>
-</blockquote>
-<h4 id="Kotlin-委托"><a href="#Kotlin-委托" class="headerlink" title="Kotlin 委托"></a>Kotlin 委托</h4><p><a href="https://www.runoob.com/kotlin/kotlin-delegated.html" target="_blank" rel="noopener">参考地址&gt;&gt;</a><br>上面的文章中，笔者认为只需要理解从开篇到“把属性储存在映射中”部分的内容，剩下的内容读者自行斟酌其重要性吧。</p>
+<h1 id="Java-语言中计算-MD5-值的实现方式"><a href="#Java-语言中计算-MD5-值的实现方式" class="headerlink" title="Java 语言中计算 MD5 值的实现方式"></a>Java 语言中计算 MD5 值的实现方式</h1><p><strong>第一步</strong>，获取 MessageDigest 对象，参数为 MD5 字符串，表示这是一个 MD5 算法（其他还有 SHA1 算法等）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MessageDigest md5 = MessageDigest.getInstance(&quot;MD5&quot;);</span><br></pre></td></tr></table></figure></p>
+<p><strong>第二步</strong>，输入原数据，参数类型为 byte[] ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5.update(buffer);</span><br></pre></td></tr></table></figure></p>
+<p>注意：update() 方法有点类似 StringBuilder 对象的 append() 方法，采用的是追加模式，属于一个累计更改的过程，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">md5.update(new byte[]&#123;&apos;a&apos;, &apos;b&apos;&#125;);</span><br><span class="line">md5.update(new byte[]&#123;&apos;c&apos;, &apos;d&apos;&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>与<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5.update(new byte[]&#123;&apos;a&apos;,&apos;b&apos;,&apos;c&apos;, &apos;d&apos;&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>是等效的。<br><strong>第三步</strong>，计算 MD5 值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String resultArray = md5.digest();</span><br></pre></td></tr></table></figure></p>
+<p>注意：digest() 方法被调用后，MessageDigest 对象就被重置，也就是说你不能紧接着再次调用该方法计算原数据的 MD5 值。当然，你可以手动调用 reset() 方法重置输入源。<br>digest() 方法返回值是一个字节数组类型的 16 位长度的哈希值，通常，我们会转化为十六进制的 32 位长度的字符串来使用，可以利用 <a href="https://www.jianshu.com/p/8b89ab19db84" target="_blank" rel="noopener">BigInteger</a> 类来做这个转化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BigInteger bigInt = new BigInteger(1, resultArray);</span><br><span class="line">String resultStr = bigInt.toString(16);</span><br></pre></td></tr></table></figure></p>
+<p>通过这层转换，得到的 MD5 值便是一个长度为 32 位的十六进制字符串，方便使用，类似这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">15aa7ec97a6288e46ae865a7211eb4eb</span><br></pre></td></tr></table></figure></p>
+<p>有了上面的基础我们再来看如何将一个文件通过MD5加密转化成32位的十六进制字符串。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public static String fileToMD5(String filePath) &#123;</span><br><span class="line">String md5 = null;</span><br><span class="line">MessageDigest digest = null;</span><br><span class="line">try &#123;</span><br><span class="line">digest = MessageDigest.getInstance(&quot;MD5&quot;);</span><br><span class="line">FileInputStream inputStream = new FileInputStream(filePath);</span><br><span class="line">byte[] b = new byte[1024];</span><br><span class="line">int len = -1;</span><br><span class="line">while ((len = inputStream.read(b)) != -1) &#123;</span><br><span class="line">digest.update(b, 0, len);</span><br><span class="line">&#125;</span><br><span class="line">byte[] bytes = digest.digest();</span><br><span class="line">BigInteger bigInteger = new BigInteger(1, bytes);</span><br><span class="line">md5 = bigInteger.toString(16);</span><br><span class="line">&#125; catch (Exception e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">return md5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意：文件的大小直接影响字节流的读取速度，间接影响这里 MD5 的计算时长。Java 语言提供有多种方式读取文件，除了上面用到的 FileInputStream 这种顺序读取的 API 类，还有采用随机读取方式的 RandomAccessFile 类等。对于文件读取的效率问题，研究之后再作介绍。</p>
+<hr>
+<p><strong>参考资料</strong><br><a href="http://yifeng.studio/2017/06/13/md5-profile-and-implementation-in-java/" target="_blank" rel="noopener">MD5 简介，及其在 Java 中的实现方式</a></p>
 
       
     </div>
@@ -413,7 +405,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Kotlin/" rel="tag"># Kotlin</a>
+            <a href="/tags/MD5/" rel="tag"># MD5</a>
           
         </div>
       
@@ -426,8 +418,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/24/Java基本数据类型解析/" rel="next" title="Java数据类型解析">
-                <i class="fa fa-chevron-left"></i> Java数据类型解析
+              <a href="/2019/10/18/ConstraintLayout布局使用指南/" rel="next" title="ConstraintLayout布局使用指南">
+                <i class="fa fa-chevron-left"></i> ConstraintLayout布局使用指南
               </a>
             
           </div>
@@ -435,6 +427,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/05/WebView使用教程/" rel="prev" title="WebView使用教程">
+                WebView使用教程 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -579,7 +575,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#单例模式"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x5355;&#x4F8B;&#x6A21;&#x5F0F;" class="headerlink" title="&#x5355;&#x4F8B;&#x6A21;&#x5F0F;"></a>&#x5355;&#x4F8B;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码块"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;&#x5757;" class="headerlink" title="&#x4EE3;&#x7801;&#x5757;"></a>&#x4EE3;&#x7801;&#x5757;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#访问限制符"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x8BBF;&#x95EE;&#x9650;&#x5236;&#x7B26;" class="headerlink" title="&#x8BBF;&#x95EE;&#x9650;&#x5236;&#x7B26;"></a>&#x8BBF;&#x95EE;&#x9650;&#x5236;&#x7B26;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内联函数"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5185;&#x8054;&#x51FD;&#x6570;" class="headerlink" title="&#x5185;&#x8054;&#x51FD;&#x6570;"></a>&#x5185;&#x8054;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Kotlin-委托"><span class="nav-number">5.</span> <span class="nav-text"><a href="#Kotlin-&#x59D4;&#x6258;" class="headerlink" title="Kotlin &#x59D4;&#x6258;"></a>Kotlin &#x59D4;&#x6258;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MD5的使用场景"><span class="nav-number">1.</span> <span class="nav-text"><a href="#MD5&#x7684;&#x4F7F;&#x7528;&#x573A;&#x666F;" class="headerlink" title="MD5&#x7684;&#x4F7F;&#x7528;&#x573A;&#x666F;"></a>MD5&#x7684;&#x4F7F;&#x7528;&#x573A;&#x666F;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#场景一"><span class="nav-number">1.0.0.1.</span> <span class="nav-text"><a href="#&#x573A;&#x666F;&#x4E00;" class="headerlink" title="&#x573A;&#x666F;&#x4E00;"></a>&#x573A;&#x666F;&#x4E00;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#场景二"><span class="nav-number">1.0.0.2.</span> <span class="nav-text"><a href="#&#x573A;&#x666F;&#x4E8C;" class="headerlink" title="&#x573A;&#x666F;&#x4E8C;"></a>&#x573A;&#x666F;&#x4E8C;</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-语言中计算-MD5-值的实现方式"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Java-&#x8BED;&#x8A00;&#x4E2D;&#x8BA1;&#x7B97;-MD5-&#x503C;&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;" class="headerlink" title="Java &#x8BED;&#x8A00;&#x4E2D;&#x8BA1;&#x7B97; MD5 &#x503C;&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;"></a>Java &#x8BED;&#x8A00;&#x4E2D;&#x8BA1;&#x7B97; MD5 &#x503C;&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;</span></a></li></ol></div>
             
 
           </div>
@@ -599,7 +595,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
