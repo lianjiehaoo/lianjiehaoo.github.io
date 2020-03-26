@@ -92,7 +92,7 @@
 <meta property="og:description" content="Java 数据类型的问题不是 Java 开发中的难点，而且问题一般都能在编译的时候就显现出来，可是知道它的原理对于写出高质量的代码的很有帮助的。本文将详细介绍 Java 数据类型相关的知识，必须要提的是，本文的大部分知识来源于网上的优秀文章（文末有给链接），笔者只是在理解它们的基础上重新排版并增加了一些补充的内容。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/04/24/Java基本数据类型解析/1.png">
-<meta property="og:updated_time" content="2020-02-26T13:55:57.641Z">
+<meta property="og:updated_time" content="2020-03-13T00:34:56.380Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java数据类型解析">
 <meta name="twitter:description" content="Java 数据类型的问题不是 Java 开发中的难点，而且问题一般都能在编译的时候就显现出来，可是知道它的原理对于写出高质量的代码的很有帮助的。本文将详细介绍 Java 数据类型相关的知识，必须要提的是，本文的大部分知识来源于网上的优秀文章（文末有给链接），笔者只是在理解它们的基础上重新排版并增加了一些补充的内容。">
@@ -402,7 +402,7 @@
 </blockquote>
 <h2 id="数据转换"><a href="#数据转换" class="headerlink" title="数据转换"></a>数据转换</h2><p>将一种类型的值赋值给另一种类型是很常见的。在 Java 中，boolean 类型与其他 7 种类型的数据都不能进行转换，这一点很明确。但对于其他 7 种数据类型，它们之间都可以进行转换，只是可能会存在精度损失或其他一些变化。Java 中，值类型转换有两种方式：<br>1、自动转换（隐式）：无需任何操作。<br>2、强制转换（显式）：需使用转换操作符（type）。<br>将6种数据类型按下面顺序排列一下：<br>double &gt; float &gt; long &gt; int &gt; short &gt; byte<br>如果从小转换到大，那么可以自动转换，而从大到小，则必须使用强制转换。需要注意的是，对于 char 类型，除 char 转 double、float、long、int 可以自动转换外，对于 char 的剩余情况的转换必须要强制转换。</p>
 <blockquote>
-<p><strong>扩展阅读：</strong><br><a href="https://www.w3cschool.cn/java/java-char-data-type.html" target="_blank" rel="noopener">Java char数据类型</a><br>全面理解 char 基本类型数据的使用方法。<br><a href="https://www.cnblogs.com/zlj843767688/p/9751702.html" target="_blank" rel="noopener">原码反码补码</a><br><a href="https://www.cnblogs.com/bt21cn/p/7527194.html" target="_blank" rel="noopener">byte类型的最小值为什么是-128而非-127</a><br>关于数据类型表示的数据范围问题</p>
+<p><strong>扩展阅读：</strong><br><a href="https://www.w3cschool.cn/java/java-char-data-type.html" target="_blank" rel="noopener">Java char数据类型</a><br>全面理解 char 基本类型数据的使用方法。<br><a href="https://www.cnblogs.com/zlj843767688/p/9751702.html" target="_blank" rel="noopener">原码反码补码</a><br>特别地，对于[1000 0000]和[00000000]的原码、补码是其本身（以8位为例）。<br><a href="https://www.cnblogs.com/bt21cn/p/7527194.html" target="_blank" rel="noopener">byte类型的最小值为什么是-128而非-127</a><br>关于数据类型表示的数据范围问题<br><a href="https://zh.wikipedia.org/wiki/%E4%BD%8D%E6%93%8D%E4%BD%9C" target="_blank" rel="noopener">位操作</a><br>了解位运算的机制。需要注意，位运算都是针对补码的运算，运算结果也是补码。</p>
 </blockquote>
 <h4 id="自动转换"><a href="#自动转换" class="headerlink" title="自动转换"></a>自动转换</h4><p>自动转换因为较大的类型（如int）要保存较小的类型（如byte），内存总是足够的，不需要强制转换。如果将字面值保存到byte、short、char、long的时候，也会自动进行类型转换，注意区别，此时从int（没有带 L 的整型字面值为 int）到byte/short/char也是自动完成的，虽然它们都比 int 小，但是有个限制是字面值必须要在目标类型的取值范围内，超过了目标的取值范围，则还是需要强转，例如：byte b=1 是没有问题的，而byte b=200 就必须写成 byte b=(byte)200 了，因为 byte 的取值范围是 [-128,127] 。</p>
 <h4 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h4><p>如果要把大的转成小的，就必须强制转换。强制转换采用转换操作符（）。严格地说，将byte转为char不属于强制转换，因为从byte到char的过程其实是byte–&gt;int–&gt;char，所以自动转换和强制转换都有。强制转换除了可能的精度损失外，还可能使模发生变化。强制转换格式如下：</p>
