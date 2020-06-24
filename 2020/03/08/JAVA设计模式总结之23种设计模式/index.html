@@ -93,7 +93,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/03/08/JAVA设计模式总结之23种设计模式/1.gif">
 <meta property="og:image" content="http://yoursite.com/2020/03/08/JAVA设计模式总结之23种设计模式/2.gif">
 <meta property="og:image" content="http://yoursite.com/2020/03/08/JAVA设计模式总结之23种设计模式/3.png">
-<meta property="og:updated_time" content="2020-03-31T14:05:50.558Z">
+<meta property="og:updated_time" content="2020-06-18T04:13:49.213Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVA 设计模式总结">
 <meta name="twitter:description" content="笔者一直想对设计模式做一个全面的学习，这次疫情期间在家的时间多了，所以决定基于网络上的优秀文章把这一块知识好好学习整理一下，原文链接会在具体引用处标注。">
@@ -366,7 +366,7 @@
 <h3 id="二、设计模式的三个分类"><a href="#二、设计模式的三个分类" class="headerlink" title="二、设计模式的三个分类"></a>二、设计模式的三个分类</h3><p><strong>创建型模式：对象实例化的模式，创建型模式用于解耦对象的实例化过程。</strong><br><strong>结构型模式：把类或对象结合在一起形成一个更大的结构。</strong><br><strong>行为型模式：类和对象如何交互，及划分责任和算法。</strong><br><strong>如下图所示：</strong></p>
 <img src="/2020/03/08/JAVA设计模式总结之23种设计模式/3.png">
 <h3 id="三、23种设计模式"><a href="#三、23种设计模式" class="headerlink" title="三、23种设计模式"></a>三、23种设计模式</h3><p><del>对于下面外链文章所涉及到的 UML 时序图，笔者不是很理解它们的细节表达，不过也不影响对知识概念的理解吧，以后彻底理解了时序图的使用再来复盘。同时，下面的链接文章中有些细节性的小纠正会在其文章的评论区有体现，某些评论对了理解还是有其它辅助作用的。</del></p>
-<h4 id="1-单例模式"><a href="#1-单例模式" class="headerlink" title="1.单例模式"></a>1.单例模式</h4><p><strong>关键点：某个类只能有一个实例，提供一个全局的访问点。</strong><br><a href="https://www.cnblogs.com/java-my-life/archive/2012/03/31/2425631.html" target="_blank" rel="noopener">单例模式详解&gt;&gt;</a><br>上面链接中讲到”双重检查加锁”为什么需要 volatile 关键字时没有讲清楚，它并没有提到 volatile 的”有序性”这一特性，实际上这才是”双重检查加锁”场景为什么需要 volatile 的本质。建议参考笔者之前写过的<a href="https://kimball325.github.io/2017/02/21/Java并发编程之Volatile和Automic/" target="_blank" rel="noopener">这篇文章</a>来全面了解 volatile 的作用。</p>
+<h4 id="1-单例模式"><a href="#1-单例模式" class="headerlink" title="1.单例模式"></a>1.单例模式</h4><p><strong>关键点：某个类只能有一个实例，提供一个全局的访问点。</strong><br><a href="https://www.cnblogs.com/java-my-life/archive/2012/03/31/2425631.html" target="_blank" rel="noopener">单例模式详解&gt;&gt;</a><br>上面链接中讲到”双重检查加锁”为什么需要 volatile 关键字时没有讲清楚，它并没有提到 volatile 的”有序性”这一特性，实际上这才是”双重检查加锁”场景为什么需要 volatile 的本质。建议参考笔者之前写过的<a href="https://lianjiehao.github.io/2017/02/21/Java并发编程之Volatile和Automic/" target="_blank" rel="noopener">这篇文章</a>来全面了解 volatile 的作用。</p>
 <h4 id="2-简单工厂模式"><a href="#2-简单工厂模式" class="headerlink" title="2.简单工厂模式"></a>2.简单工厂模式</h4><p><strong>关键点：一个工厂类根据传入的量决定创建出哪一参种产品类的实例。</strong><br><a href="https://www.cnblogs.com/java-my-life/archive/2012/03/22/2412308.html" target="_blank" rel="noopener">简单工厂模式详解&gt;&gt;</a></p>
 <h4 id="3-工厂方法模式"><a href="#3-工厂方法模式" class="headerlink" title="3.工厂方法模式"></a>3.工厂方法模式</h4><p><strong>关键点：定义一个创建对象的接口，让子类决定实例化那个类。</strong><br><a href="https://www.cnblogs.com/java-my-life/archive/2012/03/25/2416227.html" target="_blank" rel="noopener">工厂方法模式详解&gt;&gt;</a></p>
 <h4 id="4-抽象工厂模式"><a href="#4-抽象工厂模式" class="headerlink" title="4.抽象工厂模式"></a>4.抽象工厂模式</h4><p><strong>关键点：创建相关对象或者依赖对象的家族，而无需明确指定具体类。</strong><br><a href="https://www.cnblogs.com/java-my-life/archive/2012/03/28/2418836.html" target="_blank" rel="noopener">抽象工厂模式详解&gt;&gt;&gt;</a></p>
