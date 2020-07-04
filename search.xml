@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Android 音视频开发实战]]></title>
     <url>%2F2020%2F06%2F26%2F%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3OpenGLES%2F</url>
-    <content type="text"><![CDATA[声明这是一篇 Android 音视频开发系列文章，它将以代码实战为主，并且会把参考文章罗列出来。对于参考文章中未提及的知识、有误的知识点以及未解决的BUG，都会在注意事项模块补充。建议读者在查看代码时配合着参考资料学习，这样效果会更佳。欢迎提问题或建议，大家共同进步～ 本篇实现了 OpenGL ES 的基本使用流程。 代码实现及介绍 chapter1-1：OpenGL ES 基础环境搭建以及矩形绘制。 chapter1-2：对chapter1-1的封装，同时增加了OpenGL ES 日志输出功能。 chapter2-1：OpenGL ES 实现对图片的渲染。 chapter2-2：解决chapter2-1中图片显示变形的问题。 chapter3：OpenGL ES 实现对 gif 的渲染。 chapter4-1：音视频硬解码实现。 chapter4-2：OpenGL ES 结合硬解码播放视频。 注意事项chapter4 注意：音频采样率不要从MediaFormat中动态获取，而是应该固定为44100，一些资源通过动态获取的值有误。 BUG：某些视频播放过程中会异常终止。 BUG：音频播放结束后视频依然会播几帧。 参考资料 使用 OpenGL 渲染视频画面篇 如何使用OpenGL ES的Android Media Effects框架 Android 官方指南之 OpenGL ES 书籍：《OpenGL ES应用开发实践指南 Android卷》]]></content>
+    <content type="text"><![CDATA[声明这是一篇 Android 音视频开发系列文章，它将以代码实战为主，并且会把参考文章罗列出来。对于参考文章中未提及的知识、有误的知识点以及未解决的BUG，都会在注意事项模块补充。建议读者在查看代码时配合着参考资料学习，这样效果会更佳。欢迎提问题或建议，大家共同进步～ 代码实现及介绍 chapter1-1：OpenGL ES 基础环境搭建以及矩形绘制。 chapter1-2：对chapter1-1的封装，同时增加了OpenGL ES 日志输出功能。 chapter2-1：OpenGL ES 实现对图片的渲染。 chapter2-2：解决chapter2-1中图片显示变形的问题。 chapter3：OpenGL ES 实现对 gif 的渲染。 chapter4-1：音视频硬解码实现。 chapter4-2：OpenGL ES 结合硬解码播放视频。 注意事项chapter4 代码 注意：音频采样率不要从MediaFormat中动态获取，而是应该固定为44100，一些资源通过动态获取的值有误。 BUG：某些视频播放过程中会异常终止。 BUG：音频播放结束后视频依然会播几帧。 参考资料 使用 OpenGL 渲染视频画面篇 如何使用OpenGL ES的Android Media Effects框架 Android 官方指南之 OpenGL ES 书籍：《OpenGL ES应用开发实践指南 Android卷》]]></content>
       <categories>
         <category>音视频开发</category>
       </categories>
@@ -357,8 +357,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>框架</tag>
         <tag>View</tag>
+        <tag>框架</tag>
       </tags>
   </entry>
   <entry>
@@ -420,7 +420,7 @@
   <entry>
     <title><![CDATA[优秀资料收集]]></title>
     <url>%2F2016%2F12%2F28%2F%E4%BC%98%E7%A7%80%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86%2F</url>
-    <content type="text"><![CDATA[手势检测GestureDetector:http://www.gcssloop.com/customview/gestruedectorScaleGestureDetector:http://www.27house.cn/archives/526 Android 事件分发机制ViewRootImpl篇（前传）：https://blog.csdn.net/dongxianfei/article/details/83863888Part01:http://www.gcssloop.com/customview/dispatch-touchevent-theoryPart02:http://www.gcssloop.com/customview/dispatch-touchevent-source UML 类图Part01:https://www.cnblogs.com/xrq730/p/5527115.htmlPart02:http://www.cnblogs.com/xrq730/p/5533019.html 中文技术文档的写作规范https://github.com/ruanyf/document-style-guide 认识 Android 文件存储目录https://blog.csdn.net/u010937230/article/details/73303034 注意：文件挂载相关的不用看，写的有点混乱。笔者认为这个部分意义也不大，如果要了解可以找下其它的技术文档。]]></content>
+    <content type="text"><![CDATA[手势检测GestureDetector：http://www.gcssloop.com/customview/gestruedectorScaleGestureDetector：http://www.27house.cn/archives/526 Android 事件分发机制ViewRootImpl篇（前传）：https://blog.csdn.net/dongxianfei/article/details/83863888Part01：http://www.gcssloop.com/customview/dispatch-touchevent-theoryPart02：http://www.gcssloop.com/customview/dispatch-touchevent-source 中文技术文档的写作规范https://github.com/ruanyf/document-style-guide 认识 Android 文件存储目录https://blog.csdn.net/u010937230/article/details/73303034 注意：文件挂载相关的不用看，写的有点混乱。笔者认为这个部分意义也不大，如果要了解可以找下其它的技术文档。 try catch finally 详解https://www.cnblogs.com/yanbigfeg/p/9295541.html]]></content>
   </entry>
   <entry>
     <title><![CDATA[Java并发编程之Synchronized]]></title>
@@ -452,8 +452,8 @@
         <category>我的Android框架</category>
       </categories>
       <tags>
-        <tag>Cache</tag>
         <tag>框架</tag>
+        <tag>Cache</tag>
       </tags>
   </entry>
   <entry>
