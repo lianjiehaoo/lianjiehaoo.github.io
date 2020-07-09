@@ -92,7 +92,7 @@
 <meta property="og:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2016/12/18/Java并发编程-Synchronized/1.jpg">
-<meta property="og:updated_time" content="2020-07-09T12:40:49.198Z">
+<meta property="og:updated_time" content="2020-07-09T13:32:02.007Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之Synchronized">
 <meta name="twitter:description" content="介绍在并发编程中发生的最常见的一种情况是超过一个执行线程使用共享资源。在并发应用程序中，多个线程读或写相同的数据或访问同一文件或数据库连接这是正常的。这些共享资源会引发错误或数据不一致的情况，我们必须通过同步机制来避免这些错误。解决这些问题从临界区的概念开始。临界区是访问一个共享资源在同一时间不能被超过一个线程执行的代码块。">
@@ -421,10 +421,10 @@
 <blockquote>
 <p>adb pull /data/anr/trace_00</p>
 </blockquote>
-<p>可是问题是，这个命令需求root权限，而一般的手机又没有root，那么怎么办呢？其实大家有没有注意到官方给的模拟器中有些的playstore列的是空的，这些模拟器是可以拿到root权限的。运行完模拟器后，通过<code>adb root</code>命令进入root模式就可以愉快执行需要root权限才能执行的命令了。(知识来源1](<a href="https://www.jianshu.com/p/0778186f45ff),(知识来源2](https://www.jianshu.com/p/d5f42f0320c2)。" target="_blank" rel="noopener">https://www.jianshu.com/p/0778186f45ff),(知识来源2](https://www.jianshu.com/p/d5f42f0320c2)。</a></p>
+<p>可是问题是，这个命令需求root权限，而一般的手机又没有root，那么怎么办呢？其实大家有没有注意到官方给的模拟器中有些的playstore列的是空的，这些模拟器是可以拿到root权限的。运行完模拟器后，通过<code>adb root</code>命令进入root模式就可以愉快执行需要root权限才能执行的命令了。<a href="https://www.jianshu.com/p/0778186f45ff" target="_blank" rel="noopener">知识来源1</a>,<a href="https://www.jianshu.com/p/d5f42f0320c2" target="_blank" rel="noopener">知识来源2</a>。</p>
 <p><strong>方式二</strong><br>在调试模式下，在底部调试窗口左边工具部分点击一个类似 照相机📷 的按钮就行了。</p>
 <hr>
-<p><strong>参考资料</strong><br>1.<a href="http://ifeve.com/basic-thread-synchronization-1/" target="_blank" rel="noopener">并发编程网</a><br>2.<a href="http://blog.csdn.net/qq_23835497/article/details/76462403" target="_blank" rel="noopener">Java Synchronized Blocks</a><br>3.<a href="https://www.zhihu.com/question/37601861" target="_blank" rel="noopener">java中的notify和notifyAll有什么区别？</a><br>4.<a href="https://en.wikipedia.org/wiki/Monitor_(synchronization" target="_blank" rel="noopener">维基百科</a></p>
+<p><strong>参考资料</strong><br>1.<a href="http://ifeve.com/basic-thread-synchronization-1/" target="_blank" rel="noopener">并发编程网</a><br>2.<a href="http://blog.csdn.net/qq_23835497/article/details/76462403" target="_blank" rel="noopener">Java Synchronized Blocks</a><br>3.<a href="https://www.zhihu.com/question/37601861" target="_blank" rel="noopener">java中的notify和notifyAll有什么区别？</a><br>4.维基百科: <a href="https://en.wikipedia.org/wiki/Monitor_(synchronization" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Monitor_(synchronization</a>) </p>
 
       
     </div>
