@@ -92,7 +92,6 @@
 <meta property="og:description" content="读完本章，你可以：  在Android Studio上轻松搭建NDK开发环境。 掌握最快捷的JNI开发方式。 掌握使用.so文件开发Android程序的技巧。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2016/08/14/NDK开发全攻略/1.png">
-<meta property="og:image" content="http://yoursite.com/2016/08/14/NDK开发全攻略/2.png">
 <meta property="og:image" content="http://yoursite.com/2016/08/14/NDK开发全攻略/3.png">
 <meta property="og:image" content="http://yoursite.com/2016/08/14/NDK开发全攻略/4.png">
 <meta property="og:image" content="http://yoursite.com/2016/08/14/NDK开发全攻略/5.png">
@@ -100,7 +99,7 @@
 <meta property="og:image" content="http://yoursite.com/2016/08/14/NDK开发全攻略/7.png">
 <meta property="og:image" content="http://yoursite.com/2016/08/14/NDK开发全攻略/8.png">
 <meta property="og:image" content="http://yoursite.com/2016/08/14/NDK开发全攻略/9.png">
-<meta property="og:updated_time" content="2019-02-17T02:03:35.587Z">
+<meta property="og:updated_time" content="2020-07-15T07:57:36.647Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Studio NDK开发全攻略">
 <meta name="twitter:description" content="读完本章，你可以：  在Android Studio上轻松搭建NDK开发环境。 掌握最快捷的JNI开发方式。 掌握使用.so文件开发Android程序的技巧。">
@@ -390,25 +389,8 @@
 </ul>
 </blockquote>
 <a id="more"></a> 
-<h3 id="一、-NDK环境搭建"><a href="#一、-NDK环境搭建" class="headerlink" title="一、 NDK环境搭建"></a>一、 NDK环境搭建</h3><ol>
-<li>开发工具准备<br>要进行Android NDK开发，首先要下载Android NDK开发工具。可以在AndroidStudio上面下载，也可以自己下载好了，然后将NDK的路径设置为自己下载的Android NDK开发工具的路径。<img src="/2016/08/14/NDK开发全攻略/2.png" title="Android Studio中设置NDK路径"></li>
-<li>Gradle的相关配置<br>1) 我们来配置Project的build.gradle。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*gradle插件不支持NDK，我们需要使用gradle-experimental插件。 */</span><br><span class="line">dependencies &#123;</span><br><span class="line">classpath &apos;com.android.tools.build:gradle-experimental:0.7.0&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>2) 我们来配置Module的build.gradle。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;com.android.model.application&apos;</span><br><span class="line">model &#123;</span><br><span class="line">android &#123;</span><br><span class="line">compileSdkVersion = 23</span><br><span class="line">buildToolsVersion = &quot;23.0.2&quot;</span><br><span class="line">defaultConfig &#123;</span><br><span class="line">applicationId &quot;com.lavor.ndklearning&quot;</span><br><span class="line">minSdkVersion.apiLevel 15</span><br><span class="line">targetSdkVersion.apiLevel 23</span><br><span class="line">versionCode 4</span><br><span class="line">versionName &quot;1.0.1&quot;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">android.ndk &#123;</span><br><span class="line">moduleName &quot;lavor&quot;</span><br><span class="line">ldLibs.addAll([&apos;log&apos;])</span><br><span class="line">cppFlags.add(&quot;-std=c++11&quot;)</span><br><span class="line">cppFlags.add(&quot;-fexceptions&quot;)</span><br><span class="line">platformVersion 15</span><br><span class="line">stl &apos;gnustl_shared&apos;</span><br><span class="line">&#125;</span><br><span class="line">android.buildTypes &#123;</span><br><span class="line">release &#123;</span><br><span class="line">minifyEnabled = false</span><br><span class="line">proguardFiles.add(file(&quot;proguard-rules.txt&quot;))</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">compile fileTree(dir: &apos;libs&apos;, include: [&apos;*.jar&apos;])</span><br><span class="line">compile &apos;com.android.support:appcompat-v7:23.1.1&apos;</span><br><span class="line">compile &apos;com.android.support:recyclerview-v7:23.1.1&apos;</span><br><span class="line">compile &apos;com.android.support:design:23.1.1&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p><strong>小提示</strong> </p>
-<ul>
-<li>首先，在apply的时候我们引入的插件名称由’com.android.application’变成了’com.android.model.application’。</li>
-<li>其次，在原来android的外层加入了一个model层次。</li>
-<li>再次，原来在android的里面的块，除了defaultConfig外，全部移除android块放入model块中与android并列，并且前面的名字加上android.。</li>
-<li>然后，compileSdkVersion 23与 buildToolsVersion “23.0.2”改成 compileSdkVersion = 23和 buildToolsVersion = “23.0.2”，中间加上了=。</li>
-<li>其次，添加上android.ndk块，块中的moduleName表示C/C++代码打包成so文件的名字。</li>
-<li>再次，android.buildTypes块中的proguardFiles getDefaultProguardFile(‘proguard-android.txt’), ‘proguard-rules.pro’改成proguardFiles.add(file(“proguard-rules.txt”))。</li>
-<li>最后，注意dependencies块依然在最外层，它不在model块中。</li>
-</ul>
-</blockquote>
-<h3 id="二、-使用NDK开发第一个JNI程序"><a href="#二、-使用NDK开发第一个JNI程序" class="headerlink" title="二、 使用NDK开发第一个JNI程序"></a>二、 使用NDK开发第一个JNI程序</h3><ol>
+<h3 id="一、准备工作"><a href="#一、准备工作" class="headerlink" title="一、准备工作"></a>一、准备工作</h3><p><a href="https://zhuanlan.zhihu.com/p/32750723" target="_blank" rel="noopener">参考链接&gt;&gt;</a></p>
+<h3 id="二、使用NDK开发第一个JNI程序"><a href="#二、使用NDK开发第一个JNI程序" class="headerlink" title="二、使用NDK开发第一个JNI程序"></a>二、使用NDK开发第一个JNI程序</h3><ol>
 <li>在Android程序中新建一个包含native（本地）方法的NDKTest类。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package com.lavor.ndklearning;</span><br><span class="line">public class NDKTest &#123;</span><br><span class="line">static &#123;</span><br><span class="line">//加载.so库文件</span><br><span class="line">System.loadLibrary(&quot;lavor&quot;);</span><br><span class="line">&#125;</span><br><span class="line">public native String getString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
@@ -439,7 +421,7 @@
 <li>讲道理，我们在正式开发时，不会像这样子去开发。因为这样的话就会把我们的c代码也暴露了出来。这明显与JNI的安全保密机制相违背，所以，正式开发的时候，我们会使用.so文件进行全保密式的开发。</li>
 </ul>
 </blockquote>
-<h3 id="三、-使用-so文件开发Android程序"><a href="#三、-使用-so文件开发Android程序" class="headerlink" title="三、 使用.so文件开发Android程序"></a>三、 使用.so文件开发Android程序</h3><p>不知道大家有没有记得<a href="https://kimball325.github.io/2016/08/06/%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/" target="_blank" rel="noopener">上一章</a>说过，使用JNI有个好处就是安全性高，JNI部分的代码很难被反编译。这其实是要归功于.so文件。下图为.so文件的生成位置。<br><img src="/2016/08/14/NDK开发全攻略/6.png" title="Android Studio中生成的.so文件位置"><br>具体的使用步骤是怎样的呢？</p>
+<h3 id="三、使用-so文件开发Android程序"><a href="#三、使用-so文件开发Android程序" class="headerlink" title="三、使用.so文件开发Android程序"></a>三、使用.so文件开发Android程序</h3><p>不知道大家有没有记得<a href="https://kimball325.github.io/2016/08/06/%E4%B8%83%E5%A4%95%E5%89%8D%EF%BC%8C%E6%88%91%E8%AE%A4%E8%AF%86%E4%BA%86NDK/" target="_blank" rel="noopener">上一章</a>说过，使用JNI有个好处就是安全性高，JNI部分的代码很难被反编译。这其实是要归功于.so文件。下图为.so文件的生成位置。<br><img src="/2016/08/14/NDK开发全攻略/6.png" title="Android Studio中生成的.so文件位置"><br>具体的使用步骤是怎样的呢？</p>
 <ol>
 <li>新建一个Android工程，命名为：AndroidApplication。（工程名、包名、组织名任意）<img src="/2016/08/14/NDK开发全攻略/7.png" title="一个随意的Android工程"></li>
 <li>导入.so文件至app/libs中。<img src="/2016/08/14/NDK开发全攻略/8.png" title="导入.so文件至Android工程"></li>
@@ -595,7 +577,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -659,7 +641,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、-NDK环境搭建"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;-NDK&#x73AF;&#x5883;&#x642D;&#x5EFA;" class="headerlink" title="&#x4E00;&#x3001; NDK&#x73AF;&#x5883;&#x642D;&#x5EFA;"></a>&#x4E00;&#x3001; NDK&#x73AF;&#x5883;&#x642D;&#x5EFA;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、-使用NDK开发第一个JNI程序"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;-&#x4F7F;&#x7528;NDK&#x5F00;&#x53D1;&#x7B2C;&#x4E00;&#x4E2A;JNI&#x7A0B;&#x5E8F;" class="headerlink" title="&#x4E8C;&#x3001; &#x4F7F;&#x7528;NDK&#x5F00;&#x53D1;&#x7B2C;&#x4E00;&#x4E2A;JNI&#x7A0B;&#x5E8F;"></a>&#x4E8C;&#x3001; &#x4F7F;&#x7528;NDK&#x5F00;&#x53D1;&#x7B2C;&#x4E00;&#x4E2A;JNI&#x7A0B;&#x5E8F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、-使用-so文件开发Android程序"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;-&#x4F7F;&#x7528;-so&#x6587;&#x4EF6;&#x5F00;&#x53D1;Android&#x7A0B;&#x5E8F;" class="headerlink" title="&#x4E09;&#x3001; &#x4F7F;&#x7528;.so&#x6587;&#x4EF6;&#x5F00;&#x53D1;Android&#x7A0B;&#x5E8F;"></a>&#x4E09;&#x3001; &#x4F7F;&#x7528;.so&#x6587;&#x4EF6;&#x5F00;&#x53D1;Android&#x7A0B;&#x5E8F;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、准备工作"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x51C6;&#x5907;&#x5DE5;&#x4F5C;" class="headerlink" title="&#x4E00;&#x3001;&#x51C6;&#x5907;&#x5DE5;&#x4F5C;"></a>&#x4E00;&#x3001;&#x51C6;&#x5907;&#x5DE5;&#x4F5C;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、使用NDK开发第一个JNI程序"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x4F7F;&#x7528;NDK&#x5F00;&#x53D1;&#x7B2C;&#x4E00;&#x4E2A;JNI&#x7A0B;&#x5E8F;" class="headerlink" title="&#x4E8C;&#x3001;&#x4F7F;&#x7528;NDK&#x5F00;&#x53D1;&#x7B2C;&#x4E00;&#x4E2A;JNI&#x7A0B;&#x5E8F;"></a>&#x4E8C;&#x3001;&#x4F7F;&#x7528;NDK&#x5F00;&#x53D1;&#x7B2C;&#x4E00;&#x4E2A;JNI&#x7A0B;&#x5E8F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、使用-so文件开发Android程序"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x4F7F;&#x7528;-so&#x6587;&#x4EF6;&#x5F00;&#x53D1;Android&#x7A0B;&#x5E8F;" class="headerlink" title="&#x4E09;&#x3001;&#x4F7F;&#x7528;.so&#x6587;&#x4EF6;&#x5F00;&#x53D1;Android&#x7A0B;&#x5E8F;"></a>&#x4E09;&#x3001;&#x4F7F;&#x7528;.so&#x6587;&#x4EF6;&#x5F00;&#x53D1;Android&#x7A0B;&#x5E8F;</span></a></li></ol></div>
             
 
           </div>
