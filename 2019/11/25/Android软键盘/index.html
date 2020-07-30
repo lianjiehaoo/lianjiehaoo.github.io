@@ -87,24 +87,24 @@
 <meta name="keywords" content="软键盘">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android软键盘">
-<meta property="og:url" content="http://yoursite.com/2017/07/01/Android软键盘/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/11/25/Android软键盘/index.html">
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="说起Android软键盘，这里遇到的坑多数就是对它理解不够全面导致的，所以决定好好总结一下它。在避免自己二次掉坑的同时，如果能帮助到在这个知识区正疑惑的你，那就太好了。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/1.jpeg">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/2.jpeg">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/3.jpeg">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/4.jpeg">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/5.jpeg">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/6.jpeg">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/7.png">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/8.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/07/01/Android软键盘/9.jpg">
-<meta property="og:updated_time" content="2019-02-17T02:03:35.603Z">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/1.jpeg">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/2.jpeg">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/3.jpeg">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/4.jpeg">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/5.jpeg">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/6.jpeg">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/8.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/11/25/Android软键盘/9.jpg">
+<meta property="og:updated_time" content="2020-07-30T01:48:14.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android软键盘">
 <meta name="twitter:description" content="说起Android软键盘，这里遇到的坑多数就是对它理解不够全面导致的，所以决定好好总结一下它。在避免自己二次掉坑的同时，如果能帮助到在这个知识区正疑惑的你，那就太好了。">
-<meta name="twitter:image" content="http://yoursite.com/2017/07/01/Android软键盘/1.jpeg">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/25/Android软键盘/1.jpeg">
 
 
 
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/01/Android软键盘/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/11/25/Android软键盘/"/>
 
 
 
@@ -291,7 +291,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/01/Android软键盘/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/25/Android软键盘/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TXM">
@@ -320,8 +320,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-01T16:45:15+08:00">
-                2017-07-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-25T16:45:15+08:00">
+                2019-11-25
               </time>
             
 
@@ -382,20 +382,20 @@
       
         <p>说起Android软键盘，这里遇到的坑多数就是对它理解不够全面导致的，所以决定好好总结一下它。在避免自己二次掉坑的同时，如果能帮助到在这个知识区正疑惑的你，那就太好了。<a id="more"></a>本篇的讲解将分以下几个主题：<br>1、操作软键盘<br>2、监听键盘的弹起与隐藏<br>3、如何避免键盘遮挡输入框</p>
 <h1 id="操作软键盘"><a href="#操作软键盘" class="headerlink" title="操作软键盘"></a>操作软键盘</h1><p>想要操作软键盘，需要使用到 InputMethodManager ，它是一个系统服务，可以使用 Context.getSystemService() 获取到它。</p>
-<h4 id="显示软键盘"><a href="#显示软键盘" class="headerlink" title="显示软键盘"></a>显示软键盘</h4><p>在 InputMethodManager中，有两个方法showSoftInput()和showSoftInputFromInputMethod()，而实际上，只有showSoftInput()是有效的。<br><img src="/2017/07/01/Android软键盘/1.jpeg"><br>这里我们只需要传递两个参数。它首先需要一个View ，使用软键盘就是为了输入，而输入就需要有接收输入内容的View ，这里接收输入的View ，最好是一个EditText（但这不是必须的）。<br>而第二个参数flags就是个标志位，从上面截图的方法签名上的文档上可以看到，它接收0或者SHOW_INPYT_IMPLICIT 两个参数，但是实际上，它有第三个参数，另外一个是SHOW_FORCED。一般没有特别需要的话，我们直接传递0就好了(实际上SHOW_INPYT_IMPLICIT、SHOW_FORCED并不影响显示，只是在隐藏的时候，会有一些限制。而且我们一般的话，不管显示或者隐藏都将flag设置为0，特殊情况遇到再做分析)。<br>现在，简单总结一下调用showSoftInput()会生效的关键点：<br>1、第一个参数，最好是EditText或者它的子类。<br>考虑到软键盘就是为了输入，EditText就是一个接收输入的控件。而这不是绝对的，如果不是一个EditText ，就必须要求这个View有两个属性，分别是：android:focusable=”true” 和android:focusableInTouchMode=”true”。<br>2、第一个参数，必须是可获取焦点的，并且当前已经获取到焦点。<br>EditText默认是允许获取焦点的，但是假如布局中，存在多个可获取焦点的控件，就需要提前让我们传递进去的View获取到焦点。获取焦点可以使用requestFocus()方法。<br>3、布局必须加载完成。<br>在onCreate()中，如果立即调用showSoftInput()是不会生效的。想要在页面一启动的时候就弹出键盘，可以在Activity上，设置 android:windowSoftInputMode属性来完成，或者做一个延迟加载，View.postDelayed()也是一个解决方案。<br>所以最终，完整的显示软键盘的代码就如下所示了。<br><img src="/2017/07/01/Android软键盘/2.jpeg"></p>
-<h4 id="隐藏软键盘"><a href="#隐藏软键盘" class="headerlink" title="隐藏软键盘"></a>隐藏软键盘</h4><p>虽然showSoftInput()方法是有效的，但是想要隐藏软键盘，就没有提供对应的hideSoftInput()方法，但是却有一个hideSoftInputFromWindow()方法，可以用来隐藏软键盘。<br>先来看看这个方法的签名，它同样有两个方法可以调用。<br><img src="/2017/07/01/Android软键盘/3.jpeg"><br>它接收两个参数，第一个参数是一个IBinder ，可以直接传递一个 View.getWindowToken()的windowToken对象就可以了。而第二个参数，就是隐藏软键盘的标志位，如果没有特殊要求的话，直接传递0就好了。</p>
+<h4 id="显示软键盘"><a href="#显示软键盘" class="headerlink" title="显示软键盘"></a>显示软键盘</h4><p>在 InputMethodManager中，有两个方法showSoftInput()和showSoftInputFromInputMethod()，而实际上，只有showSoftInput()是有效的。<br><img src="/2019/11/25/Android软键盘/1.jpeg"><br>这里我们只需要传递两个参数。它首先需要一个View ，使用软键盘就是为了输入，而输入就需要有接收输入内容的View ，这里接收输入的View ，最好是一个EditText（但这不是必须的）。<br>而第二个参数flags就是个标志位，从上面截图的方法签名上的文档上可以看到，它接收0或者SHOW_INPYT_IMPLICIT 两个参数，但是实际上，它有第三个参数，另外一个是SHOW_FORCED。一般没有特别需要的话，我们直接传递0就好了(实际上SHOW_INPYT_IMPLICIT、SHOW_FORCED并不影响显示，只是在隐藏的时候，会有一些限制。而且我们一般的话，不管显示或者隐藏都将flag设置为0，特殊情况遇到再做分析)。<br>现在，简单总结一下调用showSoftInput()会生效的关键点：<br>1、第一个参数，最好是EditText或者它的子类。<br>考虑到软键盘就是为了输入，EditText就是一个接收输入的控件。而这不是绝对的，如果不是一个EditText ，就必须要求这个View有两个属性，分别是：android:focusable=”true” 和android:focusableInTouchMode=”true”。<br>2、第一个参数，必须是可获取焦点的，并且当前已经获取到焦点。<br>EditText默认是允许获取焦点的，但是假如布局中，存在多个可获取焦点的控件，就需要提前让我们传递进去的View获取到焦点。获取焦点可以使用requestFocus()方法。<br>3、布局必须加载完成。<br>在onCreate()中，如果立即调用showSoftInput()是不会生效的。想要在页面一启动的时候就弹出键盘，可以在Activity上，设置 android:windowSoftInputMode属性来完成，或者做一个延迟加载，View.postDelayed()也是一个解决方案。<br>所以最终，完整的显示软键盘的代码就如下所示了。<br><img src="/2019/11/25/Android软键盘/2.jpeg"></p>
+<h4 id="隐藏软键盘"><a href="#隐藏软键盘" class="headerlink" title="隐藏软键盘"></a>隐藏软键盘</h4><p>虽然showSoftInput()方法是有效的，但是想要隐藏软键盘，就没有提供对应的hideSoftInput()方法，但是却有一个hideSoftInputFromWindow()方法，可以用来隐藏软键盘。<br>先来看看这个方法的签名，它同样有两个方法可以调用。<br><img src="/2019/11/25/Android软键盘/3.jpeg"><br>它接收两个参数，第一个参数是一个IBinder ，可以直接传递一个 View.getWindowToken()的windowToken对象就可以了。而第二个参数，就是隐藏软键盘的标志位，如果没有特殊要求的话，直接传递0就好了。</p>
 <blockquote>
 <p><strong>注意：</strong>这里虽然原则上需要传递一个之前弹出键盘传递的时候，传递的View的windowToken，但是实际情况是你只需要传递一个存在于当前布局ViewTree中，随意一个View的windowToken就可以了。</p>
 </blockquote>
-<p>最终隐藏软件的代码就是这样的。<br><img src="/2017/07/01/Android软键盘/4.jpeg"></p>
-<h4 id="切换键盘的弹出和隐藏"><a href="#切换键盘的弹出和隐藏" class="headerlink" title="切换键盘的弹出和隐藏"></a>切换键盘的弹出和隐藏</h4><p>在InputMethodManager中，还提供了一个toggleSoftInput()方法，如同它的名字一样，它可以让软键盘在显示和隐藏之间切换。<br><img src="/2017/07/01/Android软键盘/5.jpeg"><br>该方法，接收两个flags ，分别是控制show和hide时候的标识，它们的含义和前面介绍的showSoftInput()和hideSoftInputFromWindow()一致，所以没有特殊要求，直接传递0就好了。<br>toggleSoftInput()方法不要求传递一个View或者windowToken，所以它并没有showSoftInput()中的一些限制，但是依然还有需要在布局绘制完成之后调用才会有效果。<br><img src="/2017/07/01/Android软键盘/6.jpeg"><br>虽然这个方法，限制很少，但是我们基本上不会使用它。主要原因在于，它是一个开关的方法，会根据当前的状态做相反的操作。这就导致很多时候，我们在代码中，无法直接根据InputMethodManager提供的方法判断当前软键盘的显示状态，这样也就无法确定调用它的时候的效果了。</p>
+<p>最终隐藏软件的代码就是这样的。<br><img src="/2019/11/25/Android软键盘/4.jpeg"></p>
+<h4 id="切换键盘的弹出和隐藏"><a href="#切换键盘的弹出和隐藏" class="headerlink" title="切换键盘的弹出和隐藏"></a>切换键盘的弹出和隐藏</h4><p>在InputMethodManager中，还提供了一个toggleSoftInput()方法，如同它的名字一样，它可以让软键盘在显示和隐藏之间切换。<br><img src="/2019/11/25/Android软键盘/5.jpeg"><br>该方法，接收两个flags ，分别是控制show和hide时候的标识，它们的含义和前面介绍的showSoftInput()和hideSoftInputFromWindow()一致，所以没有特殊要求，直接传递0就好了。<br>toggleSoftInput()方法不要求传递一个View或者windowToken，所以它并没有showSoftInput()中的一些限制，但是依然还有需要在布局绘制完成之后调用才会有效果。<br><img src="/2019/11/25/Android软键盘/6.jpeg"><br>虽然这个方法，限制很少，但是我们基本上不会使用它。主要原因在于，它是一个开关的方法，会根据当前的状态做相反的操作。这就导致很多时候，我们在代码中，无法直接根据InputMethodManager提供的方法判断当前软键盘的显示状态，这样也就无法确定调用它的时候的效果了。</p>
 <h1 id="监听键盘的弹起与隐藏"><a href="#监听键盘的弹起与隐藏" class="headerlink" title="监听键盘的弹起与隐藏"></a>监听键盘的弹起与隐藏</h1><p>如果想要监听键盘的弹出和收起，可以使用<code>ViewTreeObserver.OnGlobalLayoutListener</code>这个监听，来监听布局的调整，从而判断出键盘的弹出和隐藏。下面是一个使用ViewTreeObserver.OnGlobalLayoutListener后获取屏幕中各个类型高度的例子，请注意代码中的注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void onGlobalLayout() &#123;</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;root.getHeight(): &quot; + root.getHeight());//当前所引用视图的高度</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;root.getRootView().getHeight(): &quot; + root.getRootView().getHeight());//屏幕高度</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;getWindow().getDecorView(): &quot; + getWindow().getDecorView().getHeight());//屏幕高度</span><br><span class="line">Rect r = new Rect();</span><br><span class="line">getWindow().getDecorView().getWindowVisibleDisplayFrame(r);</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;r.top: &quot; + r.top);//状态栏高度</span><br><span class="line">Log.d(&quot;sss_main&quot;, &quot;r.bottom-r.top: &quot; + (r.bottom - r.top));//用户界面的可视高度（除去状态栏和底部导航）</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 <p>代码中<code>r.bottom - r.top</code>代表了除去状态栏、底部导航栏后，手机屏幕剩余可视高度。注意，这个剩余可视高度也不包括输入法弹窗的高度（如果屏幕中有输入法弹窗的话）。有了以上的基础，我们就可以通过<code>getWindow().getDecorView().getHeight()-r.bottom&gt;100?键盘弹出：键盘隐藏</code>来判断键盘是否隐藏了。</p>
 <blockquote>
 <p><strong>注意：</strong>为什么要大于100呢？因为如果手机具备底部导航区域的话，要排除这个值的干扰。当然了，直接默认底部导航区域高度为100肯定是不精确的，实际应用中我们应该获取到真实的底部导航区域高度，具体如何获取底部导航区域高度可以<a href="http://blog.csdn.net/u012764110/article/details/49783465" target="_blank" rel="noopener">参考这篇文章</a>。</p>
 </blockquote>
 <h1 id="如何避免键盘遮挡输入框"><a href="#如何避免键盘遮挡输入框" class="headerlink" title="如何避免键盘遮挡输入框"></a>如何避免键盘遮挡输入框</h1><p>在开发中，经常会遇到键盘挡住输入框的情况，比如登录界面或注册界面，弹出的软键盘把登录或注册按钮挡住了，用户必须把软键盘收起，才能点击相应按钮，这样的用户体验非常不好。下面对几种在开发中常用的避免键盘遮挡输入框的方法进行总结。</p>
-<h4 id="方法一：windowSoftInputMode-adjustResize和adjustPan"><a href="#方法一：windowSoftInputMode-adjustResize和adjustPan" class="headerlink" title="方法一：windowSoftInputMode:adjustResize和adjustPan"></a>方法一：windowSoftInputMode:adjustResize和adjustPan</h4><p>主要实现方法：在 AndroidManifest.xml 对应的Activity里添加 android:windowSoftInputMode=”adjustPan” 或是 android:windowSoftInputMode=”adjustResize”属性<br>这两种属性的区别，官方的解释是：<br><img src="/2017/07/01/Android软键盘/7.png"><br>这两个属性作用都是为了调整界面使键盘不挡住输入框,这里对这两种属性使用场景、优缺点、注意事项进行了全方面总结。对于<code>fitsystemwindows</code>还比较懵逼的你，可以参考<a href="http://blog.csdn.net/u012885461/article/details/51068553" target="_blank" rel="noopener">这篇文章</a>。<br><img src="/2017/07/01/Android软键盘/8.jpg"><br>最后附一张官方的截图。<br><img src="/2017/07/01/Android软键盘/9.jpg" title="该属性是在API级别3引入的。"></p>
+<h4 id="方法一：windowSoftInputMode-adjustResize和adjustPan"><a href="#方法一：windowSoftInputMode-adjustResize和adjustPan" class="headerlink" title="方法一：windowSoftInputMode:adjustResize和adjustPan"></a>方法一：windowSoftInputMode:adjustResize和adjustPan</h4><p>主要实现方法：在 AndroidManifest.xml 对应的Activity里添加 android:windowSoftInputMode=”adjustPan” 或是 android:windowSoftInputMode=”adjustResize”属性<br>这两种属性的区别，官方的解释是：<br><img src="/2019/11/25/Android软键盘/7.png"><br>这两个属性作用都是为了调整界面使键盘不挡住输入框,这里对这两种属性使用场景、优缺点、注意事项进行了全方面总结。对于<code>fitsystemwindows</code>还比较懵逼的你，可以参考<a href="http://blog.csdn.net/u012885461/article/details/51068553" target="_blank" rel="noopener">这篇文章</a>。<br><img src="/2019/11/25/Android软键盘/8.jpg"><br>最后附一张官方的截图。<br><img src="/2019/11/25/Android软键盘/9.jpg" title="该属性是在API级别3引入的。"></p>
 <blockquote>
 <p><strong>插播知识：</strong><br>这里再提一下clipToPadding和clipChildren这两个属性吧，虽然和本篇没有关系但是同样是有一定概率出现的，所以要讲一下。clipToPadding就是说控件的绘制区域是否在padding里面的，true的情况下如果你设置了padding那么绘制的区域就往里缩，clipToPadding主要应用在listview头部和尾部设置padding后希望可以在滑动item时能滑动到padding区域。clipChildren表示是否限制子View在所属父View的范围内，我们将其值设置为false后那么当子控件的高度高于父控件时也会完全显示,而不会被压缩。注意clipChildren一定是在布局文件的根节点设置，否则不起作用,具体的使用请看<a href="http://blog.csdn.net/flymoon1201/article/details/44646473" target="_blank" rel="noopener">这篇文章</a>以及<a href="https://www.zybuluo.com/TryLoveCatch/note/706916" target="_blank" rel="noopener">这篇文章</a>。<strong>注意：</strong>有时候clipChildren会不起作用，如果确定考虑到了之前两篇文章所提及的内容，则应该想其它的办法替代clipChildren，这可以认为是clipChildren的BUG。</p>
 </blockquote>
@@ -435,8 +435,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/20/Android中退出APP的解决方案/" rel="next" title="Android中退出APP的解决方案">
-                <i class="fa fa-chevron-left"></i> Android中退出APP的解决方案
+              <a href="/2019/10/18/ConstraintLayout布局使用指南/" rel="next" title="ConstraintLayout 布局使用指南">
+                <i class="fa fa-chevron-left"></i> ConstraintLayout 布局使用指南
               </a>
             
           </div>
@@ -445,8 +445,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/03/Android屏幕适配/" rel="prev" title="Android屏幕适配方案">
-                Android屏幕适配方案 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/12/20/MD5加密算法/" rel="prev" title="MD5加密算法">
+                MD5加密算法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -528,7 +528,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>

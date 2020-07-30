@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="本文主要目的是理解组件化、插件化、热更新的实现原理，并且知道他们之前的区别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析 Android 组件化、插件化、热更新">
+<meta property="og:url" content="http://yoursite.com/2020/01/10/Android组件化、插件化、热更新/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="本文主要目的是理解组件化、插件化、热更新的实现原理，并且知道他们之前的区别。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-30T01:57:00.480Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析 Android 组件化、插件化、热更新">
+<meta name="twitter:description" content="本文主要目的是理解组件化、插件化、热更新的实现原理，并且知道他们之前的区别。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/01/10/Android组件化、插件化、热更新/"/>
+
+
+
+
+
+  <title>浅析 Android 组件化、插件化、热更新 | 唐先明de博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">唐先明de博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/10/Android组件化、插件化、热更新/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅析 Android 组件化、插件化、热更新</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-10T10:29:42+08:00">
+                2020-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android其它/" itemprop="url" rel="index">
+                    <span itemprop="name">Android其它</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要目的是理解组件化、插件化、热更新的实现原理，并且知道他们之前的区别。<br><a id="more"></a></p>
+<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><p>组件化：“组件化”又名“模块化”，其实就是把每个功能独立的模块分离成独立的 module ，如：网络操作、基础库、独立业务功能等都可以抽离成单个 module ，由此可见日常开发中我们已经在使用组件化开发了。主 APP 工程可以引用这些 module ，并使用它们各自所实现的功能。</p>
+<p>插件化：“插件化”是一种能让 APP 动态增加新功能的技术，它使得动态添加新功能的过程能在不进行重新打包安装的情况下进行。插件化在原来的代码中有固定的执行入口，比如：点击一个按钮的事件，加载的一个页面。</p>
+<p>热更新：“热更新”又名“热修复”，它可以对 APP 中已有的内容做改动，而不需要预先留下固定的执行入口，通常用来修复 BUG 。</p>
+<h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><h2 id="插件化"><a href="#插件化" class="headerlink" title="插件化"></a>插件化</h2><p>第一步：实现插件 App 项目。插件 app 包含了之后将在主 App 中被使用的 Util 类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//com.cxp.plugin.Util</span><br><span class="line"></span><br><span class="line">public class Util &#123;</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;这是插件中的方法！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第二步：Build APk(s)，生成一个 apk 包。<br>第三步：实现主 App 项目，并将插件 apk 包放入 assets 文件夹中，命名为：”plugin.apk”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">//com.cxp.pluginableapp. MainActivity</span><br><span class="line"></span><br><span class="line">class MainActivity : AppCompatActivity() &#123;</span><br><span class="line"></span><br><span class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        //复制 assets 中的文件到 externalCacheDir 目录。</span><br><span class="line">        val apk = File(externalCacheDir.absolutePath + &quot;/plugin.apk&quot;)</span><br><span class="line">        var source: Source? = null</span><br><span class="line">        var sink: BufferedSink? = null</span><br><span class="line">        try &#123;</span><br><span class="line">            source = assets.open(&quot;plugin.apk&quot;).source()</span><br><span class="line">            sink = apk.sink().buffer()</span><br><span class="line">            sink.writeAll(source)</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            source?.close()</span><br><span class="line">            sink?.close()</span><br><span class="line">        &#125;</span><br><span class="line">        //新建 ClassLoader 加载 dex（.class） 文件。</span><br><span class="line">        val classLoader = DexClassLoader(apk.absolutePath, cacheDir.absolutePath, null, null)</span><br><span class="line">        val utilClass = classLoader.loadClass(&quot;com.cxp.plugin.Util&quot;)</span><br><span class="line">        //反射调用类中 print 方法。</span><br><span class="line">        val o: Any = utilClass.newInstance()</span><br><span class="line">        val method=utilClass.getMethod(&quot;print&quot;)</span><br><span class="line">        method.invoke(o)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行程序，成功输出：“这是插件中的方法！”。</p>
+<p><strong>问题1:为什么要新建一个 DexClassLoader 来加载类？</strong><br>应用在启动后都会生成一个加载自身 dex 文件的 classLoader，这个classLoader 能够加载的类在应用被启动的同时就已经确定下来了，所以对于插件 app 提供的 class ，不能再用这个 classLoader 加载，必须新建一个用来加载插件 app 的 classLoader。</p>
+<p><strong>问题2:一个应用启动后会有几个 ClassLoader ？</strong><br>至少 2 个。请参看<a href="https://zhuanlan.zhihu.com/p/20524252" target="_blank" rel="noopener">知乎文章</a>中“有几个ClassLoader实例？”部分的讲解。</p>
+<p><strong>问题3:什么是双亲委托 ？</strong><br>当需要加载一个类时，自下而上查看是否已经加载过该类了，如找到了，则直接返回缓存中的 Class 对象，当到达最顶层的加载器仍然找不到该 Class 对象时，则自上而下开始调用各自的 findClass 方法生成Class 对象，直到成功为止。</p>
+<p><strong>问题4: DexClassLoader 的创建和 loadClass 方法分别做什么事 ？</strong><br>DexClassLoader 的创建过程是依据外部提供的 dexs 创建一个或多个 DexFile 对象并最终被 pathList 持有，完成了 dex 文件载入过程。这一步完成了将 .class 文件加载到方法区的工作。</p>
+<p>loadClass 方法经过双亲委托机制后，首次加载类会调用到<code>pathList.findClass(name)</code>方法，该方法最终通过遍历 DexFile 的 <code>defineClass</code> native 方法创建 class 对象。这一步完成了在堆区创建 class 对象的工作。</p>
+<h2 id="热更新"><a href="#热更新" class="headerlink" title="热更新"></a>热更新</h2><p>dex 文件可通过 d8 工具生成，也可以换成 apk 文件，它存放在 assets 目录下。以下是 dex 文件所含代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package com.cxp.hotfix;</span><br><span class="line"></span><br><span class="line">public class Util &#123;</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;这是 hotfix 后的方法！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>主项目中对应的代码如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package com.cxp.hotfix;</span><br><span class="line"></span><br><span class="line">public class Util &#123;</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;这是原始方法！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动主项目后应立即将加载修复包所得的 dexElements 添加到当前主项目类加载器的 dexElements 首部。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">public class HotfixApplication extends Application &#123;</span><br><span class="line">    File apk;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void attachBaseContext(Context base) &#123;</span><br><span class="line">        super.attachBaseContext(base);</span><br><span class="line">        //将修复包放入 ExternalCacheDir 目录下。</span><br><span class="line">        apk = new File(getExternalCacheDir() + &quot;/hotfix.dex&quot;);</span><br><span class="line">        try (Source source = Okio.source(getAssets().open(&quot;hotfix.dex&quot;));</span><br><span class="line">             BufferedSink sink = Okio.buffer(Okio.sink(apk))) &#123;</span><br><span class="line">            sink.writeAll(source);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        //通过反射方式将修复包的 dexs 加入到现有 dexElements 数组的头部。</span><br><span class="line">        if (apk.exists()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                ClassLoader classLoader = getClassLoader();</span><br><span class="line">                Class loaderClass = BaseDexClassLoader.class;</span><br><span class="line">                Field pathListField = loaderClass.getDeclaredField(&quot;pathList&quot;);</span><br><span class="line">                pathListField.setAccessible(true);</span><br><span class="line">                Object pathListObject = pathListField.get(classLoader); // getClassLoader().pathList</span><br><span class="line"></span><br><span class="line">                Class pathListClass = pathListObject.getClass();</span><br><span class="line">                Field dexElementsField = pathListClass.getDeclaredField(&quot;dexElements&quot;);</span><br><span class="line">                dexElementsField.setAccessible(true);</span><br><span class="line">                PathClassLoader newClassLoader = new PathClassLoader(apk.getPath(), null);</span><br><span class="line">                Object newPathListObject = pathListField.get(newClassLoader); // newClassLoader.pathList</span><br><span class="line">                Object newDexElementsObject = dexElementsField.get(newPathListObject); // newClassLoader.pathList.dexElements</span><br><span class="line"></span><br><span class="line">                Object dexElementsObject = dexElementsField.get(pathListObject); // getClassLoader().pathList.dexElements</span><br><span class="line"></span><br><span class="line">                int oldLength = Array.getLength(dexElementsObject);</span><br><span class="line">                int newLength = Array.getLength(newDexElementsObject);</span><br><span class="line">                Object concatDexElementsObject = Array.newInstance(dexElementsObject.getClass().getComponentType(), oldLength + newLength);</span><br><span class="line">                for (int i = 0; i &lt; newLength; i++) &#123;</span><br><span class="line">                    Array.set(concatDexElementsObject, i, Array.get(newDexElementsObject, i));</span><br><span class="line">                &#125;</span><br><span class="line">                for (int i = 0; i &lt; oldLength; i++) &#123;</span><br><span class="line">                    Array.set(concatDexElementsObject, newLength + i, Array.get(dexElementsObject, i));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                dexElementsField.set(pathListObject, concatDexElementsObject);</span><br><span class="line">            &#125; catch (NoSuchFieldException | IllegalAccessException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>主项目调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package com.cxp.hotfix</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">class MainActivity : AppCompatActivity() &#123;</span><br><span class="line"></span><br><span class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">        Util().print()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//打印结果是：“这是 hotfix 后的方法！”。</span><br></pre></td></tr></table></figure></p>
+<p><strong>为什么要在 dexElements 头部加入元素呢？</strong><br>类加载过程最终会调用 DexPathList 的 findClass 方法，该方法查找生成 class 对象是按照从前往后遍历 dexElements 数组的方式进行的，找到了就直接返回，源码如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//libcore/dalvik/src/main/java/dalvik/system/DexPathList.java</span><br><span class="line"></span><br><span class="line">public Class&lt;?&gt; findClass(String name, List&lt;Throwable&gt; suppressed) &#123;</span><br><span class="line">        for (Element element : dexElements) &#123;</span><br><span class="line">            Class&lt;?&gt; clazz = element.findClass(name, definingContext, suppressed);</span><br><span class="line">            if (clazz != null) &#123;</span><br><span class="line">                return clazz;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (dexElementsSuppressedExceptions != null) &#123;</span><br><span class="line">            suppressed.addAll(Arrays.asList(dexElementsSuppressedExceptions));</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>知识拓展</strong> 如果你想全量更新的话，把原来的 dexElements 全部替换就可以了，这要求所提供的 dex 文件内容要与原 APP 中已有内容完全一致。</p>
+</blockquote>
+<p>热更新增量修复的方式和官方的 MultiDex 很像，只不过 MultiDex 是将其它 Dex 添加到 Emlement 数组后面而已。不清楚 MultiDex 原理的话，请通读<a href="https://juejin.im/entry/5a3a21fcf265da430d58294e" target="_blank" rel="noopener">这篇文章</a>。</p>
+<blockquote>
+<p><strong>注意</strong> 以上内容理解完全后，建议再阅读下知乎的<a href="https://zhuanlan.zhihu.com/p/20524252" target="_blank" rel="noopener">这篇文章</a>，同时，针对链文要额外说明的是，从 API 26 开始的 optimizedDirectory 参数已被弃用了，所以链文中 “DexClassLoader 和 PathClassLoader” 的表述已错误，阅读时记得忽略该部分。</p>
+</blockquote>
+<p>最后要说明的是，这篇文章只是分析了个原理大概，离生产目标还很远，要想达到可生产的水平还有很多工作要做。当然了，如果想要偷懒的话，目前很多大厂已经开源自己的方案，按照自身需求挑选他们中的一个直接使用也未尝不可。</p>
+<hr>
+<p><strong>参考资料</strong><br>扔物线老师的 Hencoder plus 课程。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/05/MVX架构模式与运用/" rel="next" title="分析 MVX 架构模式及其运用">
+                <i class="fa fa-chevron-left"></i> 分析 MVX 架构模式及其运用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/15/Android进程间通信机制/" rel="prev" title="Android 进程间通信机制">
+                Android 进程间通信机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#区别"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x533A;&#x522B;" class="headerlink" title="&#x533A;&#x522B;"></a>&#x533A;&#x522B;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现原理"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x5B9E;&#x73B0;&#x539F;&#x7406;" class="headerlink" title="&#x5B9E;&#x73B0;&#x539F;&#x7406;"></a>&#x5B9E;&#x73B0;&#x539F;&#x7406;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插件化"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x63D2;&#x4EF6;&#x5316;" class="headerlink" title="&#x63D2;&#x4EF6;&#x5316;"></a>&#x63D2;&#x4EF6;&#x5316;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#热更新"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x70ED;&#x66F4;&#x65B0;" class="headerlink" title="&#x70ED;&#x66F4;&#x65B0;"></a>&#x70ED;&#x66F4;&#x65B0;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
