@@ -92,7 +92,7 @@
 <meta property="og:description" content="在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/03/13/Java线程池/Jietu20180512-192205@2x.jpg">
-<meta property="og:updated_time" content="2020-07-09T11:32:38.592Z">
+<meta property="og:updated_time" content="2020-08-03T01:27:22.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java线程池">
 <meta name="twitter:description" content="在面向对象编程中，创建和销毁对象是很耗时间和资源的，因此，在多线程编程过程中如果能减少线程的创建和销毁操作，那么对于程序的性能将得到很大的提高。Java线程池的出现，解决了这个问题。不仅如此，线程池还可以控制线程的创建数量，避免内存消耗过多。">
@@ -398,7 +398,7 @@
 <blockquote>
 <p>注意：循环任务中如果有 sleep | wait 的阻塞被外界打断，那么在打断后 isInterrupted() 的结果将会重置为 false 。</p>
 </blockquote>
-<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><h4 id="多线程实现汇总处理的思路"><a href="#多线程实现汇总处理的思路" class="headerlink" title="多线程实现汇总处理的思路"></a>多线程实现汇总处理的思路</h4><p>1、获取线程池的 Future 。<br>2、线程池添加任务后，shutdown 和 awaitTermination 配合。<br>3、通过 Thread.join() 方式。</p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><h4 id="多线程实现汇总处理的思路"><a href="#多线程实现汇总处理的思路" class="headerlink" title="多线程实现汇总处理的思路"></a>多线程实现汇总处理的思路</h4><p>1、获取线程池的 Future 。<br>2、线程池添加任务后，shutdown 和 awaitTermination 配合。<br>3、通过 Thread.join() 方式。<br>4、kotlin 协程中 async 方式。</p>
 <h4 id="多线程实现顺序调用的思路"><a href="#多线程实现顺序调用的思路" class="headerlink" title="多线程实现顺序调用的思路"></a>多线程实现顺序调用的思路</h4><p>1、配置线程池的核心线程数与总线程数为1，等待队列无穷大 。<br>2、通过 wait notifyAll 配合。<br>3、通过 Thread.join() 方式。</p>
 <h4 id="java-实现线程的方式"><a href="#java-实现线程的方式" class="headerlink" title="java 实现线程的方式"></a>java 实现线程的方式</h4><p>1、继承 Thread，重写 run 方法。<br>2、继承 Runnable，重写 run 方法，将 Runnable 对象传递到 Thread。<br>3、方式 1 和 2 的匿名内部类实现。<br>4、线程池。<br>5、Timer。</p>
 <h4 id="yeild方法的作用"><a href="#yeild方法的作用" class="headerlink" title="yeild方法的作用"></a>yeild方法的作用</h4><p>暂时放弃 CPU 的执行时间，和其他线程重新竞争 CPU 的执行机会。<a href="https://www.cnblogs.com/xyyou/p/12014042.html" target="_blank" rel="noopener">参考文章&gt;&gt;</a></p>
@@ -532,7 +532,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -554,7 +554,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
