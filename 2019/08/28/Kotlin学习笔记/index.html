@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 扔物线 老师的 码上开学系列教程 和 Kotlin 官方教程 为主，同时也会配合参考其他优秀文章。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-08-03T08:50:14.806Z">
+<meta property="og:updated_time" content="2020-08-06T15:13:05.485Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kotlin 使用笔记（进行中...）">
 <meta name="twitter:description" content="本篇文章将长期记录并解答笔者在学习使用 Kotlin 过程中所遇到的问题点，参考资料会以 扔物线 老师的 码上开学系列教程 和 Kotlin 官方教程 为主，同时也会配合参考其他优秀文章。">
@@ -419,8 +419,14 @@
 <p>Kotlin 对平台类型的空检测会放宽， 因此它们的安全保证与在 Java 中相同，即要空检查。</p>
 <p><a href="https://www.kotlincn.net/docs/reference/java-interop.html#%E7%A9%BA%E5%AE%89%E5%85%A8%E4%B8%8E%E5%B9%B3%E5%8F%B0%E7%B1%BB%E5%9E%8B" target="_blank" rel="noopener">官方文档（看到可空性注解）&gt;&gt;</a>。</p>
 <h4 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h4><p>使用请参考 <a href="https://kaixue.io/tag/kotlin-coroutines/" target="_blank" rel="noopener">码上开学</a>。</p>
-<p>源码解析请参考如下两篇文章：<br>1、<a href="https://kymjs.com/code/2017/11/24/01/" target="_blank" rel="noopener">Kotlin Primer·第七章·协程库（上篇）</a>。<br>2、<a href="https://kymjs.com/code/2017/11/06/01/" target="_blank" rel="noopener">Kotlin Primer·第七章·协程库（中篇）</a>。</p>
+<p>源码解析请参考如下两篇文章：<br>1、<a href="https://kymjs.com/code/2017/11/24/01/" target="_blank" rel="noopener">Kotlin Primer·第七章·协程库（上篇）</a>；<br>2、<a href="https://kymjs.com/code/2017/11/06/01/" target="_blank" rel="noopener">Kotlin Primer·第七章·协程库（中篇）</a>。</p>
+<p>另外，为了加深源码以及使用的理解，可配合下面知乎的三篇文章阅读：<br>1、<a href="https://zhuanlan.zhihu.com/p/126239044" target="_blank" rel="noopener">Kotlin协程启动模式</a>；<br>2、<a href="https://zhuanlan.zhihu.com/p/126239466" target="_blank" rel="noopener">Kotlin协程调度</a>；<br>3、<a href="https://zhuanlan.zhihu.com/p/129033165" target="_blank" rel="noopener">Kotlin协程生命的尽头—协程取消</a>。</p>
+<p>协程 + ViewModel 使用案例：<br>1、<a href="http://chsmy.github.io/2020/01/16/technology/Retrofit%E5%8A%A0kotlin%E5%8D%8F%E7%A8%8B%E4%B8%BA%E4%BD%95%E5%A6%82%E6%AD%A4%E4%BC%98%E9%9B%85/" target="_blank" rel="noopener">Retrofit加kotlin协程为何如此优雅</a>；<br>2、<a href="https://blog.csdn.net/yuzhiqiang_1993/article/details/101012090" target="_blank" rel="noopener">Retrofit+协程+Jetpack架构组件实现简单网络请求</a>。</p>
+<p>PS：链接2的文章原标题提到 MVVM ，此表述有误。 MVVM 中的 ViewModel 和官方提供的 ViewModel 本质上是不同的概念。</p>
+<blockquote>
+<p><strong>源码阅读建议</strong><br>依据 LiveData、ViewModel、Retrofit 以及协程之间搭配使用的案例，可以仔细的去看下源码（还是很好理解的），这对于加深理解很有帮助。主要侧重几个点：<br>1、LiveData 是如何监听数据改变的？setValue 和 postValue 的区别？<br>2、ViewModel 为什么能在屏幕发生旋转后，仍然能够拿到原来的 ViewModel 实例？<br>3、ViewModel 是如何与界面的生命周期绑定的？<br>4、viewModelScope 为什么能在界面销毁时自动取消任务？<br>5、Retrofit 2.6 为什么能与协程一起工作？<br>～待解决：Retrofit 使用协程以后如何在界面销毁自动取消请求？～</p>
 <h4 id="如何跳出循环和跳出当前循环体"><a href="#如何跳出循环和跳出当前循环体" class="headerlink" title="如何跳出循环和跳出当前循环体"></a>如何跳出循环和跳出当前循环体</h4><p><a href="https://juejin.im/post/6844903870586437639" target="_blank" rel="noopener">forEach 中如何跳出循环和跳出当前循环体&gt;&gt;</a></p>
+</blockquote>
 
       
     </div>
@@ -544,7 +550,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -566,7 +572,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

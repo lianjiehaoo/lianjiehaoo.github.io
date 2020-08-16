@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="WebView," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。">
+<meta name="keywords" content="WebView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebView使用教程">
+<meta property="og:url" content="http://yoursite.com/2019/04/21/WebView使用教程/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-16T14:50:15.067Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebView使用教程">
+<meta name="twitter:description" content="如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/21/WebView使用教程/"/>
+
+
+
+
+
+  <title>WebView使用教程 | 唐先明de博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">唐先明de博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/WebView使用教程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WebView使用教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-21T21:03:15+08:00">
+                2019-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-View/" itemprop="url" rel="index">
+                    <span itemprop="name">Android View</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如果你想在将web页面作为APP的一部分，那么我们可以使用WebView。WebView在Android中继承了view类，作为承载网页的控件。但是我们应该知道它并没有继承web浏览器的所有特性，它所实现的也只是展示网页，以及一些基本的交互和监听功能。<a id="more"></a><br>WebView经常被使用的场景是，当你的APP需要向用户展示一个随时可更新的内容，比如用户条款、使用向导。那么这样的话，我们可以在一个Activity中包含一个WebView控件用来展示服务器维护的内容，这些内容可以在服务器随时更改。<br>WeblView另一个使用场景是，当我们需要在一个页面中请求所有用户的数据，一般的做法是写一个layout，然后利用网络请求所有所需数据，最后将这些数据填充到layout中。但最简洁的方式是，我们其实可以直接加载一个网页，这个网页包含了需要的数据。<br>这个教程将帮助你学会使用WebView，以及关于它高级一点的用法，比如页面跳转、js交互等。</p>
+<h1 id="添加WebView到你的应用"><a href="#添加WebView到你的应用" class="headerlink" title="添加WebView到你的应用"></a>添加WebView到你的应用</h1><p>添加WebView到你的应用最简单的方式是在Layout中添加&lt; WebView &gt;标签，例如下面的例子表示一个全屏的WebView。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;WebView  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">android:id=&quot;@+id/webview&quot;</span><br><span class="line">android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>加载网页，调用loadUrl()方法即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">myWebView.loadUrl(&quot;http://www.example.com&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>请求服务器网页时，别忘了要加网络请求权限。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest ... &gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</span><br><span class="line">...</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure></p>
+<p>以上就是最简单的加载网页方式。</p>
+<h1 id="在WebView中使用JavaScript"><a href="#在WebView中使用JavaScript" class="headerlink" title="在WebView中使用JavaScript"></a>在WebView中使用JavaScript</h1><p>如果你在APP展示的网页中包含JS，那么请确保WebView支持JS的加载。在此之后，你还可以新建接口让WebView与Android代码交互。</p>
+<h2 id="授权使用JavaScript"><a href="#授权使用JavaScript" class="headerlink" title="授权使用JavaScript"></a>授权使用JavaScript</h2><p>WebView默认不支持JS的加载，开启它需要调用WebSetting的setJavaScriptEnable()方法。WebSetting可以通过WebView的getSettings()方法获得。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">WebSettings webSettings = myWebView.getSettings();</span><br><span class="line">webSettings.setJavaScriptEnabled(true);</span><br></pre></td></tr></table></figure></p>
+<p>WebSetting提供了许多使用性的功能，比如你想让你幸幸苦苦开发的web page只能在自己的android应用中展示，那么可以在客户端通过setUserAgentString()设置用户代理之后，在服务端遍历userAgentString字段是否是自己的客户端所设定的。</p>
+<h2 id="在Android代码中绑定JavaScript代码"><a href="#在Android代码中绑定JavaScript代码" class="headerlink" title="在Android代码中绑定JavaScript代码"></a>在Android代码中绑定JavaScript代码</h2><p>通过接口的方式，你可以使你的Android代码和JavaScript代码进行交互。例如，你的JavaScript代码可以调用Android代码弹出一个提示框，而不是使用JavaScript的Alert（）方法。<br>让JavaScript和Android代码产生联系的关键是addJavaScriptInterface()方法，此方法包含两个参数，第一个是一个类对象，供JavaScript调用。第二个是接口名称，它用在JavaScript中作为调用Android方法的别名。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class WebAppInterface &#123;</span><br><span class="line">Context mContext;</span><br><span class="line"></span><br><span class="line">/** Instantiate the interface and set the context */</span><br><span class="line">WebAppInterface(Context c) &#123;</span><br><span class="line">mContext = c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** Show a toast from the web page */</span><br><span class="line">@JavascriptInterface</span><br><span class="line">public void showToast(String toast) &#123;</span><br><span class="line">Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>特别提醒：</strong>如果你的Android目标SDK版本在17或以上，你必须在那些将要在JavaScript中调用的方法体前使用@JavascriptInterface标识。否则，这些方法将不会被调用。</p>
+</blockquote>
+<p>在这个实例中，WebAppInterface允许JavaScript运行showToast方法弹出一个Toast。<br>你可以运行这段代码通过WebView的addJavaScriptInterface()方法，并指定接口的名称为“Android”，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView webView = (WebView) findViewById(R.id.webview);</span><br><span class="line">webView.addJavascriptInterface(new WebAppInterface(this), &quot;Android&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>这段代码为运行在WebView中的JavaScript创建了一个接口“Android”，那么现在你的JavaScript已经有能力访问WebAppInterface中的showToast方法了。下面的HTML和JS代码将调用showToast方法弹出Toast提示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;button&quot; value=&quot;Say hello&quot; onClick=&quot;showAndroidToast(&apos;Hello Android!&apos;)&quot; /&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">function showAndroidToast(toast) &#123;</span><br><span class="line">Android.showToast(toast);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如你所看到的，在JS中使用“Android”这个接口时，并不需要初始化它，在此之前，WebView已经为你准备好了一些，你只需要通过它调用逻辑即可。</p>
+<blockquote>
+<p><strong>注意：</strong><br>1.WebAppInterface的实例将运行在另一个线程，并不在原来新建它的线程。<br>2.由于通过JS可以调用本地的Android代码，那么我们对于这点要非常的谨慎。对于不受信任的web链接，不应该使用addJavascriptInterface()，除非这个链接是自己本人写的或者其它应该充分信任它的理由。同时，对于不信任的网站，我们在处理它的跳转时应该非常小心，不应该在我们的WebView中直接接受链接的跳转。（默认情况，WebView网页中的链接会跳转到手机的Web浏览器，这是保证安全的前提下一种很好的处理方法。但是，在接下来会提到的serWebViewClient()方法中，你可以自定义链接的行为，这就需要小心了。）</p>
+</blockquote>
+<h1 id="页面导航"><a href="#页面导航" class="headerlink" title="页面导航"></a>页面导航</h1><p>当用户在WebView点击一个链接后，默认的行为是在web浏览器中打开该链接所指向的网页。正如上面所提及的一样，你是可以通过WebView的serWebViewClient方法自定义这个行为的。例如在自己的WebView中展示跳转的内容，而不是跳转到web浏览器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">myWebView.setWebClient(new WebClient());</span><br></pre></td></tr></table></figure></p>
+<p>当然你还可以做更多：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private class MyWebViewClient extends WebViewClient &#123;</span><br><span class="line">@Override</span><br><span class="line">public boolean shouldOverrideUrlLoading(WebView view,String url)&#123;</span><br><span class="line">if (Uri.parse(url).getHost().equals(&quot;www.example.com&quot;)) &#123;</span><br><span class="line">// This is my web site, so do not override; let my WebView load the page</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br><span class="line">// Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs</span><br><span class="line">Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));</span><br><span class="line">startActivity(intent);</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后创建MyWebViewClient的实例作为setWebClient()的参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebView myWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">myWebView.setWebClient(new MyWebViewClient());</span><br></pre></td></tr></table></figure></p>
+<h2 id="导航web的浏览记录"><a href="#导航web的浏览记录" class="headerlink" title="导航web的浏览记录"></a>导航web的浏览记录</h2><p>在WebView中浏览网页时，我们可能会通过web中包含的外链跳转到其它的网页（在同一Webview页面中），那么这些跳转记录是可以来回切换的，这里主要涉及到goBack()和goForward()方法的使用。<br>例如下面的例子，我们通过设备的返回按钮让WebView回退到上一个页面，或者退出当前Activity。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onKeyDown(int keyCode, KeyEvent event) &#123;</span><br><span class="line">    // Check if the key event was the Back button and if there&apos;s history</span><br><span class="line">    if ((keyCode == KeyEvent.KEYCODE_BACK) &amp;&amp; myWebView.canGoBack()) &#123;</span><br><span class="line">        myWebView.goBack());</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    // If it wasn&apos;t the Back key or there&apos;s no web page history, bubble up to the default</span><br><span class="line">    // system behavior (probably exit the activity)</span><br><span class="line">    return super.onKeyDown(keyCode, event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>参考资料</strong><br><a href="https://developer.android.com/guide/webapps/webview.html#HandlingNavigation" target="_blank" rel="noopener">Building Web Apps in WebView</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/WebView/" rel="tag"># WebView</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/03/动画基础05：Path类型插值器、路径动画、Fling动画/" rel="next" title="Android动画（五）：插值器和估值器补充、Fling动画、物理动画">
+                <i class="fa fa-chevron-left"></i> Android动画（五）：插值器和估值器补充、Fling动画、物理动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/21/动画基础06：布局动画/" rel="prev" title="Android动画（六）：布局动画">
+                Android动画（六）：布局动画 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#添加WebView到你的应用"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x6DFB;&#x52A0;WebView&#x5230;&#x4F60;&#x7684;&#x5E94;&#x7528;" class="headerlink" title="&#x6DFB;&#x52A0;WebView&#x5230;&#x4F60;&#x7684;&#x5E94;&#x7528;"></a>&#x6DFB;&#x52A0;WebView&#x5230;&#x4F60;&#x7684;&#x5E94;&#x7528;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在WebView中使用JavaScript"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x5728;WebView&#x4E2D;&#x4F7F;&#x7528;JavaScript" class="headerlink" title="&#x5728;WebView&#x4E2D;&#x4F7F;&#x7528;JavaScript"></a>&#x5728;WebView&#x4E2D;&#x4F7F;&#x7528;JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#授权使用JavaScript"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x6388;&#x6743;&#x4F7F;&#x7528;JavaScript" class="headerlink" title="&#x6388;&#x6743;&#x4F7F;&#x7528;JavaScript"></a>&#x6388;&#x6743;&#x4F7F;&#x7528;JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Android代码中绑定JavaScript代码"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x5728;Android&#x4EE3;&#x7801;&#x4E2D;&#x7ED1;&#x5B9A;JavaScript&#x4EE3;&#x7801;" class="headerlink" title="&#x5728;Android&#x4EE3;&#x7801;&#x4E2D;&#x7ED1;&#x5B9A;JavaScript&#x4EE3;&#x7801;"></a>&#x5728;Android&#x4EE3;&#x7801;&#x4E2D;&#x7ED1;&#x5B9A;JavaScript&#x4EE3;&#x7801;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#页面导航"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x9875;&#x9762;&#x5BFC;&#x822A;" class="headerlink" title="&#x9875;&#x9762;&#x5BFC;&#x822A;"></a>&#x9875;&#x9762;&#x5BFC;&#x822A;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导航web的浏览记录"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x5BFC;&#x822A;web&#x7684;&#x6D4F;&#x89C8;&#x8BB0;&#x5F55;" class="headerlink" title="&#x5BFC;&#x822A;web&#x7684;&#x6D4F;&#x89C8;&#x8BB0;&#x5F55;"></a>&#x5BFC;&#x822A;web&#x7684;&#x6D4F;&#x89C8;&#x8BB0;&#x5F55;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

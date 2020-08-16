@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java集合," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="注意本系列文章涉及到知识点都是笔者先在参考了大量优秀文章后形成的自己的理解，由于水平有限，文中难免会出现错误，望批评指教，随时更新。同时，对于参考文章，笔者会在文末注明，感谢这些无私奉献的大佬们。">
+<meta name="keywords" content="Java集合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合（二）：ArrayList">
+<meta property="og:url" content="http://yoursite.com/2019/10/02/Java集合（二）：ArrayList/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="注意本系列文章涉及到知识点都是笔者先在参考了大量优秀文章后形成的自己的理解，由于水平有限，文中难免会出现错误，望批评指教，随时更新。同时，对于参考文章，笔者会在文末注明，感谢这些无私奉献的大佬们。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-16T15:04:08.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java集合（二）：ArrayList">
+<meta name="twitter:description" content="注意本系列文章涉及到知识点都是笔者先在参考了大量优秀文章后形成的自己的理解，由于水平有限，文中难免会出现错误，望批评指教，随时更新。同时，对于参考文章，笔者会在文末注明，感谢这些无私奉献的大佬们。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/02/Java集合（二）：ArrayList/"/>
+
+
+
+
+
+  <title>Java集合（二）：ArrayList | 唐先明de博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">唐先明de博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/02/Java集合（二）：ArrayList/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java集合（二）：ArrayList</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-02T12:28:11+08:00">
+                2019-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><strong>注意</strong><br>本系列文章涉及到知识点都是笔者先在参考了大量优秀文章后形成的自己的理解，由于水平有限，文中难免会出现错误，望批评指教，随时更新。同时，对于参考文章，笔者会在文末注明，感谢这些无私奉献的大佬们。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>ArrayList的初始化有三种方式。</p>
+<p>第一种方式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"> public ArrayList() &#123;</span><br><span class="line">        this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中，DEFAULTCAPACITY_EMPTY_ELEMENTDATA 是一个空数组，elementData 就是代表该 ArrayList 的数组元素。</p>
+<p>第二种方式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public ArrayList(int initialCapacity) &#123;</span><br><span class="line">        if (initialCapacity &gt; 0) &#123;</span><br><span class="line">            this.elementData = new Object[initialCapacity];</span><br><span class="line">        &#125; else if (initialCapacity == 0) &#123;</span><br><span class="line">            this.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+</span><br><span class="line">                                               initialCapacity);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>当 initialCapacity &gt;0 时，增加了新建数组的逻辑。</p>
+<p>第三种方式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public ArrayList(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">        elementData = c.toArray();</span><br><span class="line">        if ((size = elementData.length) != 0) &#123;</span><br><span class="line">            // c.toArray might (incorrectly) not return Object[] (see 6260652)</span><br><span class="line">            if (elementData.getClass() != Object[].class)</span><br><span class="line">                elementData = Arrays.copyOf(elementData, size, Object[].class);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // replace with empty array.</span><br><span class="line">            this.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方式有一点复杂度，我们来一步一步分析它。首先，调用<code>c.toArray()</code>语句将传入的集合转化成数组并赋值给elementData。之后当数组长度为0时，直接赋值空数组，否则判断当前数组是不是Object[]类型的数组，如果不是，则重新新建一个Object数组，并将新数组赋值给elementData。</p>
+<p>那么，为什么要<code>if (elementData.getClass() != Object[].class)</code>呢?</p>
+<p>我们来看一个场景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = Arrays.asList(&quot;item01&quot;, &quot;item02&quot;);</span><br><span class="line">Object[] objects = list.toArray();</span><br><span class="line">objects[0] = new Object();</span><br></pre></td></tr></table></figure></p>
+<p>这段代码运行后，会抛出<code>java.lang.ArrayStoreException</code>异常，该异常说明objects已经是一个有确定类型的数组了，该类型是String，而现在要把父类Object塞进去，显然是不可以的。</p>
+<p>基于上面的分析，我们来换一种写法试试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = Arrays.asList(&quot;item01&quot;, &quot;item02&quot;);</span><br><span class="line">List&lt;String&gt; listCopy = new ArrayList&lt;&gt;(list);</span><br><span class="line">Object[] objects = listCopy.toArray();</span><br><span class="line">objects[0] = new Object();</span><br></pre></td></tr></table></figure></p>
+<p>运行不报错了。这就是第三种方式中为什么要判断数组类型是否是Object[]类型的原因，为的就是保证数组的类型一定是Object[]类型，这样将list转化成数组后可以接受类型为Object的元素，满足了 Java 的多态要求。</p>
+<h1 id="add-E-e"><a href="#add-E-e" class="headerlink" title="add(E e)"></a>add(E e)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public boolean add(E e) &#123;</span><br><span class="line">        ensureCapacityInternal(size + 1);  // Increments modCount!!</span><br><span class="line">        elementData[size++] = e;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>该方法的作用是添加元素到数组尾部。</p>
+<p><code>ensureCapacityInternal(size + 1)</code>方法有两个作用，一个是增加 modCount 的计数（该变量是保证fast-fail的关键）,另一个是扩容判断。</p>
+<p>我们一路跟踪，来到下面的方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private void ensureExplicitCapacity(int minCapacity) &#123;</span><br><span class="line">       modCount++;</span><br><span class="line"></span><br><span class="line">       // overflow-conscious code</span><br><span class="line">       if (minCapacity - elementData.length &gt; 0)</span><br><span class="line">           grow(minCapacity);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>当最小需要的空间(minCapacity)大于数组当前的大小时，则执行 grow 方法扩容。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private void grow(int minCapacity) &#123;</span><br><span class="line">        // overflow-conscious code</span><br><span class="line">        int oldCapacity = elementData.length;</span><br><span class="line">        int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</span><br><span class="line">        if (newCapacity - minCapacity &lt; 0)</span><br><span class="line">            newCapacity = minCapacity;</span><br><span class="line">        if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</span><br><span class="line">            newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">        // minCapacity is usually close to size, so this is a win:</span><br><span class="line">        elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里首先将新的容量扩大到原来的1.5倍，如果仍然小于minCapacity，则将新的容量大小直接赋值为 minCapacity，紧接着看新的容量是否大于了MAX_ARRAY_SIZE（MAX_ARRAY_SIZE ==Integer.MAX_VALUE - 8）,如果大于，还要执行 hugeCapacity 方法重新计算新的容量，最后基于新的容量将原来的值赋值到新数组上。</p>
+<p>注意，看到这里，不知道屏幕前的你有没有发现，ArrayList无论是在初始化还是在扩容过程中，都是确保了<br>elementData 永远是Oject[]类型的数组，这样做就是为了以后将该List转化为数组后，可以接受Object类型的元素，而不是只能接受具体类型的元素。</p>
+<h1 id="add-int-index-E-element"><a href="#add-int-index-E-element" class="headerlink" title="add(int index, E element)"></a>add(int index, E element)</h1><p>该方法的作用是在特定位置插入元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public void add(int index, E element) &#123;</span><br><span class="line">        rangeCheckForAdd(index);</span><br><span class="line"></span><br><span class="line">        ensureCapacityInternal(size + 1);  // Increments modCount!!</span><br><span class="line">        System.arraycopy(elementData, index, elementData, index + 1,</span><br><span class="line">                         size - index);</span><br><span class="line">        elementData[index] = element;</span><br><span class="line">        size++;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体流程是，检查index是否越界-&gt;扩容检查-&gt;将index之后的元素往后移-&gt;将 element 赋值到 index 位置-&gt;数组 size 加 1。</p>
+<h1 id="remove-int-index"><a href="#remove-int-index" class="headerlink" title="remove(int index)"></a>remove(int index)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public E remove(int index) &#123;</span><br><span class="line">        rangeCheck(index);</span><br><span class="line"></span><br><span class="line">        modCount++;</span><br><span class="line">        E oldValue = elementData(index);</span><br><span class="line"></span><br><span class="line">        int numMoved = size - index - 1;</span><br><span class="line">        if (numMoved &gt; 0)</span><br><span class="line">            System.arraycopy(elementData, index+1, elementData, index,</span><br><span class="line">                             numMoved);</span><br><span class="line">        elementData[--size] = null; // clear to let GC do its work</span><br><span class="line">        return oldValue;</span><br></pre></td></tr></table></figure>
+<p>原理和<code>add(int index, E element)</code>类似，核心都是通过<code>System.arraycopy</code>native方法实现。</p>
+<h1 id="get-int-index"><a href="#get-int-index" class="headerlink" title="get(int index)"></a>get(int index)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public E get(int index) &#123;</span><br><span class="line">        rangeCheck(index);</span><br><span class="line"></span><br><span class="line">        return elementData(index);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">E elementData(int index) &#123;</span><br><span class="line">        return (E) elementData[index];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>获取元素更简单，直接根据 index 返回数组对应位置的元素即可。</p>
+<h1 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h1><p>对于ArrayList的遍历方式主要有两种。</p>
+<p>第一种:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (int i=0;i&lt;size;i++) &#123;</span><br><span class="line">            System.out.println(list.get(i));</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>第二种:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (String s : list) &#123;</span><br><span class="line">            System.out.println(s);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>那么这两种方式有什么区别呢??</p>
+<p>对于第二种方式是一种增强型的for循环，我们反编译一下代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ArrayList var0 = new ArrayList();</span><br><span class="line">Iterator var1 = var0.iterator();</span><br><span class="line"></span><br><span class="line">while(var1.hasNext()) &#123;</span><br><span class="line">      String var2 = (String)var1.next();</span><br><span class="line">      System.out.println(var2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以发现，在循环之前先创建了一个 Iterator 对象，下面我们看一下这个 iterator 方法干了啥。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public Iterator&lt;E&gt; iterator() &#123;</span><br><span class="line">        return new Itr();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Itr 是 ArrayList 的内部类，让我们继续追踪 Itr 类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"> private class Itr implements Iterator&lt;E&gt; &#123;</span><br><span class="line">        int cursor;       // index of next element to return</span><br><span class="line">        int lastRet = -1; // index of last element returned; -1 if no such</span><br><span class="line">        int expectedModCount = modCount;</span><br><span class="line"></span><br><span class="line">        Itr() &#123;&#125;</span><br><span class="line"></span><br><span class="line">        public boolean hasNext() &#123;</span><br><span class="line">            return cursor != size;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">        public E next() &#123;</span><br><span class="line">            checkForComodification();</span><br><span class="line">            int i = cursor;</span><br><span class="line">            if (i &gt;= size)</span><br><span class="line">                throw new NoSuchElementException();</span><br><span class="line">            Object[] elementData = ArrayList.this.elementData;</span><br><span class="line">            if (i &gt;= elementData.length)</span><br><span class="line">                throw new ConcurrentModificationException();</span><br><span class="line">            cursor = i + 1;</span><br><span class="line">            return (E) elementData[lastRet = i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void remove() &#123;</span><br><span class="line">            if (lastRet &lt; 0)</span><br><span class="line">                throw new IllegalStateException();</span><br><span class="line">            checkForComodification();</span><br><span class="line"></span><br><span class="line">            try &#123;</span><br><span class="line">                ArrayList.this.remove(lastRet);</span><br><span class="line">                cursor = lastRet;</span><br><span class="line">                lastRet = -1;</span><br><span class="line">                expectedModCount = modCount;</span><br><span class="line">            &#125; catch (IndexOutOfBoundsException ex) &#123;</span><br><span class="line">                throw new ConcurrentModificationException();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">///////////////////////////////省略下面的代码</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>前面说到，如果我们修改了 ArrayList ， modCount 就会加 1。所以，如果在迭代过程中修改了 Arraylist，之后再调用 next 方法时，由于 expectedModCount 没有改变而 modCount 已经改变了，这时就会抛出 ConcurrentModificationException 异常，这也是fast-fail的原理。</p>
+<p>如果我们就是希望在迭代过程中修改列表中的元素，可以使用 Itr 中的 remove 或者 ArrayList 另一个内部类 ListItr 的相应方法。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>ArrayList 的特征：<br>1、ArrayList 并不是一个线程安全的集合。如果集合的增删操作需要保证线程的安全性，可以考虑使用 CopyOnWriteArrayList 或者使collections.synchronizedList(List l)函数返回一个线程安全的ArrayList类，或者使用 Vector ,不过因为性能太低，Vector 已经废弃。<br>2、ArrayList 底层是一个动态扩容的数组结构。<br>3、允许存放重复数据，存储顺序按照元素的添加顺序。<br>4、允许存放（不止一个） null 元素。<br>5、ArrayList 扩容、删除以及插入到 index 位置的操作最终都是通过 System.arraycopy 来实现的，扩容时不仅涉及数组中内容的拷贝，而且还需要产生新的数组，所以会耗费性能。所以在需要频繁增删操作的场景下可优先考虑 LinkList 而不是 ArrayList。</p>
+<blockquote>
+<p><strong>知识拓展</strong><br>System.arraycopy 是一个 native 方法，是用来复制数组的。它的复制方式不是用遍历的方式，而是直接复制内存，所以性能上会优于一般的遍历式复制。具体的可参考<a href="https://segmentfault.com/a/1190000009922279" target="_blank" rel="noopener">这篇文章</a>，对于文章中提到的多维数组的复制，笔者没看懂，以后遇到这种场景再来复盘。</p>
+</blockquote>
+<hr>
+<p><strong>参考资料</strong><br><a href="https://juejin.im/post/6844903582194466824#heading-32" target="_blank" rel="noopener">搞懂 Java ArrayList 源码</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java集合/" rel="tag"># Java集合</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/02/Java集合类：开篇/" rel="next" title="Java集合（一）：开篇">
+                <i class="fa fa-chevron-left"></i> Java集合（一）：开篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/03/Java集合：线程安全的List/" rel="prev" title="Java集合（三）：线程安全的 List">
+                Java集合（三）：线程安全的 List <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x521D;&#x59CB;&#x5316;" class="headerlink" title="&#x521D;&#x59CB;&#x5316;"></a>&#x521D;&#x59CB;&#x5316;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#add-E-e"><span class="nav-number">2.</span> <span class="nav-text"><a href="#add-E-e" class="headerlink" title="add(E e)"></a>add(E e)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#add-int-index-E-element"><span class="nav-number">3.</span> <span class="nav-text"><a href="#add-int-index-E-element" class="headerlink" title="add(int index, E element)"></a>add(int index, E element)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#remove-int-index"><span class="nav-number">4.</span> <span class="nav-text"><a href="#remove-int-index" class="headerlink" title="remove(int index)"></a>remove(int index)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#get-int-index"><span class="nav-number">5.</span> <span class="nav-text"><a href="#get-int-index" class="headerlink" title="get(int index)"></a>get(int index)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#遍历"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x904D;&#x5386;" class="headerlink" title="&#x904D;&#x5386;"></a>&#x904D;&#x5386;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
