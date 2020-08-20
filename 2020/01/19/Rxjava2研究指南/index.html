@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Rxjava," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="唐先明de博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章讲解 Rxjava2 中最难理解的线程调度是如何实现的。">
+<meta name="keywords" content="Rxjava">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2线程调度原理">
+<meta property="og:url" content="http://yoursite.com/2020/01/19/Rxjava2研究指南/index.html">
+<meta property="og:site_name" content="唐先明de博客">
+<meta property="og:description" content="这篇文章讲解 Rxjava2 中最难理解的线程调度是如何实现的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-20T09:05:07.990Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava2线程调度原理">
+<meta name="twitter:description" content="这篇文章讲解 Rxjava2 中最难理解的线程调度是如何实现的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/01/19/Rxjava2研究指南/"/>
+
+
+
+
+
+  <title>Rxjava2线程调度原理 | 唐先明de博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">唐先明de博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-hourglass"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/19/Rxjava2研究指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TXM">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="唐先明de博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rxjava2线程调度原理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-19T17:13:30+08:00">
+                2020-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android框架/" itemprop="url" rel="index">
+                    <span itemprop="name">Android框架</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章讲解 Rxjava2 中最难理解的线程调度是如何实现的。<br><a id="more"></a><br>我们来看这样一个例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Single.just(&quot;item&quot;)</span><br><span class="line">            .map(object : Function&lt;String, String&gt; &#123;</span><br><span class="line">                override fun apply(t: String): String &#123;</span><br><span class="line">                    println(&quot;1:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                    return t</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .observeOn(Schedulers.io())</span><br><span class="line">            .subscribe(object : SingleObserver&lt;String&gt; &#123;</span><br><span class="line">                override fun onSuccess(t: String) &#123;</span><br><span class="line">                    println(&quot;2:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onSubscribe(d: Disposable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onError(e: Throwable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>输出结果是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1:Thread[main,5,main]</span><br><span class="line">2:Thread[RxCachedThreadScheduler-1,5,main]</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，位于 observeOn 上游的生产者( map )没有切换线程，而下游的消费者( SingleObserver )切换了线程。</p>
+<p>再来看一个案例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Single.just(&quot;item&quot;)</span><br><span class="line">            .map(object : Function&lt;String, String&gt; &#123;</span><br><span class="line">                override fun apply(t: String): String &#123;</span><br><span class="line">                    println(&quot;1:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                    return t</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .subscribe(object : SingleObserver&lt;String&gt; &#123;</span><br><span class="line">                override fun onSuccess(t: String) &#123;</span><br><span class="line">                    println(&quot;2:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onSubscribe(d: Disposable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onError(e: Throwable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>我们只是把 observeOn 改成了 subscribeOn 方法，结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1:Thread[RxCachedThreadScheduler-1,5,main]</span><br><span class="line">2:Thread[RxCachedThreadScheduler-1,5,main]</span><br></pre></td></tr></table></figure></p>
+<p>结论是 subscribeOn 上游下游的生产者和消费者都切换了线程。</p>
+<p>下面我们从源码的角度分析产生上面不同情况的原因。</p>
+<h2 id="observeOn"><a href="#observeOn" class="headerlink" title="observeOn"></a>observeOn</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public final Single&lt;T&gt; observeOn(final Scheduler scheduler) &#123;</span><br><span class="line">        ObjectHelper.requireNonNull(scheduler, &quot;scheduler is null&quot;);</span><br><span class="line">        return RxJavaPlugins.onAssembly(new SingleObserveOn&lt;T&gt;(this, scheduler));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>代码中的 this 指的是上游的 SingleMap ，scheduler 就是传入 observeOn 的参数，这里就是 Schedulers.io() 。</p>
+<blockquote>
+<p>现在只需要把 Schedulers.io() 理解成是一个切换线程的工具，之后再详细分析它。</p>
+</blockquote>
+<p>RxJavaPlugins.onAssembly 是钩子方法，可以直接把它的参数理解为返回值。接下来，看下 SingleObserveOn 类的实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">public final class SingleObserveOn&lt;T&gt; extends Single&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    final SingleSource&lt;T&gt; source;</span><br><span class="line"></span><br><span class="line">    final Scheduler scheduler;</span><br><span class="line"></span><br><span class="line">    public SingleObserveOn(SingleSource&lt;T&gt; source, Scheduler scheduler) &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">        this.scheduler = scheduler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void subscribeActual(final SingleObserver&lt;? super T&gt; observer) &#123;</span><br><span class="line">        source.subscribe(new ObserveOnSingleObserver&lt;T&gt;(observer, scheduler));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static final class ObserveOnSingleObserver&lt;T&gt; extends AtomicReference&lt;Disposable&gt;</span><br><span class="line">    implements SingleObserver&lt;T&gt;, Disposable, Runnable &#123;</span><br><span class="line">        private static final long serialVersionUID = 3528003840217436037L;</span><br><span class="line"></span><br><span class="line">        final SingleObserver&lt;? super T&gt; downstream;</span><br><span class="line"></span><br><span class="line">        final Scheduler scheduler;</span><br><span class="line"></span><br><span class="line">        T value;</span><br><span class="line">        Throwable error;</span><br><span class="line"></span><br><span class="line">        ObserveOnSingleObserver(SingleObserver&lt;? super T&gt; actual, Scheduler scheduler) &#123;</span><br><span class="line">            this.downstream = actual;</span><br><span class="line">            this.scheduler = scheduler;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onSubscribe(Disposable d) &#123;</span><br><span class="line">            if (DisposableHelper.setOnce(this, d)) &#123;</span><br><span class="line">                downstream.onSubscribe(this);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onSuccess(T value) &#123;</span><br><span class="line">            this.value = value;</span><br><span class="line">            Disposable d = scheduler.scheduleDirect(this);</span><br><span class="line">            DisposableHelper.replace(this, d);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onError(Throwable e) &#123;</span><br><span class="line">            this.error = e;</span><br><span class="line">            Disposable d = scheduler.scheduleDirect(this);</span><br><span class="line">            DisposableHelper.replace(this, d);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            Throwable ex = error;</span><br><span class="line">            if (ex != null) &#123;</span><br><span class="line">                downstream.onError(ex);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                downstream.onSuccess(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void dispose() &#123;</span><br><span class="line">            DisposableHelper.dispose(this);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public boolean isDisposed() &#123;</span><br><span class="line">            return DisposableHelper.isDisposed(get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>类中的 source 即为上游的 SingleMap 对象，scheduler 就是 Schedulers.io()。由第一个案例可知，调用了 observeOn 后在返回结果的基础上调用了 subscribe 方法，而这个 subscribe 方法在父类 Single 中的实现中调用了子类的 subscribeActual 方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Single&lt;T&gt; implements SingleSource&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">@SchedulerSupport(SchedulerSupport.NONE)</span><br><span class="line">    @Override</span><br><span class="line">    public final void subscribe(SingleObserver&lt;? super T&gt; observer) &#123;</span><br><span class="line">        ObjectHelper.requireNonNull(observer, &quot;subscriber is null&quot;);</span><br><span class="line"></span><br><span class="line">        observer = RxJavaPlugins.onSubscribe(this, observer);</span><br><span class="line"></span><br><span class="line">        ObjectHelper.requireNonNull(observer, &quot;The RxJavaPlugins.onSubscribe hook returned a null SingleObserver. Please check the handler provided to RxJavaPlugins.setOnSingleSubscribe for invalid null returns. Further reading: https://github.com/ReactiveX/RxJava/wiki/Plugins&quot;);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            subscribeActual(observer);</span><br><span class="line">        &#125; catch (NullPointerException ex) &#123;</span><br><span class="line">            throw ex;</span><br><span class="line">        &#125; catch (Throwable ex) &#123;</span><br><span class="line">            Exceptions.throwIfFatal(ex);</span><br><span class="line">            NullPointerException npe = new NullPointerException(&quot;subscribeActual failed&quot;);</span><br><span class="line">            npe.initCause(ex);</span><br><span class="line">            throw npe;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当前的子类就是 SingleObserveOn 类，该类的 subscribeActual 方法中调用了上游 SingleMap 对象的 subscribe 方法，并把 ObserveOnSingleObserver 传给了上游。最终，依次调用了 SingleMap 中 MapSingleObserver 相关方法以及 SingleObserveOn 中 ObserveOnSingleObserver 相关方法。这里以 ObserveOnSingleObserver 中的 onSuccess 方法调用为例，代码实现如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">        public void onSuccess(T value) &#123;</span><br><span class="line">            this.value = value;</span><br><span class="line">            Disposable d = scheduler.scheduleDirect(this);</span><br><span class="line">            DisposableHelper.replace(this, d);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里首先将 value 赋值给当前实例，之后调用了 scheduler.scheduleDirect 方法切换线程，在切换线程后执行了 ObserveOnSingleObserver 的 run 方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            Throwable ex = error;</span><br><span class="line">            if (ex != null) &#123;</span><br><span class="line">                downstream.onError(ex);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                downstream.onSuccess(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>downstream 就是下游的消费者。</p>
+<p>所以这里可以得出结论，位于上游的逻辑（ SingleMap 中 MapSingleObserver 相关方法）在原线程中执行，位于下游的消费者（ SingleObserver ）逻辑执行在切换后的线程中。</p>
+<h1 id="subscribeOn"><a href="#subscribeOn" class="headerlink" title="subscribeOn"></a>subscribeOn</h1><p>和 observeOn 类似，所以直接分析对应的 SingleSubscribeOn 类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">public final class SingleSubscribeOn&lt;T&gt; extends Single&lt;T&gt; &#123;</span><br><span class="line">    final SingleSource&lt;? extends T&gt; source;</span><br><span class="line"></span><br><span class="line">    final Scheduler scheduler;</span><br><span class="line"></span><br><span class="line">    public SingleSubscribeOn(SingleSource&lt;? extends T&gt; source, Scheduler scheduler) &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">        this.scheduler = scheduler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void subscribeActual(final SingleObserver&lt;? super T&gt; observer) &#123;</span><br><span class="line">        final SubscribeOnObserver&lt;T&gt; parent = new SubscribeOnObserver&lt;T&gt;(observer, source);</span><br><span class="line">        observer.onSubscribe(parent);</span><br><span class="line"></span><br><span class="line">        Disposable f = scheduler.scheduleDirect(parent);</span><br><span class="line"></span><br><span class="line">        parent.task.replace(f);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static final class SubscribeOnObserver&lt;T&gt;</span><br><span class="line">    extends AtomicReference&lt;Disposable&gt;</span><br><span class="line">    implements SingleObserver&lt;T&gt;, Disposable, Runnable &#123;</span><br><span class="line"></span><br><span class="line">        private static final long serialVersionUID = 7000911171163930287L;</span><br><span class="line"></span><br><span class="line">        final SingleObserver&lt;? super T&gt; downstream;</span><br><span class="line"></span><br><span class="line">        final SequentialDisposable task;</span><br><span class="line"></span><br><span class="line">        final SingleSource&lt;? extends T&gt; source;</span><br><span class="line"></span><br><span class="line">        SubscribeOnObserver(SingleObserver&lt;? super T&gt; actual, SingleSource&lt;? extends T&gt; source) &#123;</span><br><span class="line">            this.downstream = actual;</span><br><span class="line">            this.source = source;</span><br><span class="line">            this.task = new SequentialDisposable();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onSubscribe(Disposable d) &#123;</span><br><span class="line">            DisposableHelper.setOnce(this, d);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onSuccess(T value) &#123;</span><br><span class="line">            downstream.onSuccess(value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onError(Throwable e) &#123;</span><br><span class="line">            downstream.onError(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void dispose() &#123;</span><br><span class="line">            DisposableHelper.dispose(this);</span><br><span class="line">            task.dispose();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public boolean isDisposed() &#123;</span><br><span class="line">            return DisposableHelper.isDisposed(get());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            source.subscribe(this);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当调用 scheduler.scheduleDirect 方法后切换线程，之后执行 SubscribeOnObserver 中的 run 方法调用 <code>source.subscribe(this)</code>，从此刻开始，上游的调用逻辑将在切换后的线程中执行，而上游逻辑之后又会调用 SubscribeOnObserver 中的方法，所以上游生产者（ map ）和下游消费者（ SingleObserver）都会运行在切换后的线程中。</p>
+<p><strong>思考：若 subscribeOn 和 observeOn 同时存在，如何判断各个阶段所运行的线程？</strong></p>
+<p>比如下面的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Single.just(&quot;item&quot;)</span><br><span class="line">            .map(object : Function&lt;String, String&gt; &#123;</span><br><span class="line">                override fun apply(t: String): String &#123;</span><br><span class="line">                    println(&quot;1:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                    return t</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .observeOn(Schedulers.io())</span><br><span class="line">            .map(object : Function&lt;String, String&gt; &#123;</span><br><span class="line">                override fun apply(t: String): String &#123;</span><br><span class="line">                    println(&quot;2:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                    return t</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .subscribeOn(Schedulers.newThread())</span><br><span class="line">            .subscribe(object : SingleObserver&lt;String&gt; &#123;</span><br><span class="line">                override fun onSuccess(t: String) &#123;</span><br><span class="line">                    println(&quot;3:$&#123;Thread.currentThread()&#125;&quot;)</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onSubscribe(d: Disposable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                override fun onError(e: Throwable) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1:Thread[RxNewThreadScheduler-1,5,main]</span><br><span class="line">2:Thread[RxCachedThreadScheduler-1,5,main]</span><br><span class="line">3:Thread[RxCachedThreadScheduler-1,5,main]</span><br></pre></td></tr></table></figure></p>
+<p>结果不理解的话，就按照上面的思路去看下源码吧。</p>
+<h1 id="线程调度器"><a href="#线程调度器" class="headerlink" title="线程调度器"></a>线程调度器</h1><p>上文中频繁出现了 scheduler.scheduleDirect 切线程的语句，下面就来详细说明 Rxjava2 到底是如何切换线程的。</p>
+<p>Rxjava2 常用的线程调度器一共有 4 种：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">调度器类型</th>
+<th style="text-align:left">效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Schedulers.computation()</td>
+<td style="text-align:left">用于计算任务，如事件循环或和回调处理，不要用于IO操作(IO操作请使用Schedulers.io())；默认线程数等于处理器的数量</td>
+</tr>
+<tr>
+<td style="text-align:left">Schedulers.newThread()</td>
+<td style="text-align:left">为每个任务创建一个新线程</td>
+</tr>
+<tr>
+<td style="text-align:left">Schedulers.io()</td>
+<td style="text-align:left">用于IO密集型任务，如异步阻塞IO操作，这个调度器的线程池会根据需要增长；对于普通的计算任务，请使用Schedulers.computation()；Schedulers.io( )默认是一个CachedThreadScheduler，很像一个有线程缓存的线程调度器</td>
+</tr>
+<tr>
+<td style="text-align:left">AndroidSchedulers.mainThread( )</td>
+<td style="text-align:left">主线程，UI线程，可以用于更新界面</td>
+</tr>
+</tbody>
+</table>
+<p>computation、newThread 以及 io 调度器的创建有一个共同特点，就是他们的初始化工作都在 Schedulers 的静态代码块中完成，也就是说他们的实例对象是全局唯一的，Schedulers 中的静态代码块如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static &#123;</span><br><span class="line">        SINGLE = RxJavaPlugins.initSingleScheduler(new SingleTask());</span><br><span class="line"></span><br><span class="line">        COMPUTATION = RxJavaPlugins.initComputationScheduler(new ComputationTask());</span><br><span class="line"></span><br><span class="line">        IO = RxJavaPlugins.initIoScheduler(new IOTask());</span><br><span class="line"></span><br><span class="line">        TRAMPOLINE = TrampolineScheduler.instance();</span><br><span class="line"></span><br><span class="line">        NEW_THREAD = RxJavaPlugins.initNewThreadScheduler(new NewThreadTask());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Schedulers-newThread"><a href="#Schedulers-newThread" class="headerlink" title="Schedulers.newThread()"></a>Schedulers.newThread()</h2><p>调用 Schedulers.newThread() 得到的实例对象是一个 NewThreadScheduler 对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public final class NewThreadScheduler extends Scheduler &#123;</span><br><span class="line"></span><br><span class="line">    final ThreadFactory threadFactory;</span><br><span class="line"></span><br><span class="line">    private static final String THREAD_NAME_PREFIX = &quot;RxNewThreadScheduler&quot;;</span><br><span class="line">    private static final RxThreadFactory THREAD_FACTORY;</span><br><span class="line"></span><br><span class="line">    /** The name of the system property for setting the thread priority for this Scheduler. */</span><br><span class="line">    private static final String KEY_NEWTHREAD_PRIORITY = &quot;rx2.newthread-priority&quot;;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        int priority = Math.max(Thread.MIN_PRIORITY, Math.min(Thread.MAX_PRIORITY,</span><br><span class="line">                Integer.getInteger(KEY_NEWTHREAD_PRIORITY, Thread.NORM_PRIORITY)));</span><br><span class="line"></span><br><span class="line">        THREAD_FACTORY = new RxThreadFactory(THREAD_NAME_PREFIX, priority);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public NewThreadScheduler() &#123;</span><br><span class="line">        this(THREAD_FACTORY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public NewThreadScheduler(ThreadFactory threadFactory) &#123;</span><br><span class="line">        this.threadFactory = threadFactory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @NonNull</span><br><span class="line">    @Override</span><br><span class="line">    public Worker createWorker() &#123;</span><br><span class="line">        return new NewThreadWorker(threadFactory);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有文章开头两个案例的源码分析可知，在线程发生切换时会调用 <code>scheduler.scheduleDirect</code>语句，该语句最终会执行 Scheduler类 的 scheduleDirect 方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public Disposable scheduleDirect(@NonNull Runnable run, long delay, @NonNull TimeUnit unit) &#123;</span><br><span class="line">        final Worker w = createWorker();</span><br><span class="line"></span><br><span class="line">        final Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">        DisposeTask task = new DisposeTask(decoratedRun, w);</span><br><span class="line"></span><br><span class="line">        w.schedule(task, delay, unit);</span><br><span class="line"></span><br><span class="line">        return task;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Scheduler 的 <code>createWorker()</code>方法会调用子类（这里是NewThreadScheduler)的 createWorker 方法创建一个 NewThreadWorker 对象，之后调用到 NewThreadWorker 对象的 schedule 方法，最终调用到 NewThreadWorker对象的 scheduleActual 方法。</p>
+<p><strong>这里可以看出每次切换线程都会创建一个线程池，这块逻辑同时也是几种线程调度之间最大的区别。</strong></p>
+<p>下面我们看一下 NewThreadWorker 类的关键代码实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public class NewThreadWorker extends Scheduler.Worker implements Disposable &#123;</span><br><span class="line">    private final ScheduledExecutorService executor;</span><br><span class="line"></span><br><span class="line">    volatile boolean disposed;</span><br><span class="line"></span><br><span class="line">    public NewThreadWorker(ThreadFactory threadFactory) &#123;</span><br><span class="line">        executor = SchedulerPoolFactory.create(threadFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">    public ScheduledRunnable scheduleActual(final Runnable run, long delayTime, @NonNull TimeUnit unit, @Nullable DisposableContainer parent) &#123;</span><br><span class="line">        Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">        ScheduledRunnable sr = new ScheduledRunnable(decoratedRun, parent);</span><br><span class="line"></span><br><span class="line">        if (parent != null) &#123;</span><br><span class="line">            if (!parent.add(sr)) &#123;</span><br><span class="line">                return sr;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Future&lt;?&gt; f;</span><br><span class="line">        try &#123;</span><br><span class="line">            if (delayTime &lt;= 0) &#123;</span><br><span class="line">                f = executor.submit((Callable&lt;Object&gt;)sr);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                f = executor.schedule((Callable&lt;Object&gt;)sr, delayTime, unit);</span><br><span class="line">            &#125;</span><br><span class="line">            sr.setFuture(f);</span><br><span class="line">        &#125; catch (RejectedExecutionException ex) &#123;</span><br><span class="line">            if (parent != null) &#123;</span><br><span class="line">                parent.remove(sr);</span><br><span class="line">            &#125;</span><br><span class="line">            RxJavaPlugins.onError(ex);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return sr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>构造方法中新建了一个核心线程数是 1 的线程池，具体实现如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static ScheduledExecutorService create(ThreadFactory factory) &#123;</span><br><span class="line">        final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1, factory);</span><br><span class="line">        tryPutIntoPool(PURGE_ENABLED, exec);</span><br><span class="line">        return exec;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>scheduleActual 方法中通过 <code>executor.submit</code> 或 <code>executor.schedule</code> 实现了线程的切换。</p>
+<h2 id="Schedulers-io"><a href="#Schedulers-io" class="headerlink" title="Schedulers.io()"></a>Schedulers.io()</h2><p>Schedulers.io() 最终生成 IoScheduler 对象，IoScheduler 内部维护了一个 CachedWorkerPool ，CachedWorkerPool 内部维护了一个 expiringWorkerQueue 队列用于保存可用的 ThreadWorker。每次需要 ThreadWorker 时，优先从队列中取，取不到则新建 ThreadWorker。接下来就带领大家看下这个逻辑是怎么实现的。</p>
+<p>下面是 expiringWorkerQueue 添加 ThreadWorker 的场景。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void release(ThreadWorker threadWorker) &#123;</span><br><span class="line">            // Refresh expire time before putting worker back in pool</span><br><span class="line">            threadWorker.setExpirationTime(now() + keepAliveTime);</span><br><span class="line"></span><br><span class="line">            expiringWorkerQueue.offer(threadWorker);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>当调用 IoScheduler 的 dispose 方法时会调用到这个方法，它是 CachedWorkerPool 中的方法，此方法将已使用完成的 threadWorker 加入到 expiringWorkerQueue 队列的尾部以便重用。</p>
+<p>接下来我们看下 threadWorker 的获取。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public Worker createWorker() &#123;</span><br><span class="line">         //通过调用 CachedWorkerPool 的 get 方法获取了 threadWorker。</span><br><span class="line">         return new EventLoopWorker(pool.get());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>CachedWorkerPool 的 get 方法定义如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ThreadWorker get() &#123;</span><br><span class="line">            if (allWorkers.isDisposed()) &#123;</span><br><span class="line">                return SHUTDOWN_THREAD_WORKER;</span><br><span class="line">            &#125;</span><br><span class="line">            while (!expiringWorkerQueue.isEmpty()) &#123;</span><br><span class="line">                ThreadWorker threadWorker = expiringWorkerQueue.poll();</span><br><span class="line">                if (threadWorker != null) &#123;</span><br><span class="line">                    return threadWorker;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // No cached worker found, so create a new one.</span><br><span class="line">            ThreadWorker w = new ThreadWorker(threadFactory);</span><br><span class="line">            allWorkers.add(w);</span><br><span class="line">            return w;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>get 方法先通过 expiringWorkerQueue.poll 方法获取 threadWorker 对象，获取不到则新建。</p>
+<p>下面是 ThreadWorker 的定义。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">static final class ThreadWorker extends NewThreadWorker &#123;</span><br><span class="line">        private long expirationTime;</span><br><span class="line"></span><br><span class="line">        ThreadWorker(ThreadFactory threadFactory) &#123;</span><br><span class="line">            super(threadFactory);</span><br><span class="line">            this.expirationTime = 0L;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public long getExpirationTime() &#123;</span><br><span class="line">            return expirationTime;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void setExpirationTime(long expirationTime) &#123;</span><br><span class="line">            this.expirationTime = expirationTime;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>ThreadWorker 是 NewThreadWorker 的子类，之后的操作和 Schedulers.newThread() 中讲述的一致，这里不再赘述。</p>
+<p><strong>Schedulers.io() 采用了 pool 的方式复用了已使用完成的线程池。</strong></p>
+<h2 id="Schedulers-computation"><a href="#Schedulers-computation" class="headerlink" title="Schedulers.computation()"></a>Schedulers.computation()</h2><p>Schedulers.computation() 会生成一个 ComputationScheduler 对象，ComputationScheduler 类内部维护了一个 FixedSchedulerPool 对象，该对象中维护了一个 PoolWorker 数组（PoolWorker 是 NewThreadWorker 的子类），数组的长度是 CPU 核数，所以 <strong>Schedulers.computation() 会生成一个长度固定为 CPU 核数的线程池数组</strong>。</p>
+<p>数组的长度计算逻辑如下，得到的 MAX_THREADS 就是 CPU 的核数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAX_THREADS = cap(Runtime.getRuntime().availableProcessors(), Integer.getInteger(KEY_MAX_THREADS, 0));</span><br></pre></td></tr></table></figure></p>
+<p>再来让我们看看 createWorker 方法的实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public Worker createWorker() &#123;</span><br><span class="line">        return new EventLoopWorker(pool.get().getEventLoop());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中 <code>pool.get().getEventLoop()</code> 得到了一个 PoolWorker 对象，下面看下 getEventLoop 方法的实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public PoolWorker getEventLoop() &#123;</span><br><span class="line">            int c = cores;</span><br><span class="line">            if (c == 0) &#123;</span><br><span class="line">                return SHUTDOWN_WORKER;</span><br><span class="line">            &#125;</span><br><span class="line">            // simple round robin, improvements to come</span><br><span class="line">            return eventLoops[(int)(n++ % c)];</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这其实就是循环取数组中 PoolWorker 元素的逻辑。</p>
+<h2 id="AndroidSchedulers-mainThread"><a href="#AndroidSchedulers-mainThread" class="headerlink" title="AndroidSchedulers.mainThread()"></a>AndroidSchedulers.mainThread()</h2><p>AndroidSchedulers.mainThread() 最终生成一个 HandlerScheduler 静态对象，HandlerScheduler 的创建和上面几个调度器的创建逻辑不一样，上面几个调度器都是在 Schedulers 的静态代码块中新建的，而 HandlerScheduler 属于 AndroidSchedulers 静态内部类 MainHolder 的一个静态属性，代码如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public final class AndroidSchedulers &#123;</span><br><span class="line"></span><br><span class="line">    private static final class MainHolder &#123;</span><br><span class="line">        static final Scheduler DEFAULT</span><br><span class="line">            = new HandlerScheduler(new Handler(Looper.getMainLooper()), false);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调度过程也有不一样，HandlerScheduler 中自己定义了 scheduleDirect 方法，所以发生线程调度后，即 scheduler.scheduleDirect 被调用后，HandlerScheduler 的 scheduleDirect 方法会被直接调用，而不需要执行父类 Scheduler 的 scheduleDirect 方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public Disposable scheduleDirect(Runnable run, long delay, TimeUnit unit) &#123;</span><br><span class="line">        if (run == null) throw new NullPointerException(&quot;run == null&quot;);</span><br><span class="line">        if (unit == null) throw new NullPointerException(&quot;unit == null&quot;);</span><br><span class="line"></span><br><span class="line">        run = RxJavaPlugins.onSchedule(run);</span><br><span class="line">        ScheduledRunnable scheduled = new ScheduledRunnable(handler, run);</span><br><span class="line">        Message message = Message.obtain(handler, scheduled);</span><br><span class="line">        if (async) &#123;</span><br><span class="line">            message.setAsynchronous(true);</span><br><span class="line">        &#125;</span><br><span class="line">        handler.sendMessageDelayed(message, unit.toMillis(delay));</span><br><span class="line">        return scheduled;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>由上面代码可知， Runnable 对象中的 run 方法会在主线程中执行。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这篇文章重点讲解了 Rxjava2 的线程调度原理，总的来说，学习 Rxjava2 的源码设计思想可以从以下 4 个方面作为切入点：<br>1、Rxjava2 如何实现基于事件流的链式调用。<br>2、线程调度原理。<br>3、map 操作符是如何工作的。<br>4、Rxjava2 是如何取消订阅的。</p>
+<p>对于以上未介绍的切入点，大家可以自行去阅读源码或参考 Hencoder plus 相关课程。</p>
+<blockquote>
+<p><strong>文章写作背景</strong><br>笔者在看了扔物线老师的 Hencoder plus 相关课程后觉得线程调度这块的知识讲解得不完整，后面笔者花了好些时间才梳理清晰，所以记录下这篇文章以免忘记。同时，如果对你也有帮助的话，那就更好了。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Rxjava/" rel="tag"># Rxjava</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/15/Android进程间通信机制/" rel="next" title="Android 进程间通信机制">
+                <i class="fa fa-chevron-left"></i> Android 进程间通信机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/18/Activity启动流程/" rel="prev" title="《深入浅出 Android 源代码》读后感">
+                《深入浅出 Android 源代码》读后感 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="TXM" />
+            
+              <p class="site-author-name" itemprop="name">TXM</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">全部</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#observeOn"><span class="nav-number">1.</span> <span class="nav-text"><a href="#observeOn" class="headerlink" title="observeOn"></a>observeOn</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#subscribeOn"><span class="nav-number"></span> <span class="nav-text"><a href="#subscribeOn" class="headerlink" title="subscribeOn"></a>subscribeOn</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程调度器"><span class="nav-number"></span> <span class="nav-text"><a href="#&#x7EBF;&#x7A0B;&#x8C03;&#x5EA6;&#x5668;" class="headerlink" title="&#x7EBF;&#x7A0B;&#x8C03;&#x5EA6;&#x5668;"></a>&#x7EBF;&#x7A0B;&#x8C03;&#x5EA6;&#x5668;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Schedulers-newThread"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Schedulers-newThread" class="headerlink" title="Schedulers.newThread()"></a>Schedulers.newThread()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schedulers-io"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Schedulers-io" class="headerlink" title="Schedulers.io()"></a>Schedulers.io()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schedulers-computation"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Schedulers-computation" class="headerlink" title="Schedulers.computation()"></a>Schedulers.computation()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AndroidSchedulers-mainThread"><span class="nav-number">4.</span> <span class="nav-text"><a href="#AndroidSchedulers-mainThread" class="headerlink" title="AndroidSchedulers.mainThread()"></a>AndroidSchedulers.mainThread()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TXM</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

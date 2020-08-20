@@ -87,11 +87,11 @@
 <meta name="keywords" content="Retrofit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Retrofit使用详解">
-<meta property="og:url" content="http://yoursite.com/2017/09/06/Retrofit使用详解及源码分析/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/05/06/Retrofit使用详解及源码分析/index.html">
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="Retrofit是Square团队旗下一个知名的Android网络请求库，准确的说，它是由Square对okhttp再次封装所成。本章在详细的介绍Retrofit用法的同时，还会分析它的前世今生，包括okhttp介绍、源码分析、java注解的掌握以及Retrofit的二次封装知识。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-13T10:38:48.966Z">
+<meta property="og:updated_time" content="2020-08-20T09:04:22.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Retrofit使用详解">
 <meta name="twitter:description" content="Retrofit是Square团队旗下一个知名的Android网络请求库，准确的说，它是由Square对okhttp再次封装所成。本章在详细的介绍Retrofit用法的同时，还会分析它的前世今生，包括okhttp介绍、源码分析、java注解的掌握以及Retrofit的二次封装知识。">
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/06/Retrofit使用详解及源码分析/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/06/Retrofit使用详解及源码分析/"/>
 
 
 
@@ -281,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/06/Retrofit使用详解及源码分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/06/Retrofit使用详解及源码分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TXM">
@@ -310,8 +310,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-06T20:24:20+08:00">
-                2017-09-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-06T20:24:20+08:00">
+                2018-05-06
               </time>
             
 
@@ -423,9 +423,17 @@
 <h5 id="配置OkHttpClient"><a href="#配置OkHttpClient" class="headerlink" title="配置OkHttpClient"></a>配置OkHttpClient</h5><p>很多时候，比如你使用retrofit需要统一的log管理，缓存管理，给每个请求添加统一的header等，这些都应该通过okhttpclient去操作。Retrofit 2.0 底层依赖于okHttp，所以需要使用okHttp的<a href="https://www.jianshu.com/p/2710ed1e6b48" target="_blank" rel="noopener">Interceptors</a>来对所有请求进行拦截。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient client = new OkHttpClient();</span><br><span class="line">client.networkInterceptors().add(new Interceptor() &#123;</span><br><span class="line">@Override</span><br><span class="line">public com.squareup.okhttp.Response intercept(Chain chain) throws IOException &#123;</span><br><span class="line">com.squareup.okhttp.Response response = chain.proceed(chain.request());</span><br><span class="line"></span><br><span class="line">// Do anything with response here</span><br><span class="line"></span><br><span class="line">return response;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">Retrofit retrofit = new Retrofit.Builder()</span><br><span class="line">.baseUrl(BASE_URL)</span><br><span class="line">...</span><br><span class="line">.client(client) //传入自己定义的client</span><br><span class="line">.build();</span><br></pre></td></tr></table></figure></p>
 <p>或许你需要更多的配置，你可以单独写一个OkhttpClient的单例生成类，在这个里面完成你所需的所有的配置，然后将OkhttpClient实例通过方法公布出来，设置给retrofit。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Retrofit retrofit = new Retrofit.Builder()</span><br><span class="line">.callFactory(OkHttpUtils.getClient())</span><br><span class="line">.build();</span><br></pre></td></tr></table></figure></p>
 <p>callFactory方法接受一个okhttp3.Call.Factory对象，OkHttpClient即为一个实现类。</p>
-<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>最后在推荐一个非常火的网络调试工具：<a href="https://github.com/facebook/stetho" target="_blank" rel="noopener">stetho</a>。利用它你可以非常方便地查看应用的本地数据库、SharePerence、网络请求等数据。这里有一篇关于它的<a href="https://www.jianshu.com/p/c03a8959d1a5" target="_blank" rel="noopener">使用指南</a>。</p>
+<blockquote>
+<p><strong>拓展知识</strong><br>从 Android P 开始，应用禁止使用网络明文传输，也就是说 Http 链接不能在 Android P 的应用上使用了，必须使用 Https 类型 Url 作为网络请求地址。</p>
+</blockquote>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>这篇文章是Android网络编程的入门，如果要深入理解网络编程相关的知识，建议结合具体需求理解 OkHttp 和 Retrofit 的源码。</p>
+<p>另外，扔物线老师的 Hencoder plus 课程对于网络编程相关的知识讲解得很透彻，也可以去参考。同时，笔者写的<a href="https://lianjiehao.github.io/2019/09/18/Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_blank" rel="noopener">Android 问题汇总</a>这篇文章也有分析网络部分难理解的知识点，可以结合起来看。</p>
+<p>总之，网络编程知识学习路线前后分为两大块：<br>1、网络理论知识。可以参考 Hencoder plus 课程网络相关知识和笔者的<a href="https://lianjiehao.github.io/2019/09/18/Android%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_blank" rel="noopener">Android问题汇总</a>中网络相关讲解。<br>2、网络编程实操。根据这篇文章+官方文档+必要的源码理解（源码理解可以参考扔物线老师的 Hencoder plus 课程，但课程中没有涵盖全部，其它的源码知识要依据自己需求去研究）。</p>
+<p><strong>下面是 Retrofit 源码阅读的几个切入点：</strong><br>1、掌握整体实现逻辑。<br>2、动态代理的使用。<br>3、Converter 的使用原理，如：GsonConverter。<br>4、CallAdapter 的使用原理，如 RxJava2CallAdapter。<br>5、线程切换。<br>6、如何取消网络请求。<br>7、Retrofit与协程的配合使用，这个在笔者的 [Kotlin 使用笔记]（<a href="https://lianjiehao.github.io/2019/08/28/Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/）" target="_blank" rel="noopener">https://lianjiehao.github.io/2019/08/28/Kotlin%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/）</a> 这篇文章中有提及，可以配合着理解。</p>
+<p><strong>下面是 Okhttp 源码阅读的几个切入点：</strong><br>1、掌握整体实现逻辑（ RealCall 是关键）。<br>2、OkHttpClient 中各个属性的含义。<br>3、线程切换。<br>4、getResponseWithinterceptorChain() 的实现原理。<br>5、各个 Interceptor 负责的功能。</p>
+<p>最后，推荐一个非常火的网络调试工具：<a href="https://github.com/facebook/stetho" target="_blank" rel="noopener">stetho</a>。利用它你可以非常方便地查看应用的本地数据库、SharePerence、网络请求等数据。这里有一篇关于它的<a href="https://www.jianshu.com/p/c03a8959d1a5" target="_blank" rel="noopener">使用指南</a>。</p>
 <hr>
-<p><strong>参考资料</strong><br><a href="http://square.github.io/okhttp/" target="_blank" rel="noopener">OkHttp</a><br><a href="http://www.androidchina.net/5758.html" target="_blank" rel="noopener">Android Retrofit框架解析</a></p>
+<p><strong>参考资料</strong><br><a href="https://square.github.io/retrofit/" target="_blank" rel="noopener">Retrofit</a><br><a href="http://square.github.io/okhttp/" target="_blank" rel="noopener">OkHttp</a><br><a href="http://www.androidchina.net/5758.html" target="_blank" rel="noopener">Android Retrofit框架解析</a></p>
 
       
     </div>
@@ -456,8 +464,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/03/Android屏幕适配/" rel="next" title="Android屏幕适配方案">
-                <i class="fa fa-chevron-left"></i> Android屏幕适配方案
+              <a href="/2018/04/29/PopupWindow使用教程/" rel="next" title="PopupWindow使用教程">
+                <i class="fa fa-chevron-left"></i> PopupWindow使用教程
               </a>
             
           </div>
@@ -466,8 +474,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/10/09/Android自定义View详细教程/" rel="prev" title="Android自定义View详细教程">
-                Android自定义View详细教程 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/20/RecycleView探究（一）：添加头尾布局/" rel="prev" title="RecycleView探究（一）：添加头尾布局">
+                RecycleView探究（一）：添加头尾布局 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -549,7 +557,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">全部</span>
                 </a>
               </div>
@@ -571,7 +579,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
