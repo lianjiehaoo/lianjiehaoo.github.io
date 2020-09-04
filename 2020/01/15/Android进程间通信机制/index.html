@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/01/15/Android进程间通信机制/binder.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/01/15/Android进程间通信机制/mmap.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/01/15/Android进程间通信机制/io.jpg">
-<meta property="og:updated_time" content="2020-07-30T01:54:53.297Z">
+<meta property="og:updated_time" content="2020-08-31T04:17:13.892Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 进程间通信机制">
 <meta name="twitter:description" content="本文将介绍 Android 实现进程间通信的几种方式，进入正题之前，我们首先来了解下多进程的概念，知道多进程是什么，以及为什么要用多进程。">
@@ -400,8 +400,9 @@
 <h2 id="四、AIDL"><a href="#四、AIDL" class="headerlink" title="四、AIDL"></a>四、AIDL</h2><p>AIDL 可以解决并发和跨进程调用方法的问题，本质是利用了 Binder 传输机制，其实 Messenger 本质上也是 Binder ，只不过Messager不适合处理大量并发的消息处理，也不支持跨进程调用方法。</p>
 <p>通过编写aidl文件来设计想要暴露的接口，编译后会自动生成对应的java文件，服务器将接口的具体实现写在Stub中，用 IBinder 对象传递给客户端，客户端 bindService 的时候，用 asInterface 的形式将 iBinder 还原成接口，再调用其中的方法。</p>
 <p><a href="https://www.jianshu.com/p/29999c1a93cd" target="_blank" rel="noopener">参考链接&gt;&gt;</a></p>
-<p>注意，AIDL 不支持单独的基本类型变量以及 String，CharSequence 类型变量的传递。他们必须作为 Parcelable 子类的一个属性存在。Serializable 不支持 AIDL 传递。</p>
+<p>注意：AIDL 支持单独的基本类型变量以及 String，CharSequence 类型变量的传递。他们也可以作为 Parcelable 子类的一个属性存在。Serializable 不支持 AIDL 传递，但可以放置在 Bundle 中传递。除了基本类型外，其它的自定义Parcelable 类型必须在单独的aidl文件中导入。</p>
 <p>除了使用 AIDL 工具实现以上的机制，我们还可以通过手写 AIDL 生成的各个类，实现进程间通信的需求。<a href="https://www.jianshu.com/p/37368fab05bf" target="_blank" rel="noopener">参考链接&gt;&gt;</a></p>
+<p>AIDL进阶参考<a href="https://www.jianshu.com/p/cc117a84b834" target="_blank" rel="noopener">这篇文章&gt;&gt;</a></p>
 <h2 id="五、ContentProvider"><a href="#五、ContentProvider" class="headerlink" title="五、ContentProvider"></a>五、ContentProvider</h2><p>系统四大组件之一，底层也是Binder实现，主要用来为其他APP提供数据，可以说天生就是为进程通信而生的。<a href="https://juejin.im/post/5af812966fb9a07ac85a8188" target="_blank" rel="noopener">使用教程&gt;&gt;</a></p>
 <h2 id="六、Socket"><a href="#六、Socket" class="headerlink" title="六、Socket"></a>六、Socket</h2><p>Socket 是连接应用层与传输层之间的接口，常用的 Socket 类型有两种：流式 Socket（SOCK_STREAM）和数据报式 Socket（SOCK_DGRAM）。流式是一种面向连接的 Socket，针对于面向连接的 TCP 服务应用；数据报式 Socket 是一种无连接的 Socket ，对应于无连接的 UDP 服务应用。一般我们使用流式的 Socket。关于 Socket 的介绍将在后续的篇幅中讲解。</p>
 <p><strong>以上内容参照了下面两篇文章的部分内容模块：</strong><br>1、<a href="https://xiaozhuanlan.com/topic/3896402175" target="_blank" rel="noopener">安卓进程间通信及 App 保活</a>的“多进程”和“进程间通信IPC方式”两大模块。<br>2、<a href="https://juejin.im/post/5dadae3be51d4524d0269ba6#heading-3" target="_blank" rel="noopener">使用AIDL来进行进程间通信</a>的“Android进程间通信的方式”和“进程间通信的准备”两大部分。</p>

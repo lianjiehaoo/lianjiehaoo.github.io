@@ -93,7 +93,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/01/14/Java并发编程之Lock/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/01/14/Java并发编程之Lock/2.jpg">
-<meta property="og:updated_time" content="2019-02-17T02:03:35.600Z">
+<meta property="og:updated_time" content="2020-08-28T07:28:45.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之Lock">
 <meta name="twitter:description" content="相对于Synchronized,我们还可以使用更加人性化的Lock关键字作为线程同步的实现方案。本篇文章将详细介绍Lock的相关用法以及使用它的优势。">
@@ -404,7 +404,7 @@
 <p><strong>小知识:</strong><br>预先考虑到tryLock()方法的结果，并采取相应的措施，这是程序员的责任。如果这个方法返回false值，预计你的程序不会执行这个临界区。如果是这样，你应该针对此错误结果做相应的处理。</p>
 </blockquote>
 <p>ReentrantLock类也允许递归调用（锁的可重入性），当一个线程有锁的控制权并且使用递归调用，它延续了锁的控制权，所以调用lock()方法将会立即返回并且继续递归调用的执行。</p>
-<h5 id="lockInterruptibly"><a href="#lockInterruptibly" class="headerlink" title="lockInterruptibly()"></a>lockInterruptibly()</h5><p><code>lockInterruptibly()</code>是Lock提供的另一个用来获取锁的控制权的方法。它可以立即响应线程的interrupt,不伦当前线程是在等待锁的期间或是在已经获取锁的控制权期间。<code>lock()</code>相比于<code>lockInterruptibly()</code>来说没有那么及时，它要在获取锁的那一刻才能响应线程的interrupt事件。</p>
+<h5 id="lockInterruptibly"><a href="#lockInterruptibly" class="headerlink" title="lockInterruptibly()"></a>lockInterruptibly()</h5><p><code>lockInterruptibly()</code>是Lock提供的另一个用来获取锁的控制权的方法。它可以立即响应线程的interrupt,不伦当前线程是在等待锁的期间或是在已经获取锁的控制权期间。<code>lock()</code>相比于<code>lockInterruptibly()</code>来说没有那么及时，它要在获取锁的那一刻才能响应线程的interrupt事件。<br><a href="https://blog.csdn.net/dongyuxu342719/article/details/94395877" target="_blank" rel="noopener">参考资料&gt;&gt;</a></p>
 <h1 id="使用读-写锁同步数据访问"><a href="#使用读-写锁同步数据访问" class="headerlink" title="使用读/写锁同步数据访问"></a>使用读/写锁同步数据访问</h1><p>锁所提供的最重要的改进之一就是ReadWriteLock接口和唯一一个实现它的ReentrantReadWriteLock类。这个类提供两把锁，一把用于读操作和一把用于写操作。同时可以有多个线程执行读操作，但只有一个线程可以执行写操作。当一个线程正在执行一个写操作，不可能有任何线程执行读操作。<br>在下面的例子中，你将会学习如何使用ReadWriteLock接口实现一个程序，使用它来控制访问一个存储两个产品价格的对象。<br>1.创建PricesInfo类，用它来存储两个产品价格的信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class PricesInfo &#123;</span><br></pre></td></tr></table></figure></p>
 <p>2.声明两个double类型的属性，分别命名为price1和price2。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private double price1;</span><br><span class="line">private double price2;</span><br></pre></td></tr></table></figure></p>
 <p>3.声明一个名为lock的ReadWriteLock对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private ReadWriteLock lock;</span><br></pre></td></tr></table></figure></p>
