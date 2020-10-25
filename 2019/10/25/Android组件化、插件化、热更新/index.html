@@ -90,7 +90,7 @@
 <meta property="og:site_name" content="唐先明de博客">
 <meta property="og:description" content="本文主要目的是理解组件化、插件化、热更新的实现原理，并且知道他们之前的区别。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-04T07:11:52.942Z">
+<meta property="og:updated_time" content="2020-10-04T02:48:31.806Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅析 Android 组件化、插件化、热更新">
 <meta name="twitter:description" content="本文主要目的是理解组件化、插件化、热更新的实现原理，并且知道他们之前的区别。">
@@ -371,6 +371,9 @@
       
         <p>本文主要目的是理解组件化、插件化、热更新的实现原理，并且知道他们之前的区别。<br><a id="more"></a></p>
 <h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><p>组件化：“组件化”又名“模块化”，其实就是把每个功能独立的模块分离成独立的 module ，如：网络操作、基础库、独立业务功能等都可以抽离成单个 module ，由此可见日常开发中我们已经在使用组件化开发了。主 APP 工程可以引用这些 module ，并使用它们各自所实现的功能。</p>
+<blockquote>
+<p><strong>备注</strong><br>其实上面对于组件化的说法是很一种很粗旷的理解，不适合复杂项目。组件化完整理解建议参考<a href="https://juejin.im/post/6844903649102004231#comment" target="_blank" rel="noopener">这篇文章</a>，这里需要说下的是，笔者在此之前只是粗旷的运用过组件化开发，对于链文中提到的用法没有证实过，后续有这方面经验再来补充。</p>
+</blockquote>
 <p>插件化：“插件化”是一种能让 APP 动态增加新功能的技术，它使得动态添加新功能的过程能在不进行重新打包安装的情况下进行。插件化在原来的代码中有固定的执行入口，比如：点击一个按钮的事件，加载的一个页面。</p>
 <p>热更新：“热更新”又名“热修复”，它可以对 APP 中已有的内容做改动，而不需要预先留下固定的执行入口，通常用来修复 BUG 。</p>
 <h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><h2 id="插件化"><a href="#插件化" class="headerlink" title="插件化"></a>插件化</h2><p>第一步：实现插件 App 项目。插件 app 包含了之后将在主 App 中被使用的 Util 类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//com.cxp.plugin.Util</span><br><span class="line"></span><br><span class="line">public class Util &#123;</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;这是插件中的方法！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
